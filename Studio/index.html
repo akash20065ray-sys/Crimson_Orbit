@@ -50,9 +50,13 @@
                 <span class="tab-icon">&#129345;</span>
                 <span class="tab-label">STUDIO DRUM KIT</span>
             </button>
+            <button class="nav-tab" data-tab="composer" id="tab-composer">
+                <span class="tab-icon">&#127932;</span>
+                <span class="tab-label">CREATE MUSIC</span>
+            </button>
             <button class="nav-tab" data-tab="songs" id="tab-songs">
                 <span class="tab-icon">&#127911;</span>
-                <span class="tab-label">SONGS & VISUALIZER</span>
+                <span class="tab-label">SONGS &amp; VISUALIZER</span>
             </button>
         </nav>
 
@@ -358,6 +362,69 @@
                                 <span class="stat-label">AUDIO ENGINE</span>
                                 <span class="stat-val" id="statEngine">WebAudio PCM 44.1kHz</span>
                             </div>
+                        </div>
+                    </div>
+                </div>
+            <!-- 5. MUSIC COMPOSER / STEP SEQUENCER VIEWPORT -->
+            <section id="view-composer" class="instrument-view">
+                <div class="instrument-toolbar">
+                    <div class="mode-badges">
+                        <span class="badge badge-accent">&#127932; Custom Music Studio</span>
+                        <span class="badge" id="composerStatusBadge">16-Step Live Sequencer &amp; Multi-Track Composer</span>
+                    </div>
+                    <div class="composer-actions">
+                        <div class="tempo-control">
+                            <label for="composerBpm">TEMPO (BPM):</label>
+                            <input type="range" id="composerBpm" min="60" max="180" value="120">
+                            <span id="bpmVal">120 BPM</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="composer-chassis">
+                    <!-- Top Transport Controls Bar -->
+                    <div class="composer-toolbar">
+                        <div class="transport-group">
+                            <button id="btnPlayComposer" class="transport-btn play-btn">&#9658; PLAY MY SONG</button>
+                            <button id="btnStopComposer" class="transport-btn stop-btn">&#9632; STOP</button>
+                            <button id="btnClearComposer" class="preset-btn">&#128465; CLEAR GRID</button>
+                            <button id="btnPresetComposer" class="preset-btn">&#127926; LOAD STARTER MELODY</button>
+                        </div>
+                        <div class="preset-group">
+                            <button id="btnSaveComposer" class="save-btn">&#128190; SAVE SONG</button>
+                            <span id="saveNotice" class="save-notice">Song Saved in RAM!</span>
+                        </div>
+                    </div>
+
+                    <!-- 16-Step Multi-Track Matrix -->
+                    <div class="sequencer-grid-wrapper">
+                        <div class="sequencer-timeline">
+                            <div class="track-header-spacer">TRACK / INSTRUMENT</div>
+                            <div class="step-numbers" id="stepNumbersHeader">
+                                <!-- 1..16 Step Markers -->
+                            </div>
+                        </div>
+
+                        <div class="sequencer-tracks" id="sequencerTracks">
+                            <!-- Populated dynamically by app.js -->
+                        </div>
+                    </div>
+
+                    <!-- Bottom Track Tape Info & Quick Live Record -->
+                    <div class="composer-live-tape">
+                        <div class="tape-header">
+                            <span class="tape-title">&#127903; LIVE RECORDED NOTES TAPE</span>
+                            <span class="tape-hint">Click any step square in the grid above or tap keys [Q..I] to compose</span>
+                        </div>
+                        <div class="tape-display" id="composerTapeDisplay">
+                            <span class="tape-chip">[C5]</span>
+                            <span class="tape-chip">[E5]</span>
+                            <span class="tape-chip">[G5]</span>
+                            <span class="tape-chip">[C6]</span>
+                            <span class="tape-chip">[G5]</span>
+                            <span class="tape-chip">[E5]</span>
+                            <span class="tape-chip">[C5]</span>
+                            <span class="tape-chip">[REST]</span>
                         </div>
                     </div>
                 </div>

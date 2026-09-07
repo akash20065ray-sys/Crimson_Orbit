@@ -126,6 +126,27 @@ Song_LondonBridge:
     dw SONG_END, 0
 
 ; ------------------------------------------------------------------------------
+; Song 7: User-Created Custom Song (Composed and Recorded in RAM)
+; Can hold up to 64 custom notes (each note = frequency + duration in ms).
+; ------------------------------------------------------------------------------
+custom_song_count   dw 8            ; current note count
+custom_note_dur     dw 300          ; default note duration = 300ms
+
+Song_CustomUser:
+    ; Default starter melody: C5-E5-G5-C6 arpeggio + fanfare
+    dw N_C5, 300,  N_E5, 300,  N_G5, 300,  N_C6, 600
+    dw N_G5, 300,  N_E5, 300,  N_C5, 600,  N_REST, 200
+    ; 120 words of reserved space for user recording up to 64 notes
+    dw 0,0, 0,0, 0,0, 0,0, 0,0, 0,0, 0,0, 0,0
+    dw 0,0, 0,0, 0,0, 0,0, 0,0, 0,0, 0,0, 0,0
+    dw 0,0, 0,0, 0,0, 0,0, 0,0, 0,0, 0,0, 0,0
+    dw 0,0, 0,0, 0,0, 0,0, 0,0, 0,0, 0,0, 0,0
+    dw 0,0, 0,0, 0,0, 0,0, 0,0, 0,0, 0,0, 0,0
+    dw 0,0, 0,0, 0,0, 0,0, 0,0, 0,0, 0,0, 0,0
+    dw 0,0, 0,0, 0,0, 0,0, 0,0, 0,0, 0,0, 0,0
+    dw SONG_END, 0
+
+; ------------------------------------------------------------------------------
 ; Song Metadata Tables
 ; ------------------------------------------------------------------------------
 song_table:
@@ -135,6 +156,7 @@ song_table:
     dw Song_JingleBells
     dw Song_MaryHadALittleLamb
     dw Song_LondonBridge
+    dw Song_CustomUser
 
 song_titles:
     dw str_title_song1
@@ -143,6 +165,7 @@ song_titles:
     dw str_title_song4
     dw str_title_song5
     dw str_title_song6
+    dw str_title_song7
 
 str_title_song1     db "Happy Birthday (Concert)", 0
 str_title_song2     db "Twinkle Twinkle Little Star", 0
@@ -150,3 +173,4 @@ str_title_song3     db "Ode to Joy (Beethoven 9th)", 0
 str_title_song4     db "Jingle Bells (High-Hz)", 0
 str_title_song5     db "Mary Had a Little Lamb", 0
 str_title_song6     db "London Bridge Is Falling Down", 0
+str_title_song7     db "My Custom Created Song (User)", 0

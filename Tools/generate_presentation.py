@@ -590,7 +590,36 @@ def create_presentation_deck():
              ], COLOR_GREEN, "Jukebox Player & Visualizer")
 
     # ==========================================================================
-    # SLIDE 11: How to Run & Live Demo
+    # SLIDE 11: User Music Creation — Custom Song Composer & Sequencer
+    # ==========================================================================
+    s_comp = prs.slides.add_slide(blank_layout)
+    set_bg(s_comp)
+    add_header(s_comp, "User Music Creation — Custom Song Composer & Sequencer")
+
+    add_card(s_comp, Inches(0.8), Inches(1.6), Inches(5.6), Inches(5.3),
+             "In emu8086 Assembly (composer.asm)", [
+                 "Requested Feature: Allows users to compose, record, and play their own music.",
+                 "Direct RAM Recording: Up to 60 notes stored dynamically in 8086 memory as [Frequency, Duration] pairs.",
+                 "Live Track Tape: On-screen visual tape displays notes as you compose (e.g. [C5] [E5] [G5] [C6]...).",
+                 "Full Editing Controls:",
+                 "• [1..4] Note Lengths (Eighth, Quarter, Half, Whole)",
+                 "• [B / Bksp] Undo last note, [C] Clear song, [L] Load starter melody",
+                 "• [P] Live Playback: Plays user song with audible notes!",
+                 "Jukebox Integration: Appears as Option 7 in Demo Songs Repertoire — playable on Piano, Guitar, or Drums!"
+             ], COLOR_CRIMSON, "Live 8086 RAM Track Recorder")
+
+    add_card(s_comp, Inches(6.9), Inches(1.6), Inches(5.6), Inches(5.3),
+             "In Web Studio (HTML/CSS/JS)", [
+                 "16-Step Multi-Track Sequencer: Digital Audio Workstation (DAW) matrix.",
+                 "8 Interactive Tracks: Piano (C5, G4, E4, C4), Guitar Chord, Drum Crash, Snare, and Kick.",
+                 "Live Moving Sweep Cursor: Glowing sweep bar scans across all 16 steps in real time with the beat.",
+                 "Tempo & Controls: Real-time BPM slider (60 to 180 BPM), Load Starter Beat, and Clear Grid.",
+                 "Live Tape & Storage: Saves custom compositions to browser memory and logs notes to the tape.",
+                 "Runs seamlessly offline in any browser with authentic studio audio samples."
+             ], COLOR_GOLD, "16-Step Multi-Track Studio Sequencer")
+
+    # ==========================================================================
+    # SLIDE 12: How to Run & Live Demo
     # ==========================================================================
     s11 = prs.slides.add_slide(blank_layout)
     set_bg(s11)

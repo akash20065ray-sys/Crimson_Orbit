@@ -241,19 +241,24 @@ def build_pdf(pdf_path):
         },
         {
             "name": "SPEAKER 5: GHANSHAM",
-            "role": "JUKEBOX PLAYER & VISUALIZER (EMU8086 & HTML5 SPECTRUM EQUALIZER)",
+            "role": "JUKEBOX PLAYER, VISUALIZER & CUSTOM MUSIC COMPOSER (EMU8086 & WEB)",
             "speech": (
-                "\"Thank you, Hari. Building on Hari's song notes, I created the <b>Jukebox Song Player and Moving Visualizers</b> in both emu8086 and HTML/CSS/JavaScript.<br/><br/>"
-                "In emu8086 assembly (<code>songs.asm</code>), I wrote the automatic player that reads through the song notes, sends sound to the PC speaker, and animates <b>8 colorful equalizer bars</b> bouncing up and down on screen. "
+                "\"Thank you, Hari. Building on Hari's song notes, I created the <b>Jukebox Song Player, Moving Visualizers, and the Custom Music Composer</b> in both emu8086 and HTML/CSS/JavaScript.<br/><br/>"
+                "In emu8086 assembly (<code>demo.asm</code>), I wrote the automatic player that reads through the song notes, sends sound to the PC speaker, and animates <b>8 colorful equalizer bars</b> bouncing up and down on screen. "
                 "I also made sure that pressing the <b><code>[ESC]</code> key stops the song immediately</b> and returns cleanly to the main menu without freezing the emulator.<br/><br/>"
-                "In our HTML and JavaScript studio, I upgraded this into a <b>Real-Time 60 FPS Moving Spectrum Equalizer</b>. "
-                "As songs play, colorful visualizer bars jump up and down to the music and display live frequency numbers. "
-                "Users can also click buttons to hear any song played on Real Grand Piano, Real Acoustic Guitar, or a Rock Drum Beat.<br/><br/>"
+                "<b>User Music Creation (Professor's Request):</b><br/>"
+                "Per our faculty guide's suggestion, we added a feature where users can create their own music just like the pre-installed songs! "
+                "I developed the <b>Custom Music Composer module (<code>composer.asm</code>)</b> in emu8086. "
+                "Users can play keys A through K, and the notes are recorded directly into 8086 RAM memory as frequency and duration pairs. "
+                "You can change note lengths, undo notes, and play your custom created song immediately! "
+                "Your custom song also appears as <b>Option 7 in the Jukebox Repertoire</b>, so you can play your own song in Grand Piano, Lead Guitar, or Drum style with dancing equalizer bars!<br/><br/>"
+                "In our HTML and JavaScript studio, I upgraded this into a <b>16-Step Multi-Track Sequencer and 60 FPS Spectrum Equalizer</b>. "
+                "Users can click grid squares across 8 instrument tracks to compose custom looping beats and melodies with real studio sounds.<br/><br/>"
                 "I will now pass back to Akash to present our system assembling and live demonstration.\""
             ),
             "qa": (
-                "<b>Teacher:</b> <i>\"Ghansham, what did you build for the song player?\"</i><br/>"
-                "<b>Your Answer:</b> \"Sir/Ma'am, in emu8086 assembly, I built the automatic jukebox player that plays through songs, animated 8 text visualizer bars on screen, and added [ESC] key support to stop playback anytime. In HTML and JavaScript, I built the colorful moving spectrum equalizer that dances in real time to the music.\""
+                "<b>Teacher:</b> <i>\"Ghansham, how can users create their own music in your project?\"</i><br/>"
+                "<b>Your Answer:</b> \"Sir/Ma'am, in emu8086 assembly, I developed composer.asm where notes played on the keyboard are stored into a RAM buffer as frequency and duration pairs. Users can edit note lengths and play their custom song in Piano, Guitar, or Drum style with the visualizer! In the Web Studio, I built a 16-step sequencer matrix across 8 instrument tracks that loops your custom song with real acoustic samples.\""
             )
         },
         {
@@ -392,16 +397,21 @@ def build_docx(docx_path):
          "Teacher: \"Hari, what was your role in the songs module?\"\n"
          "Your Answer: \"Sir/Ma'am, in emu8086 assembly, I encoded the musical notes and delay timings for 6 classic songs, calibrating the timer loops so songs play at steady tempo. In JavaScript, I mapped these same notes so they trigger real piano, guitar, or drum sounds in the web studio.\""),
 
-        ("SPEAKER 5: GHANSHAM", "JUKEBOX PLAYER & VISUALIZER (EMU8086 & HTML5 SPECTRUM EQUALIZER)",
-         "Thank you, Hari. Building on Hari's song notes, I created the Jukebox Song Player and Moving Visualizers in both emu8086 and HTML/CSS/JavaScript.\n\n"
-         "In emu8086 assembly (songs.asm), I wrote the automatic player that reads through the song notes, sends sound to the PC speaker, and animates 8 colorful equalizer bars bouncing up and down on screen. "
+        ("SPEAKER 5: GHANSHAM", "JUKEBOX PLAYER, VISUALIZER & CUSTOM MUSIC COMPOSER (EMU8086 & WEB)",
+         "Thank you, Hari. Building on Hari's song notes, I created the Jukebox Song Player, Moving Visualizers, and the Custom Music Composer in both emu8086 and HTML/CSS/JavaScript.\n\n"
+         "In emu8086 assembly (demo.asm), I wrote the automatic player that reads through the song notes, sends sound to the PC speaker, and animates 8 colorful equalizer bars bouncing up and down on screen. "
          "I also made sure that pressing the [ESC] key stops the song immediately and returns cleanly to the main menu without freezing the emulator.\n\n"
-         "In our HTML and JavaScript studio, I upgraded this into a Real-Time 60 FPS Moving Spectrum Equalizer. "
-         "As songs play, colorful visualizer bars jump up and down to the music and display live frequency numbers. "
-         "Users can also click buttons to hear any song played on Real Grand Piano, Real Acoustic Guitar, or a Rock Drum Beat.\n\n"
+         "User Music Creation (Professor's Request):\n"
+         "Per our faculty guide's suggestion, we added a feature where users can create their own music just like the pre-installed songs! "
+         "I developed the Custom Music Composer module (composer.asm) in emu8086. "
+         "Users can play keys A through K, and the notes are recorded directly into 8086 RAM memory as frequency and duration pairs. "
+         "You can change note lengths, undo notes, and play your custom created song immediately! "
+         "Your custom song also appears as Option 7 in the Jukebox Repertoire, so you can play your own song in Grand Piano, Lead Guitar, or Drum style with dancing equalizer bars!\n\n"
+         "In our HTML and JavaScript studio, I upgraded this into a 16-Step Multi-Track Sequencer and 60 FPS Spectrum Equalizer. "
+         "Users can click grid squares across 8 instrument tracks to compose custom looping beats and melodies with real studio sounds.\n\n"
          "I will now pass back to Akash to present our system assembling and live demonstration.",
-         "Teacher: \"Ghansham, what did you build for the song player?\"\n"
-         "Your Answer: \"Sir/Ma'am, in emu8086 assembly, I built the automatic jukebox player that plays through songs, animated 8 text visualizer bars on screen, and added [ESC] key support to stop playback anytime. In HTML and JavaScript, I built the colorful moving spectrum equalizer that dances in real time to the music.\""),
+         "Teacher: \"Ghansham, how can users create their own music in your project?\"\n"
+         "Your Answer: \"Sir/Ma'am, in emu8086 assembly, I developed composer.asm where notes played on the keyboard are stored into a RAM buffer as frequency and duration pairs. Users can edit note lengths and play their custom song in Piano, Guitar, or Drum style with the visualizer! In the Web Studio, I built a 16-step sequencer matrix across 8 instrument tracks that loops your custom song with real acoustic samples.\""),
 
         ("SPEAKER 6: AKASH (CLOSING & DEMO)", "PROJECT ASSEMBLING & LIVE DEMONSTRATION",
          "Thank you, Ghansham. To conclude our presentation, I will explain how we assembled the complete project and how to run it.\n\n"

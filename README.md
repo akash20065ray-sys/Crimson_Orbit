@@ -38,7 +38,10 @@
   - 🎹 **Concert Grand Piano**: Multi-octave chromatic scale with active key press indicators.
   - 🎸 **6-String Lead Guitar**: Fretboard graphics with string pluck dynamics.
   - 🥁 **5-Piece Drum Kit**: Synthesized percussive frequencies for Kick, Snare, Hi-Hat, Tom-Tom, and Crash Cymbal.
-- **Pre-installed Song Repertoire**: Classic melodies (e.g., Ode to Joy, Twinkle Twinkle, Jingle Bells, Für Elise) with live animated spectrum visualizer.
+- **🎼 User Music Creation & Live Track Recorder (New!)**:
+  - **8086 RAM Track Recorder (`composer.asm`)**: Users can compose and record custom songs directly into 8086 memory, adjust note durations, and play them back in the Jukebox with live equalizer bars!
+  - **16-Step Studio Sequencer (Web Edition)**: Interactive 8-track step sequencer with real-time BPM controls and authentic studio recordings.
+- **Pre-installed Song Repertoire**: 6 classic melodies with live animated spectrum visualizer.
 - **Real Sound Studio (Web Edition)**: High-fidelity studio workstation with realistic recorded instrument samples, loop recorders, and visual effects.
 
 ---

@@ -30,6 +30,7 @@ include "piano.asm"
 include "guitar.asm"
 include "drums.asm"
 include "songs.asm"
+include "composer.asm"
 include "demo.asm"
 include "menu.asm"
 

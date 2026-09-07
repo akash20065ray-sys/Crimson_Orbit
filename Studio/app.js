@@ -17,6 +17,13 @@ class AudioEngine {
         this.selectedSong = 'happyBirthday';
         this.selectedStyle = 'piano';
 
+        // Sequencer & Composer State
+        this.isSequencerPlaying = false;
+        this.currentSequencerStep = 0;
+        this.composerBpm = 120;
+        this.sequencerGrid = {};
+        this.sequencerTracks = [];
+
         // Sample Library Mapping
         this.sampleUrls = {
             // Real Steinway Grand Piano
@@ -132,6 +139,7 @@ class AudioEngine {
         await this.loadAllSamples();
         this.bindEvents();
         this.startVisualizer();
+        this.initComposer();
     }
 
     async loadAllSamples() {
@@ -603,7 +611,10 @@ class AudioEngine {
                     sus.dispatchEvent(new Event('change'));
                 }
             },
-            'escape': () => this.stopSong()
+            'escape': () => {
+                this.stopSong();
+                this.stopSequencerPlayback();
+            }
         };
 
         window.addEventListener('keydown', (e) => {
@@ -619,13 +630,17 @@ class AudioEngine {
         // Dispatch based on active tab
         const activeTab = document.querySelector('.nav-tab.active')?.dataset.tab;
 
-        if (activeTab === 'piano') {
+        if (activeTab === 'piano' || activeTab === 'composer') {
             const keyEl = document.querySelector(`.white-key[data-key="${char}"], .black-key[data-key="${char}"]`);
             if (keyEl) {
                 const note = keyEl.dataset.note;
                 this.playPiano(note);
                 keyEl.classList.add('active');
                 setTimeout(() => keyEl.classList.remove('active'), 180);
+
+                if (activeTab === 'composer') {
+                    this.appendNoteToTape(note);
+                }
             }
         } else if (activeTab === 'guitar') {
             const lane = document.querySelector(`.string-lane[data-key="${char}"]`);
@@ -639,6 +654,251 @@ class AudioEngine {
                 const sound = pad.dataset.sound;
                 this.playDrum(sound);
             }
+        }
+    }
+
+    // =========================================================================
+    // COMPOSER & STEP SEQUENCER IMPLEMENTATION
+    // =========================================================================
+    initComposer() {
+        const headerEl = document.getElementById('stepNumbersHeader');
+        const tracksEl = document.getElementById('sequencerTracks');
+        if (!headerEl || !tracksEl) return;
+
+        // 1. Populate 1..16 Step Numbers
+        headerEl.innerHTML = '';
+        for (let i = 1; i <= 16; i++) {
+            const numEl = document.createElement('div');
+            numEl.className = `step-num ${i % 4 === 1 ? 'beat-marker' : ''}`;
+            numEl.textContent = i;
+            headerEl.appendChild(numEl);
+        }
+
+        // 2. Define 8 Multi-Instrument Tracks
+        this.sequencerTracks = [
+            { id: 'piano_C5', name: 'Piano C5 (High)', icon: '🎹', classType: 'piano-step', soundType: 'piano', note: 'C5' },
+            { id: 'piano_G4', name: 'Piano G4', icon: '🎹', classType: 'piano-step', soundType: 'piano', note: 'G4' },
+            { id: 'piano_E4', name: 'Piano E4', icon: '🎹', classType: 'piano-step', soundType: 'piano', note: 'E4' },
+            { id: 'piano_C4', name: 'Piano C4 (Root)', icon: '🎹', classType: 'piano-step', soundType: 'piano', note: 'C4' },
+            { id: 'guitar_chord', name: 'Guitar Chord Em', icon: '🎸', classType: 'guitar-step', soundType: 'guitar', chord: 'chord_em' },
+            { id: 'drum_crash', name: 'Crash Cymbal', icon: '🥁', classType: 'drum-step', soundType: 'drum', sound: 'drum_crash' },
+            { id: 'drum_snare', name: 'Snare Drum', icon: '🥁', classType: 'drum-step', soundType: 'drum', sound: 'drum_snare' },
+            { id: 'drum_kick', name: 'Kick Drum', icon: '🥁', classType: 'drum-step', soundType: 'drum', sound: 'drum_kick' }
+        ];
+
+        this.sequencerGrid = {};
+        tracksEl.innerHTML = '';
+
+        // 3. Render Track Rows & 16 Step Cells
+        this.sequencerTracks.forEach(track => {
+            this.sequencerGrid[track.id] = new Array(16).fill(false);
+
+            const row = document.createElement('div');
+            row.className = 'track-row';
+
+            const meta = document.createElement('div');
+            meta.className = 'track-meta';
+            meta.innerHTML = `<span class="track-icon">${track.icon}</span><span class="track-name">${track.name}</span>`;
+            row.appendChild(meta);
+
+            const stepsContainer = document.createElement('div');
+            stepsContainer.className = 'steps-container';
+
+            for (let step = 0; step < 16; step++) {
+                const cell = document.createElement('div');
+                cell.className = `step-cell ${track.classType}`;
+                cell.dataset.track = track.id;
+                cell.dataset.step = step;
+
+                cell.addEventListener('click', () => {
+                    this.initContext();
+                    const active = !this.sequencerGrid[track.id][step];
+                    this.sequencerGrid[track.id][step] = active;
+                    cell.classList.toggle('active', active);
+
+                    if (active) {
+                        this.playTrackSample(track);
+                        this.updateComposerTape();
+                    }
+                });
+
+                stepsContainer.appendChild(cell);
+            }
+
+            row.appendChild(stepsContainer);
+            tracksEl.appendChild(row);
+        });
+
+        // 4. Attach Buttons
+        document.getElementById('btnPlayComposer')?.addEventListener('click', () => {
+            this.initContext();
+            this.startSequencerPlayback();
+        });
+
+        document.getElementById('btnStopComposer')?.addEventListener('click', () => {
+            this.stopSequencerPlayback();
+        });
+
+        document.getElementById('btnClearComposer')?.addEventListener('click', () => {
+            this.clearSequencer();
+        });
+
+        document.getElementById('btnPresetComposer')?.addEventListener('click', () => {
+            this.initContext();
+            this.loadSequencerPreset();
+        });
+
+        document.getElementById('btnSaveComposer')?.addEventListener('click', () => {
+            this.saveSequencerSong();
+        });
+
+        const bpmSlider = document.getElementById('composerBpm');
+        if (bpmSlider) {
+            bpmSlider.addEventListener('input', (e) => {
+                this.composerBpm = parseInt(e.target.value, 10);
+                const bpmVal = document.getElementById('bpmVal');
+                if (bpmVal) bpmVal.textContent = `${this.composerBpm} BPM`;
+                if (this.isSequencerPlaying) {
+                    this.startSequencerPlayback();
+                }
+            });
+        }
+
+        // Load Starter Melody
+        this.loadSequencerPreset();
+    }
+
+    playTrackSample(track) {
+        if (track.soundType === 'piano') {
+            this.playPiano(track.note);
+        } else if (track.soundType === 'guitar') {
+            this.strumChord(track.chord);
+        } else if (track.soundType === 'drum') {
+            this.playDrum(track.sound);
+        }
+    }
+
+    setStepActive(trackId, stepIndex, active) {
+        if (this.sequencerGrid[trackId]) {
+            this.sequencerGrid[trackId][stepIndex] = active;
+            const cell = document.querySelector(`.step-cell[data-track="${trackId}"][data-step="${stepIndex}"]`);
+            if (cell) cell.classList.toggle('active', active);
+        }
+    }
+
+    clearSequencer() {
+        this.stopSequencerPlayback();
+        this.sequencerTracks.forEach(track => {
+            this.sequencerGrid[track.id].fill(false);
+        });
+        document.querySelectorAll('.step-cell.active').forEach(c => c.classList.remove('active'));
+        this.updateComposerTape();
+    }
+
+    loadSequencerPreset() {
+        this.clearSequencer();
+        // Four-on-the-floor Kick
+        [0, 4, 8, 12].forEach(s => this.setStepActive('drum_kick', s, true));
+        // Snare on 4, 12
+        [4, 12].forEach(s => this.setStepActive('drum_snare', s, true));
+        // Crash on start
+        [0].forEach(s => this.setStepActive('drum_crash', s, true));
+        // Melodic arpeggio
+        [0, 8].forEach(s => this.setStepActive('piano_C4', s, true));
+        [2, 10].forEach(s => this.setStepActive('piano_E4', s, true));
+        [4, 12].forEach(s => this.setStepActive('piano_G4', s, true));
+        [6].forEach(s => this.setStepActive('piano_C5', s, true));
+        // Guitar chord on 8
+        [8].forEach(s => this.setStepActive('guitar_chord', s, true));
+
+        this.updateComposerTape();
+    }
+
+    startSequencerPlayback() {
+        this.stopSequencerPlayback();
+        this.isSequencerPlaying = true;
+        this.currentSequencerStep = 0;
+
+        const badge = document.getElementById('composerStatusBadge');
+        if (badge) badge.innerText = '● Sequencer Playing Live Loop...';
+
+        const stepTick = () => {
+            if (!this.isSequencerPlaying) return;
+
+            // Highlight active column
+            document.querySelectorAll('.step-cell.current-step').forEach(c => c.classList.remove('current-step'));
+            document.querySelectorAll(`.step-cell[data-step="${this.currentSequencerStep}"]`).forEach(c => c.classList.add('current-step'));
+
+            // Play active sounds
+            this.sequencerTracks.forEach(track => {
+                if (this.sequencerGrid[track.id][this.currentSequencerStep]) {
+                    this.playTrackSample(track);
+                }
+            });
+
+            this.currentSequencerStep = (this.currentSequencerStep + 1) % 16;
+            const stepDuration = (60 / this.composerBpm / 4) * 1000;
+            this.sequencerTimer = setTimeout(stepTick, stepDuration);
+        };
+
+        stepTick();
+    }
+
+    stopSequencerPlayback() {
+        this.isSequencerPlaying = false;
+        if (this.sequencerTimer) {
+            clearTimeout(this.sequencerTimer);
+            this.sequencerTimer = null;
+        }
+        document.querySelectorAll('.step-cell.current-step').forEach(c => c.classList.remove('current-step'));
+        const badge = document.getElementById('composerStatusBadge');
+        if (badge) badge.innerText = '16-Step Live Sequencer & Multi-Track Composer';
+    }
+
+    updateComposerTape() {
+        const tapeDisplay = document.getElementById('composerTapeDisplay');
+        if (!tapeDisplay) return;
+
+        const activeNotes = [];
+        for (let step = 0; step < 16; step++) {
+            this.sequencerTracks.forEach(track => {
+                if (this.sequencerGrid[track.id][step]) {
+                    const label = track.note || track.sound || track.chord;
+                    activeNotes.push(`Step ${step + 1}: ${label}`);
+                }
+            });
+        }
+
+        if (activeNotes.length === 0) {
+            tapeDisplay.innerHTML = '<span class="tape-hint">[ Empty Track - Click grid squares or play keys to compose! ]</span>';
+        } else {
+            tapeDisplay.innerHTML = activeNotes.slice(0, 14).map(n => `<span class="tape-chip">[${n}]</span>`).join('');
+        }
+    }
+
+    appendNoteToTape(noteName) {
+        const tapeDisplay = document.getElementById('composerTapeDisplay');
+        if (!tapeDisplay) return;
+        const chip = document.createElement('span');
+        chip.className = 'tape-chip';
+        chip.textContent = `[Live: ${noteName}]`;
+        tapeDisplay.appendChild(chip);
+
+        // Keep last 12 notes
+        while (tapeDisplay.children.length > 14) {
+            tapeDisplay.removeChild(tapeDisplay.firstChild);
+        }
+    }
+
+    saveSequencerSong() {
+        try {
+            localStorage.setItem('crimson_user_song', JSON.stringify(this.sequencerGrid));
+        } catch (e) {}
+
+        const notice = document.getElementById('saveNotice');
+        if (notice) {
+            notice.classList.add('show');
+            setTimeout(() => notice.classList.remove('show'), 2000);
         }
     }
 }

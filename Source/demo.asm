@@ -22,77 +22,91 @@ demo_menu_loop:
     call Utils_HideCursor
 
     ; 2. Render Demo Songs Menu Box
-    mov dh, 3
-    mov dl, 16
-    mov ch, 20
-    mov cl, 63
+    mov dh, 2
+    mov dl, 14
+    mov ch, 21
+    mov cl, 65
     mov bl, THEME_BORDER
     call Graphics_DrawBoxDouble
 
     ; Header
-    mov dh, 4
+    mov dh, 3
     mov dl, 27
     mov bl, THEME_TITLE
     mov si, str_demo_banner1
     call Utils_PrintStringAt
 
-    mov dh, 5
-    mov dl, 24
+    mov dh, 4
+    mov dl, 23
     mov bl, THEME_ACCENT
     mov si, str_demo_banner2
     call Utils_PrintStringAt
 
     ; Horizontal Separator
-    mov dh, 6
-    mov dl, 17
-    mov cx, 46
+    mov dh, 5
+    mov dl, 15
+    mov cx, 50
     mov al, CP437_S_H
     mov bl, THEME_MUTED
     call Graphics_DrawHLine
 
     ; Song Options 1..6
     mov bl, THEME_TEXT
-    mov dh, 8
-    mov dl, 20
+    mov dh, 7
+    mov dl, 18
     mov si, str_opt_song1
     call Utils_PrintStringAt
 
-    mov dh, 9
-    mov dl, 20
+    mov dh, 8
+    mov dl, 18
     mov si, str_opt_song2
     call Utils_PrintStringAt
 
-    mov dh, 10
-    mov dl, 20
+    mov dh, 9
+    mov dl, 18
     mov si, str_opt_song3
     call Utils_PrintStringAt
 
-    mov dh, 11
-    mov dl, 20
+    mov dh, 10
+    mov dl, 18
     mov si, str_opt_song4
     call Utils_PrintStringAt
 
-    mov dh, 12
-    mov dl, 20
+    mov dh, 11
+    mov dl, 18
     mov si, str_opt_song5
     call Utils_PrintStringAt
 
-    mov dh, 13
-    mov dl, 20
+    mov dh, 12
+    mov dl, 18
     mov si, str_opt_song6
     call Utils_PrintStringAt
 
-    ; Back Option 7
+    ; Custom Song Option 7 (Golden highlight)
     mov bl, THEME_ACCENT
-    mov dh, 15
-    mov dl, 20
+    mov dh, 13
+    mov dl, 18
     mov si, str_opt_song7
+    call Utils_PrintStringAt
+
+    ; Open Composer Option 8
+    mov bl, THEME_TITLE
+    mov dh, 14
+    mov dl, 18
+    mov si, str_opt_song8
+    call Utils_PrintStringAt
+
+    ; Back Option 9
+    mov bl, THEME_MUTED
+    mov dh, 15
+    mov dl, 18
+    mov si, str_opt_song9
     call Utils_PrintStringAt
 
     ; Prompt
     mov bl, THEME_TITLE
-    mov dh, 18
-    mov dl, 20
+    mov dh, 17
+    mov dl, 18
     mov si, str_demo_prompt
     call Utils_PrintStringAt
 
@@ -106,15 +120,21 @@ demo_wait_song_choice:
     cmp al, KEY_ESC
     je demo_exit
 
-    cmp al, '7'
+    cmp al, '9'
     je demo_exit
 
+    cmp al, '8'
+    jne demo_chk_songs
+    call Composer_Run
+    jmp demo_menu_loop
+
+demo_chk_songs:
     cmp al, '1'
     jb demo_wait_song_choice
-    cmp al, '6'
+    cmp al, '7'
     ja demo_wait_song_choice
 
-    ; Valid song selection (1..6)
+    ; Valid song selection (1..7)
     sub al, '1'
     xor ah, ah
     mov [selected_song_idx], al
@@ -521,10 +541,12 @@ str_opt_song3       db "[3] Ode to Joy (Beethoven 9th)", 0
 str_opt_song4       db "[4] Jingle Bells (High-Hz)", 0
 str_opt_song5       db "[5] Mary Had a Little Lamb", 0
 str_opt_song6       db "[6] London Bridge Is Falling Down", 0
-str_opt_song7       db "[7] Back to Main Menu", 0
+str_opt_song7       db "[7] * Play My Custom Created Song (User)", 0
+str_opt_song8       db "[8] Open Music Composer & Live Recorder", 0
+str_opt_song9       db "[9] Back to Main Menu", 0
 
-str_demo_prompt     db "Select Song [1..7]: ", 0
-str_demo_foot       db "[ESC / 7] Return to Main Menu  |  [1..6] Select Song", 0
+str_demo_prompt     db "Select Option [1..9]: ", 0
+str_demo_foot       db "[1..7] Play Song  |  [8] Open Composer  |  [ESC / 9] Main Menu", 0
 
 str_inst_title      db "CHOOSE REAL INSTRUMENT", 0
 str_inst_opt1       db "[1] Concert Grand Piano (Hammer & Decay)", 0

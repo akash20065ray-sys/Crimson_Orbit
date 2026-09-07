@@ -75,18 +75,25 @@ main_menu_redraw:
 
     mov dh, 12
     mov dl, 26
+    mov bl, THEME_ACCENT
     mov si, str_menu_item5
     call Utils_PrintStringAt
 
+    mov bl, THEME_TEXT
     mov dh, 13
     mov dl, 26
     mov si, str_menu_item6
     call Utils_PrintStringAt
 
-    mov bl, THEME_ACCENT
     mov dh, 14
     mov dl, 26
     mov si, str_menu_item7
+    call Utils_PrintStringAt
+
+    mov bl, THEME_MUTED
+    mov dh, 15
+    mov dl, 26
+    mov si, str_menu_item8
     call Utils_PrintStringAt
 
     ; Separator
@@ -140,17 +147,23 @@ m_chk_4:
 m_chk_5:
     cmp al, '5'
     jne m_chk_6
-    call Menu_ShowHelp
+    call Composer_Run
     jmp main_menu_redraw
 
 m_chk_6:
     cmp al, '6'
     jne m_chk_7
-    call Menu_ShowAbout
+    call Menu_ShowHelp
     jmp main_menu_redraw
 
 m_chk_7:
     cmp al, '7'
+    jne m_chk_8
+    call Menu_ShowAbout
+    jmp main_menu_redraw
+
+m_chk_8:
+    cmp al, '8'
     jne menu_input_loop
 
 menu_do_exit:
@@ -459,16 +472,17 @@ str_menu_banner1    db "========================================", 0
 str_menu_banner2    db "      CRIMSON ORBIT", 0
 str_menu_banner3    db "       MUSICAL BAND", 0
 
-str_menu_item1      db "1. Piano", 0
-str_menu_item2      db "2. Guitar", 0
-str_menu_item3      db "3. Drums", 0
-str_menu_item4      db "4. Demo Songs", 0
-str_menu_item5      db "5. Help", 0
-str_menu_item6      db "6. About", 0
-str_menu_item7      db "7. Exit", 0
+str_menu_item1      db "1. Concert Grand Piano", 0
+str_menu_item2      db "2. 6-String Lead Guitar", 0
+str_menu_item3      db "3. 5-Piece Drum Kit", 0
+str_menu_item4      db "4. Automated Song Repertoire", 0
+str_menu_item5      db "5. Custom Music Composer & Recorder", 0
+str_menu_item6      db "6. System Help & Controls", 0
+str_menu_item7      db "7. About Crimson Orbit", 0
+str_menu_item8      db "8. Exit Workstation", 0
 
-str_menu_prompt     db "Select [1..7]: ", 0
-str_menu_foot       db "[1..7] Select Module  |  [ESC] Exit & Reboot Options", 0
+str_menu_prompt     db "Select Module [1..8]: ", 0
+str_menu_foot       db "[1..8] Select Module  |  [ESC] Exit & Reboot Options", 0
 
 ; Help Strings
 str_help_hdr        db "SYSTEM HELP & CONTROLS", 0
