@@ -1,0 +1,43 @@
+.encoding = "windows-1252"
+config.version = "8"
+virtualHW.version = "16"
+pciBridge0.present = "TRUE"
+pciBridge4.present = "TRUE"
+pciBridge4.virtualDev = "pcieRootPort"
+pciBridge4.functions = "8"
+vmci0.present = "TRUE"
+hpet0.present = "TRUE"
+displayName = "Crimson Orbit - Musical Band"
+guestOS = "other"
+memsize = "64"
+
+# Virtual Floppy Drive Configuration
+floppy0.present = "TRUE"
+floppy0.fileType = "file"
+floppy0.fileName = "..\Builds\MusicalBand.flp"
+floppy0.clientDevice = "FALSE"
+floppy0.startConnected = "TRUE"
+
+# BIOS Boot Configuration: Boot Floppy First
+bios.bootOrder = "floppy"
+bios.bootDelay = "2000"
+
+# Audio & PC Speaker Configuration
+sound.present = "TRUE"
+sound.fileName = "-1"
+sound.autodetect = "TRUE"
+sound.virtualDev = "es1371"
+
+# Keyboard & Mouse
+mouse.present = "TRUE"
+keyboard.present = "TRUE"
+
+# Power Settings
+powerType.powerOff = "soft"
+powerType.powerOn = "soft"
+powerType.suspend = "soft"
+powerType.reset = "soft"
+
+# Clean UI Settings
+gui.exitOnCLIHLT = "TRUE"
+msg.autoAnswer = "TRUE"

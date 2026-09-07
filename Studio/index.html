@@ -1,0 +1,381 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CRIMSON ORBIT :: Real Studio Audio Workstation</title>
+    <meta name="description" content="Bare-Metal 8086 & Studio Acoustic Workstation featuring real recorded piano, acoustic guitar, and drum kit samples.">
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;700;900&family=JetBrains+Mono:wght@400;600;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <!-- Background Ambient Glow -->
+    <div class="ambient-glow glow-1"></div>
+    <div class="ambient-glow glow-2"></div>
+
+    <div class="app-container">
+        <!-- Header -->
+        <header class="studio-header">
+            <div class="logo-area">
+                <div class="brand-badge">8086 &bull; STUDIO EDITION</div>
+                <h1 class="main-title">CRIMSON <span class="accent-title">ORBIT</span></h1>
+                <p class="subtitle">Real Sampled Acoustic Workstation &bull; Real Piano, Guitar & Drums</p>
+            </div>
+            <div class="header-controls">
+                <div class="volume-control">
+                    <label for="masterVolume">MASTER VOL</label>
+                    <input type="range" id="masterVolume" min="0" max="100" value="85">
+                    <span id="volValue">85%</span>
+                </div>
+                <button id="audioInitBtn" class="init-audio-btn">
+                    <span class="btn-dot"></span> AUDIO ENGINE READY
+                </button>
+            </div>
+        </header>
+
+        <!-- Navigation Tabs -->
+        <nav class="instrument-nav" role="tablist">
+            <button class="nav-tab active" data-tab="piano" id="tab-piano">
+                <span class="tab-icon">&#127929;</span>
+                <span class="tab-label">CONCERT PIANO</span>
+            </button>
+            <button class="nav-tab" data-tab="guitar" id="tab-guitar">
+                <span class="tab-icon">&#127928;</span>
+                <span class="tab-label">ACOUSTIC GUITAR</span>
+            </button>
+            <button class="nav-tab" data-tab="drums" id="tab-drums">
+                <span class="tab-icon">&#129345;</span>
+                <span class="tab-label">STUDIO DRUM KIT</span>
+            </button>
+            <button class="nav-tab" data-tab="songs" id="tab-songs">
+                <span class="tab-icon">&#127911;</span>
+                <span class="tab-label">SONGS & VISUALIZER</span>
+            </button>
+        </nav>
+
+        <!-- Main Workspace Viewports -->
+        <main class="viewport-stage">
+            <!-- 1. PIANO VIEWPORT -->
+            <section id="view-piano" class="instrument-view active">
+                <div class="instrument-toolbar">
+                    <div class="mode-badges">
+                        <span class="badge badge-accent">Steinway Acoustic Samples</span>
+                        <span class="badge" id="pianoNoteBadge">Ready</span>
+                    </div>
+                    <div class="piano-actions">
+                        <div class="toggle-wrap">
+                            <label for="sustainToggle">SUSTAIN PEDAL [SPACE]</label>
+                            <input type="checkbox" id="sustainToggle" class="custom-toggle">
+                        </div>
+                        <div class="octave-selector">
+                            <span>OCTAVE:</span>
+                            <button class="oct-btn" data-oct="3">3</button>
+                            <button class="oct-btn active" data-oct="4">4 (Concert)</button>
+                            <button class="oct-btn" data-oct="5">5 (High)</button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 3D Concert Piano Interface -->
+                <div class="piano-chassis">
+                    <div class="fallboard">
+                        <span class="gold-crest">&bull; STEINWAY &amp; SONS &bull; CRIMSON ORBIT &bull;</span>
+                    </div>
+                    <div class="keys-bed" id="pianoKeyboard">
+                        <!-- White Keys -->
+                        <div class="white-key" data-note="C4" data-key="Q">
+                            <span class="key-hint">[Q]</span>
+                            <span class="key-name">C4</span>
+                        </div>
+                        <div class="white-key" data-note="D4" data-key="W">
+                            <span class="key-hint">[W]</span>
+                            <span class="key-name">D4</span>
+                        </div>
+                        <div class="white-key" data-note="E4" data-key="E">
+                            <span class="key-hint">[E]</span>
+                            <span class="key-name">E4</span>
+                        </div>
+                        <div class="white-key" data-note="F4" data-key="R">
+                            <span class="key-hint">[R]</span>
+                            <span class="key-name">F4</span>
+                        </div>
+                        <div class="white-key" data-note="G4" data-key="T">
+                            <span class="key-hint">[T]</span>
+                            <span class="key-name">G4</span>
+                        </div>
+                        <div class="white-key" data-note="A4" data-key="Y">
+                            <span class="key-hint">[Y]</span>
+                            <span class="key-name">A4</span>
+                        </div>
+                        <div class="white-key" data-note="B4" data-key="U">
+                            <span class="key-hint">[U]</span>
+                            <span class="key-name">B4</span>
+                        </div>
+                        <div class="white-key" data-note="C5" data-key="I">
+                            <span class="key-hint">[I]</span>
+                            <span class="key-name">C5</span>
+                        </div>
+
+                        <!-- Black Keys (Overlaid Absolute) -->
+                        <div class="black-key bkey-c4s" data-note="Cs4" data-key="2">
+                            <span class="bkey-hint">[2]</span>
+                            <span class="bkey-name">C#</span>
+                        </div>
+                        <div class="black-key bkey-d4s" data-note="Ds4" data-key="3">
+                            <span class="bkey-hint">[3]</span>
+                            <span class="bkey-name">D#</span>
+                        </div>
+                        <div class="black-key bkey-f4s" data-note="Fs4" data-key="5">
+                            <span class="bkey-hint">[5]</span>
+                            <span class="bkey-name">F#</span>
+                        </div>
+                        <div class="black-key bkey-g4s" data-note="Gs4" data-key="6">
+                            <span class="bkey-hint">[6]</span>
+                            <span class="bkey-name">G#</span>
+                        </div>
+                        <div class="black-key bkey-a4s" data-note="As4" data-key="7">
+                            <span class="bkey-hint">[7]</span>
+                            <span class="bkey-name">A#</span>
+                        </div>
+                    </div>
+                    <div class="piano-pedals-bar">
+                        <div class="pedal pedal-soft">SOFT</div>
+                        <div class="pedal pedal-sostenuto">SOSTENUTO</div>
+                        <div class="pedal pedal-sustain" id="visualSustainPedal">SUSTAIN [SPACE]</div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- 2. GUITAR VIEWPORT -->
+            <section id="view-guitar" class="instrument-view">
+                <div class="instrument-toolbar">
+                    <div class="mode-badges">
+                        <span class="badge badge-accent">Martin Acoustic Recorded Samples</span>
+                        <span class="badge" id="guitarStatusBadge">Ready</span>
+                    </div>
+                    <div class="guitar-actions">
+                        <button class="strum-btn" id="btnStrumEm">STRUM E MINOR [S]</button>
+                        <button class="strum-btn" id="btnStrumG">STRUM G MAJOR</button>
+                        <button class="strum-btn" id="btnStrumC">STRUM C MAJOR</button>
+                        <button class="strum-btn" id="btnStrumD">STRUM D MAJOR</button>
+                    </div>
+                </div>
+
+                <!-- Photorealistic Guitar Fretboard -->
+                <div class="guitar-fretboard-stage">
+                    <div class="guitar-body-silhouette">
+                        <div class="soundhole">
+                            <div class="rosette"></div>
+                        </div>
+                    </div>
+                    <div class="fretboard">
+                        <div class="nut"></div>
+                        <!-- Frets -->
+                        <div class="fret-wire fw-1"></div>
+                        <div class="fret-wire fw-2"></div>
+                        <div class="fret-wire fw-3"><span class="fret-dot"></span></div>
+                        <div class="fret-wire fw-4"></div>
+                        <div class="fret-wire fw-5"><span class="fret-dot"></span></div>
+                        <div class="fret-wire fw-6"></div>
+                        <div class="fret-wire fw-7"><span class="fret-dot"></span></div>
+                        <div class="fret-wire fw-8"></div>
+                        <div class="fret-wire fw-9"><span class="fret-dot"></span></div>
+                        <div class="fret-wire fw-10"></div>
+                        <div class="fret-wire fw-11"></div>
+                        <div class="fret-wire fw-12"><span class="fret-dot double-top"></span><span class="fret-dot double-bot"></span></div>
+
+                        <!-- 6 Acoustic Strings -->
+                        <div class="string-lane" data-string="1" data-note="E4" data-key="Q">
+                            <div class="string-wire wire-treble"></div>
+                            <span class="string-label">1 &bull; High E [Q] (329.6 Hz)</span>
+                        </div>
+                        <div class="string-lane" data-string="2" data-note="B3" data-key="W">
+                            <div class="string-wire wire-treble"></div>
+                            <span class="string-label">2 &bull; B [W] (246.9 Hz)</span>
+                        </div>
+                        <div class="string-lane" data-string="3" data-note="G3" data-key="E">
+                            <div class="string-wire wire-mid"></div>
+                            <span class="string-label">3 &bull; G [E] (196.0 Hz)</span>
+                        </div>
+                        <div class="string-lane" data-string="4" data-note="D3" data-key="R">
+                            <div class="string-wire wire-wound"></div>
+                            <span class="string-label">4 &bull; D [R] (146.8 Hz)</span>
+                        </div>
+                        <div class="string-lane" data-string="5" data-note="A2" data-key="T">
+                            <div class="string-wire wire-wound-heavy"></div>
+                            <span class="string-label">5 &bull; A [T] (110.0 Hz)</span>
+                        </div>
+                        <div class="string-lane" data-string="6" data-note="E2" data-key="Y">
+                            <div class="string-wire wire-wound-heavy"></div>
+                            <span class="string-label">6 &bull; Low E [Y] (82.4 Hz)</span>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- 3. DRUMS VIEWPORT -->
+            <section id="view-drums" class="instrument-view">
+                <div class="instrument-toolbar">
+                    <div class="mode-badges">
+                        <span class="badge badge-accent">Studio Acoustic Drum Kit</span>
+                        <span class="badge" id="drumStatusBadge">Ready</span>
+                    </div>
+                    <div class="drum-info">
+                        <span>Physical Velocity &bull; Multi-Layer Impact Audio</span>
+                    </div>
+                </div>
+
+                <!-- 3D Stage Drum Kit Layout -->
+                <div class="drum-stage">
+                    <!-- Crash Cymbal -->
+                    <div class="drum-pad cymbal-pad pad-crash" data-sound="crash" data-key="T">
+                        <div class="cymbal-disc">
+                            <div class="cymbal-bell"></div>
+                        </div>
+                        <span class="pad-caption">CRASH [T]</span>
+                    </div>
+
+                    <!-- Hi-Hat -->
+                    <div class="drum-pad cymbal-pad pad-hihat" data-sound="hihat" data-key="E">
+                        <div class="hihat-pair">
+                            <div class="cymbal-bell"></div>
+                        </div>
+                        <span class="pad-caption">HI-HAT [E]</span>
+                    </div>
+
+                    <!-- Rack Tom 1 -->
+                    <div class="drum-pad drum-shell pad-tom1" data-sound="tom1" data-key="R">
+                        <div class="drumhead">
+                            <div class="drumhead-center"></div>
+                        </div>
+                        <span class="pad-caption">HIGH TOM [R]</span>
+                    </div>
+
+                    <!-- Floor Tom 2 -->
+                    <div class="drum-pad drum-shell pad-tom2" data-sound="tom2" data-key="U">
+                        <div class="drumhead">
+                            <div class="drumhead-center"></div>
+                        </div>
+                        <span class="pad-caption">LOW TOM [U]</span>
+                    </div>
+
+                    <!-- Snare Drum -->
+                    <div class="drum-pad drum-shell pad-snare" data-sound="snare" data-key="W">
+                        <div class="drumhead snare-head">
+                            <div class="snare-strainer"></div>
+                        </div>
+                        <span class="pad-caption">SNARE [W]</span>
+                    </div>
+
+                    <!-- 22" Bass Kick Drum -->
+                    <div class="drum-pad kick-drum pad-kick" data-sound="kick" data-key="Q">
+                        <div class="kick-front-head">
+                            <div class="kick-crest">
+                                <span class="crest-title">CRIMSON ORBIT</span>
+                                <span class="crest-sub">CUSTOM 22"</span>
+                            </div>
+                        </div>
+                        <span class="pad-caption">KICK DRUM [Q]</span>
+                    </div>
+                </div>
+            </section>
+
+            <!-- 4. SONGS & VISUALIZER VIEWPORT -->
+            <section id="view-songs" class="instrument-view">
+                <div class="songs-grid-layout">
+                    <!-- Left: Song Jukebox Selection -->
+                    <div class="jukebox-panel">
+                        <h2 class="panel-heading">SONG REPERTOIRE</h2>
+                        <p class="panel-sub">Select a classical composition to play:</p>
+                        <div class="song-buttons-list">
+                            <button class="song-btn active" data-song="happyBirthday">
+                                <span class="song-num">1</span>
+                                <span class="song-title-text">Happy Birthday</span>
+                                <span class="song-tempo">110 BPM</span>
+                            </button>
+                            <button class="song-btn" data-song="twinkleTwinkle">
+                                <span class="song-num">2</span>
+                                <span class="song-title-text">Twinkle Twinkle Little Star</span>
+                                <span class="song-tempo">95 BPM</span>
+                            </button>
+                            <button class="song-btn" data-song="odeToJoy">
+                                <span class="song-num">3</span>
+                                <span class="song-title-text">Ode to Joy (Beethoven)</span>
+                                <span class="song-tempo">120 BPM</span>
+                            </button>
+                            <button class="song-btn" data-song="jingleBells">
+                                <span class="song-num">4</span>
+                                <span class="song-title-text">Jingle Bells</span>
+                                <span class="song-tempo">130 BPM</span>
+                            </button>
+                            <button class="song-btn" data-song="maryLamb">
+                                <span class="song-num">5</span>
+                                <span class="song-title-text">Mary Had a Little Lamb</span>
+                                <span class="song-tempo">105 BPM</span>
+                            </button>
+                            <button class="song-btn" data-song="londonBridge">
+                                <span class="song-num">6</span>
+                                <span class="song-title-text">London Bridge Is Falling Down</span>
+                                <span class="song-tempo">115 BPM</span>
+                            </button>
+                        </div>
+
+                        <!-- Style Choice -->
+                        <h3 class="panel-subheading">SELECT INSTRUMENT STYLE:</h3>
+                        <div class="style-choice-group">
+                            <button class="style-btn active" data-style="piano">&#127929; Real Grand Piano</button>
+                            <button class="style-btn" data-style="guitar">&#127928; Real Acoustic Guitar</button>
+                            <button class="style-btn" data-style="drums">&#129345; Studio Drums Groove</button>
+                        </div>
+
+                        <!-- Transport Controls -->
+                        <div class="transport-bar">
+                            <button id="btnPlaySong" class="transport-btn play-btn">&#9658; PLAY</button>
+                            <button id="btnStopSong" class="transport-btn stop-btn">&#9632; STOP [ESC]</button>
+                        </div>
+                    </div>
+
+                    <!-- Right: Audio Spectrum Visualizer -->
+                    <div class="visualizer-panel">
+                        <div class="vis-header">
+                            <h2 class="panel-heading">REAL-TIME SPECTRUM EQUALIZER</h2>
+                            <span class="badge" id="visLiveHz">0 Hz &bull; Idle</span>
+                        </div>
+                        <canvas id="spectrumCanvas" width="600" height="260"></canvas>
+                        <div class="vis-hud-stats">
+                            <div class="stat-card">
+                                <span class="stat-label">NOTE PLAYING</span>
+                                <span class="stat-val" id="statNoteName">--</span>
+                            </div>
+                            <div class="stat-card">
+                                <span class="stat-label">HERTZ (Hz)</span>
+                                <span class="stat-val" id="statHz">--</span>
+                            </div>
+                            <div class="stat-card">
+                                <span class="stat-label">AUDIO ENGINE</span>
+                                <span class="stat-val" id="statEngine">WebAudio PCM 44.1kHz</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </main>
+
+        <!-- Footer -->
+        <footer class="studio-footer">
+            <div class="foot-left">
+                <span>Bare-Metal 8086 Compatible &bull; Real Acoustic Recorded Soundbanks</span>
+            </div>
+            <div class="foot-keys-guide">
+                <span>[Q..I] White Keys | [2,3, 5,6,7] Black Keys | [SPACE] Sustain | [S] Strum Chord | [ESC] Stop</span>
+            </div>
+        </footer>
+    </div>
+
+    <!-- Script -->
+    <script src="app.js"></script>
+</body>
+</html>
