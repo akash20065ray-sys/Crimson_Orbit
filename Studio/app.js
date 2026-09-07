@@ -122,6 +122,16 @@ class AudioEngine {
         this.init();
     }
 
+    initContext() {
+        if (!this.ctx) {
+            const AudioContext = window.AudioContext || window.webkitAudioContext;
+            this.ctx = new AudioContext();
+        }
+        if (this.ctx && this.ctx.state === 'suspended') {
+            this.ctx.resume();
+        }
+    }
+
     async init() {
         const AudioContext = window.AudioContext || window.webkitAudioContext;
         this.ctx = new AudioContext();
@@ -136,10 +146,13 @@ class AudioEngine {
         this.masterGain.connect(this.analyser);
         this.analyser.connect(this.ctx.destination);
 
-        await this.loadAllSamples();
+        // Render all UI components synchronously without waiting for network
         this.bindEvents();
-        this.startVisualizer();
         this.initComposer();
+        this.startVisualizer();
+
+        // Load audio samples asynchronously
+        this.loadAllSamples();
     }
 
     async loadAllSamples() {
@@ -475,6 +488,13 @@ class AudioEngine {
                 const targetId = `view-${tab.dataset.tab}`;
                 const targetView = document.getElementById(targetId);
                 if (targetView) targetView.classList.add('active');
+
+                if (tab.dataset.tab === 'composer') {
+                    const tracksEl = document.getElementById('sequencerTracks');
+                    if (!tracksEl || tracksEl.children.length === 0) {
+                        this.initComposer();
+                    }
+                }
             });
         });
 
