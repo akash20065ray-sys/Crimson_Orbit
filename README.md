@@ -109,13 +109,9 @@ Crimson_Orbit/
 │
 ├── Assets/
 │   ├── Documentation/
-│   │   ├── CrimsonOrbit_Presentation.pptx     # 13-Slide Review Presentation
-│   │   ├── CrimsonOrbit_Presentation_Script.pdf # Official Speech Script & Q&A
-│   │   ├── CrimsonOrbit_Presentation_Script.docx# Word version of speech script
 │   │   ├── EMU8086_GUIDE.md                   # emu8086 configuration guide
 │   │   └── VMWARE_SETUP.md                    # VMware Workstation setup guide
-│   ├── Audio/Real/                            # Real instrument audio samples
-│   └── Images/                                # Presentation title & team graphics
+│   └── Audio/Real/                            # Real instrument audio samples
 │
 ├── Tools/                              # Python Build & Generator Scripts
 │   ├── build_floppy.py                 # Floppy disk packaging utility
@@ -169,10 +165,10 @@ Crimson_Orbit/
 ---
 
 ## 🏆 Project Deliverables
-- 📄 **Presentation Slides**: [`Assets/Documentation/CrimsonOrbit_Presentation.pptx`](file:///c:/FOIDS_CP/Assets/Documentation/CrimsonOrbit_Presentation.pptx)
-- 🎙️ **Speech Script & Viva Q&A**: [`Assets/Documentation/CrimsonOrbit_Presentation_Script.pdf`](file:///c:/FOIDS_CP/Assets/Documentation/CrimsonOrbit_Presentation_Script.pdf)
 - 💾 **Bootable Floppy Image**: [`Builds/new2.flp`](file:///c:/FOIDS_CP/Builds/new2.flp)
 - 🌐 **Real Sound Studio**: [`Studio/index.html`](file:///c:/FOIDS_CP/Studio/index.html)
+- 🎹 **16-Bit 8086 Assembly Engine**: [`Source/kernel.asm`](file:///c:/FOIDS_CP/Source/kernel.asm)
+- 🎼 **Custom Music Composer**: [`Source/composer.asm`](file:///c:/FOIDS_CP/Source/composer.asm)
 
 ---
 

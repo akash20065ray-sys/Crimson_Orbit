@@ -3,16 +3,19 @@ __pycache__/
 *.py[cod]
 *$py.class
 
-# Temporary and build scratch directories
-Builds/temp/
-Builds/test_table.pptx
-*.tmp
-*.log
-
-# Microsoft Office temporary lock files
+# Presentation and speech script documents
+*.pptx
+*.docx
+*.pdf
+*slide*.png
 ~$*.pptx
 ~$*.docx
 ~$*.xlsx
+
+# Temporary and build scratch directories
+Builds/temp/
+*.tmp
+*.log
 
 # Operating System & IDE files
 .DS_Store
