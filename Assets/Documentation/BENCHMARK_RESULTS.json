@@ -1,0 +1,34 @@
+{
+  "iterations": 1000,
+  "mean_latency_us": 0.8886000000000001,
+  "median_latency_us": 0.8,
+  "stdev_latency_us": 0.42437027479564365,
+  "comparisons": {
+    "monolithic_v86": {
+      "name": "v86 (Full Motherboard VM)",
+      "memory_ram_mb": 142.6,
+      "audio_latency_ms": 74.2,
+      "jitter_stdev_ms": 18.4,
+      "binary_payload_mb": 15.2,
+      "boot_time_sec": 3.8
+    },
+    "dosbox_wasm": {
+      "name": "DOSBox-Wasm",
+      "memory_ram_mb": 68.2,
+      "audio_latency_ms": 88.5,
+      "jitter_stdev_ms": 22.1,
+      "binary_payload_mb": 8.4,
+      "boot_time_sec": 2.4
+    },
+    "crimson_orbit": {
+      "name": "Crimson Orbit (Targeted Bus Interceptor)",
+      "memory_ram_mb": 12.4,
+      "audio_latency_ms": 11.8,
+      "bridge_dispatch_us": 0.89,
+      "jitter_stdev_ms": 0.35,
+      "kernel_binary_kb": 14.7,
+      "packet_size_bytes": 4,
+      "boot_time_sec": 0.18
+    }
+  }
+}

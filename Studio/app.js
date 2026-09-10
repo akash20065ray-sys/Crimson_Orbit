@@ -17,6 +17,9 @@ class AudioEngine {
         this.selectedSong = 'happyBirthday';
         this.selectedStyle = 'piano';
 
+        // Dual-Engine Audio State ('resynthesis' | 'authentic')
+        this.engineMode = 'resynthesis';
+
         // Sequencer & Composer State
         this.isSequencerPlaying = false;
         this.currentSequencerStep = 0;
@@ -212,6 +215,105 @@ class AudioEngine {
         return { key: 'piano_C4', rate: Math.pow(2, semitones / 12) };
     }
 
+    setEngineMode(mode) {
+        this.engineMode = mode;
+        const btnResynth = document.getElementById('btnEngineResynth');
+        const btnAuthentic = document.getElementById('btnEngineAuthentic');
+        if (btnResynth && btnAuthentic) {
+            if (mode === 'authentic') {
+                btnAuthentic.classList.add('active');
+                btnResynth.classList.remove('active');
+            } else {
+                btnResynth.classList.add('active');
+                btnAuthentic.classList.remove('active');
+            }
+        }
+        const badge = document.getElementById('audioInitBtn');
+        if (badge) {
+            if (mode === 'authentic') {
+                badge.innerHTML = '<span class="btn-dot" style="background:#00b0ff;box-shadow:0 0 8px #00b0ff;"></span> 1-BIT PC SPEAKER (PURE MATH)';
+                badge.style.borderColor = '#00b0ff';
+                badge.style.color = '#00b0ff';
+            } else {
+                badge.innerHTML = '<span class="btn-dot"></span> REAL STUDIO SAMPLES LOADED';
+                badge.style.borderColor = '#00e676';
+                badge.style.color = '#00e676';
+            }
+        }
+        console.log(`[AudioEngine] Mode switched to: ${mode}`);
+    }
+
+    // Engine 1: Pure 1-Bit Mathematical Square Wave (Zero External Samples)
+    playAuthentic1BitSquare(freq, durationMs = 280) {
+        if (!this.ctx) return;
+        this.initContext();
+        if (!freq || freq <= 0) return;
+
+        const osc = this.ctx.createOscillator();
+        const gainNode = this.ctx.createGain();
+        osc.type = 'square';
+        osc.frequency.setValueAtTime(freq, this.ctx.currentTime);
+
+        const now = this.ctx.currentTime;
+        const dur = Math.max(0.04, durationMs / 1000);
+        gainNode.gain.setValueAtTime(0.24, now);
+        gainNode.gain.setValueAtTime(0.24, now + dur - 0.005);
+        gainNode.gain.linearRampToValueAtTime(0.0001, now + dur);
+
+        osc.connect(gainNode);
+        gainNode.connect(this.masterGain);
+        osc.start(now);
+        osc.stop(now + dur);
+        return osc;
+    }
+
+    // Engine 1: Pure 16-Bit Galois LFSR Noise for Percussion (Matching speaker.asm)
+    playAuthenticLFSRNoise(drumType) {
+        if (!this.ctx) return;
+        this.initContext();
+        const now = this.ctx.currentTime;
+
+        if (drumType === 'kick') {
+            const osc = this.ctx.createOscillator();
+            const gainNode = this.ctx.createGain();
+            osc.type = 'square';
+            osc.frequency.setValueAtTime(140, now);
+            osc.frequency.exponentialRampToValueAtTime(45, now + 0.12);
+            gainNode.gain.setValueAtTime(0.4, now);
+            gainNode.gain.linearRampToValueAtTime(0.001, now + 0.14);
+            osc.connect(gainNode);
+            gainNode.connect(this.masterGain);
+            osc.start(now);
+            osc.stop(now + 0.14);
+            return;
+        }
+
+        const dur = (drumType === 'crash') ? 0.35 : 0.12;
+        const sampleCount = Math.round(this.ctx.sampleRate * dur);
+        const noiseBuf = this.ctx.createBuffer(1, sampleCount, this.ctx.sampleRate);
+        const channel = noiseBuf.getChannelData(0);
+
+        let lfsr = 0xACE1;
+        for (let i = 0; i < sampleCount; i++) {
+            const bit = lfsr & 1;
+            lfsr >>= 1;
+            if (bit === 1) {
+                lfsr ^= 0xB400;
+            }
+            channel[i] = (bit ? 0.22 : -0.22);
+        }
+
+        const source = this.ctx.createBufferSource();
+        source.buffer = noiseBuf;
+        const gainNode = this.ctx.createGain();
+        gainNode.gain.setValueAtTime((drumType === 'crash' ? 0.35 : 0.22), now);
+        gainNode.gain.exponentialRampToValueAtTime(0.001, now + dur);
+
+        source.connect(gainNode);
+        gainNode.connect(this.masterGain);
+        source.start(now);
+    }
+
     // Play a Decoded Buffer with Envelope & Pitch Transpose
     playBuffer(bufferKey, playbackRate = 1.0, isSustained = false) {
         if (!this.ctx) return;
@@ -266,20 +368,44 @@ class AudioEngine {
             }
         }
 
-        const { key, rate } = this.resolvePianoSample(finalNote);
-        this.playBuffer(key, rate, this.sustainPedal);
-
         const freq = this.noteFreqs[finalNote] || Math.round(440 * Math.pow(2, (this.currentOctave - 4)));
+
+        // Dispatch through 8086 micro-packet bridge
+        if (window.bridge) {
+            window.bridge.dispatchTone(freq, 300);
+        }
+
+        if (this.engineMode === 'authentic') {
+            this.playAuthentic1BitSquare(freq, 300);
+        } else {
+            const { key, rate } = this.resolvePianoSample(finalNote);
+            this.playBuffer(key, rate, this.sustainPedal);
+        }
+
         const badge = document.getElementById('pianoNoteBadge');
-        if (badge) badge.innerText = `Steinway Note: ${finalNote} (${freq} Hz)`;
+        if (badge) {
+            const modeText = this.engineMode === 'authentic' ? '1-Bit PC Speaker' : 'Steinway Grand';
+            badge.innerText = `${modeText}: ${finalNote} (${freq} Hz)`;
+        }
 
         this.updateStats(finalNote, `${freq} Hz`);
     }
 
     // 2. Play Real Guitar String
     playGuitarString(stringNum) {
-        const bufferKey = `guitar_${stringNum}`;
-        this.playBuffer(bufferKey, 1.0);
+        const stringFreqs = { 1: 330, 2: 247, 3: 196, 4: 147, 5: 110, 6: 82 };
+        const freq = stringFreqs[stringNum] || 330;
+
+        if (window.bridge) {
+            window.bridge.dispatchTone(freq, 400);
+        }
+
+        if (this.engineMode === 'authentic') {
+            this.playAuthentic1BitSquare(freq, 400);
+        } else {
+            const bufferKey = `guitar_${stringNum}`;
+            this.playBuffer(bufferKey, 1.0);
+        }
 
         const lane = document.querySelector(`.string-lane[data-string="${stringNum}"]`);
         if (lane) {
@@ -288,21 +414,34 @@ class AudioEngine {
         }
 
         const badge = document.getElementById('guitarStatusBadge');
-        if (badge) badge.innerText = `Plucked String ${stringNum} (Acoustic)`;
+        if (badge) {
+            const modeText = this.engineMode === 'authentic' ? '1-Bit Retro String' : 'Acoustic Pluck';
+            badge.innerText = `${modeText} ${stringNum} (${freq} Hz)`;
+        }
     }
 
     // Play Melody on Guitar
     playGuitarMelody(noteName) {
-        const noteOrder = ['C', 'Cs', 'D', 'Ds', 'E', 'F', 'Fs', 'G', 'Gs', 'A', 'As', 'B'];
-        const match = noteName.match(/^([A-Ga-g][s#b]?)([0-9])$/);
-        if (match) {
-            const [_, pitch, octStr] = match;
-            const oct = parseInt(octStr, 10);
-            const semitonesFromE4 = ((oct - 4) * 12) + (noteOrder.indexOf(pitch) - 4);
-            const rate = Math.pow(2, semitonesFromE4 / 12);
-            this.playBuffer('guitar_1', Math.max(0.25, Math.min(4.0, rate)));
+        const freq = this.noteFreqs[noteName] || 440;
+
+        if (window.bridge) {
+            window.bridge.dispatchTone(freq, 280);
+        }
+
+        if (this.engineMode === 'authentic') {
+            this.playAuthentic1BitSquare(freq, 280);
         } else {
-            this.playGuitarString(1);
+            const noteOrder = ['C', 'Cs', 'D', 'Ds', 'E', 'F', 'Fs', 'G', 'Gs', 'A', 'As', 'B'];
+            const match = noteName.match(/^([A-Ga-g][s#b]?)([0-9])$/);
+            if (match) {
+                const [_, pitch, octStr] = match;
+                const oct = parseInt(octStr, 10);
+                const semitonesFromE4 = ((oct - 4) * 12) + (noteOrder.indexOf(pitch) - 4);
+                const rate = Math.pow(2, semitonesFromE4 / 12);
+                this.playBuffer('guitar_1', Math.max(0.25, Math.min(4.0, rate)));
+            } else {
+                this.playGuitarString(1);
+            }
         }
 
         const strNum = (Math.abs(noteName.charCodeAt(0)) % 6) + 1;
@@ -313,12 +452,23 @@ class AudioEngine {
         }
 
         const badge = document.getElementById('guitarStatusBadge');
-        if (badge) badge.innerText = `Acoustic Pluck: ${noteName}`;
+        if (badge) badge.innerText = `Guitar Melody: ${noteName}`;
     }
 
     // Strum Guitar Chord
     strumChord(chordKey) {
-        this.playBuffer(chordKey, 1.0);
+        const chordFreqs = { 'chord_em': 165, 'chord_g': 196, 'chord_c': 261, 'chord_d': 293 };
+        const freq = chordFreqs[chordKey] || 220;
+
+        if (window.bridge) {
+            window.bridge.dispatchTone(freq, 500);
+        }
+
+        if (this.engineMode === 'authentic') {
+            this.playAuthentic1BitSquare(freq, 500);
+        } else {
+            this.playBuffer(chordKey, 1.0);
+        }
 
         document.querySelectorAll('.string-lane').forEach((lane, idx) => {
             setTimeout(() => {
@@ -333,8 +483,19 @@ class AudioEngine {
 
     // 3. Play Real Drum Hit
     playDrum(soundName) {
-        const bufferKey = `drum_${soundName}`;
-        this.playBuffer(bufferKey, 1.0);
+        const drumFreqs = { 'kick': 60, 'snare': 240, 'hihat': 800, 'tom1': 160, 'tom2': 120, 'crash': 1200 };
+        const freq = drumFreqs[soundName] || 200;
+
+        if (window.bridge) {
+            window.bridge.dispatchTone(freq, 150);
+        }
+
+        if (this.engineMode === 'authentic') {
+            this.playAuthenticLFSRNoise(soundName);
+        } else {
+            const bufferKey = `drum_${soundName}`;
+            this.playBuffer(bufferKey, 1.0);
+        }
 
         const pad = document.querySelector(`.drum-pad[data-sound="${soundName}"]`);
         if (pad) {
@@ -343,7 +504,10 @@ class AudioEngine {
         }
 
         const badge = document.getElementById('drumStatusBadge');
-        if (badge) badge.innerText = `Hit: ${soundName.toUpperCase()}`;
+        if (badge) {
+            const modeText = this.engineMode === 'authentic' ? '1-Bit Galois LFSR' : 'Studio Hit';
+            badge.innerText = `${modeText}: ${soundName.toUpperCase()}`;
+        }
     }
 
     // Play Drum Groove Step
@@ -637,6 +801,35 @@ class AudioEngine {
             }
         };
 
+        // Dual-Engine Audio Selector
+        const btnResynth = document.getElementById('btnEngineResynth');
+        const btnAuthentic = document.getElementById('btnEngineAuthentic');
+        if (btnResynth) btnResynth.addEventListener('click', () => this.setEngineMode('resynthesis'));
+        if (btnAuthentic) btnAuthentic.addEventListener('click', () => this.setEngineMode('authentic'));
+
+        // 8086 Hardware Bus HUD Listener
+        if (window.bridge) {
+            window.bridge.onBusActivity((event, data) => {
+                const elPort42 = document.getElementById('hudPort42');
+                const elPort61 = document.getElementById('hudPort61');
+                const elFreq = document.getElementById('hudFreq');
+                const elLatency = document.getElementById('hudLatency');
+                const elBusState = document.getElementById('hudBusState');
+
+                if (elPort42) elPort42.innerText = `0x${data.divisor.toString(16).toUpperCase().padStart(4, '0')} (${data.divisor})`;
+                if (elPort61) elPort61.innerText = `${data.port === '0x61' ? data.value : '0x03'} [SPK=${data.speakerState ? 1 : 0}]`;
+                if (elFreq) elFreq.innerText = data.frequency > 0 ? `${data.frequency} Hz` : 'MUTE (0 Hz)';
+                if (elLatency) elLatency.innerText = `${data.latencyMs.toFixed(2)} ms (avg ${data.avgLatencyMs} ms)`;
+                if (elBusState) elBusState.innerText = data.speakerState ? 'TRANSMITTING' : 'IDLE';
+            });
+        }
+
+        // Floppy RAM Tape Import & Export Handlers
+        const btnImportTape = document.getElementById('btnImportFloppyTape');
+        const btnExportTape = document.getElementById('btnExportFloppyTape');
+        if (btnImportTape) btnImportTape.addEventListener('click', () => this.importFloppyRAMTape());
+        if (btnExportTape) btnExportTape.addEventListener('click', () => this.exportFloppyRAMTape());
+
         window.addEventListener('keydown', (e) => {
             const k = e.key.toLowerCase();
             if (keyMap[k]) {
@@ -644,6 +837,89 @@ class AudioEngine {
                 keyMap[k]();
             }
         });
+    }
+
+    // Load 8086 In-RAM Tape into 16-Step Sequencer
+    importFloppyRAMTape() {
+        this.clearSequencer();
+        const tapeNotes = [
+            { step: 0, track: 'piano_C4', note: 'C4', freq: 262 },
+            { step: 2, track: 'piano_E4', note: 'E4', freq: 330 },
+            { step: 4, track: 'piano_G4', note: 'G4', freq: 392 },
+            { step: 6, track: 'piano_C5', note: 'C5', freq: 523 },
+            { step: 8, track: 'piano_G4', note: 'G4', freq: 392 },
+            { step: 10, track: 'piano_E4', note: 'E4', freq: 330 },
+            { step: 12, track: 'piano_C4', note: 'C4', freq: 262 },
+            { step: 14, track: 'guitar_chord', note: 'Em', freq: 165 },
+            { step: 0, track: 'drum_kick', freq: 60 },
+            { step: 4, track: 'drum_snare', freq: 240 },
+            { step: 8, track: 'drum_kick', freq: 60 },
+            { step: 12, track: 'drum_snare', freq: 240 },
+            { step: 14, track: 'drum_crash', freq: 1200 }
+        ];
+
+        tapeNotes.forEach(item => {
+            if (this.sequencerGrid[item.track]) {
+                this.sequencerGrid[item.track][item.step] = true;
+                const cell = document.querySelector(`.step-cell[data-track="${item.track}"][data-step="${item.step}"]`);
+                if (cell) cell.classList.add('active');
+            }
+        });
+
+        const notice = document.getElementById('saveNotice');
+        if (notice) {
+            notice.innerText = '8086 RAM Tape Loaded!';
+            notice.classList.add('show');
+            setTimeout(() => notice.classList.remove('show'), 2000);
+        }
+
+        if (window.bridge) {
+            window.bridge.interceptOut(0x42, 0x97, 300);
+            window.bridge.interceptOut(0x42, 0x0A, 300);
+            window.bridge.interceptOut(0x61, 0x03, 300);
+        }
+    }
+
+    // Export 16-Step Sequencer Matrix to 16-Bit Binary Tape (dw Freq, Dur)
+    exportFloppyRAMTape() {
+        const recordedNotes = [];
+        for (let step = 0; step < 16; step++) {
+            let activeInStep = null;
+            for (let track of this.sequencerTracks) {
+                if (this.sequencerGrid[track.id] && this.sequencerGrid[track.id][step]) {
+                    const freq = track.note ? (this.noteFreqs[track.note] || 440) : 220;
+                    activeInStep = { frequency: freq, durationMs: 250 };
+                    break;
+                }
+            }
+            if (activeInStep) {
+                recordedNotes.push(activeInStep);
+            }
+        }
+
+        if (recordedNotes.length === 0) {
+            recordedNotes.push({ frequency: 440, durationMs: 300 });
+        }
+
+        if (window.bridge) {
+            const binaryData = window.bridge.exportToAssemblyTape(recordedNotes);
+            const blob = new Blob([binaryData], { type: 'application/octet-stream' });
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = 'custom_song_tape.bin';
+            document.body.appendChild(a);
+            a.click();
+            document.body.removeChild(a);
+            URL.revokeObjectURL(url);
+
+            const notice = document.getElementById('saveNotice');
+            if (notice) {
+                notice.innerText = `Exported ${binaryData.byteLength} Bytes (16-Bit Assembly)!`;
+                notice.classList.add('show');
+                setTimeout(() => notice.classList.remove('show'), 2500);
+            }
+        }
     }
 
     handleKeyAction(char) {

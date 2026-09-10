@@ -25,6 +25,11 @@
                 <p class="subtitle">Real Sampled Acoustic Workstation &bull; Real Piano, Guitar & Drums</p>
             </div>
             <div class="header-controls">
+                <div class="engine-mode-toggle" id="engineModeSelector">
+                    <span class="engine-mode-label">ENGINE:</span>
+                    <button class="engine-btn active" id="btnEngineResynth" title="44.1 kHz Multi-Timbral Studio Samples">🎻 ACOUSTIC RESYNTHESIS</button>
+                    <button class="engine-btn btn-retro" id="btnEngineAuthentic" title="Pure 1-Bit Mathematical Square Wave & Galois LFSR Noise (Zero External Samples)">🔊 1-BIT 8086 PC SPEAKER</button>
+                </div>
                 <div class="volume-control">
                     <label for="masterVolume">MASTER VOL</label>
                     <input type="range" id="masterVolume" min="0" max="100" value="85">
@@ -35,6 +40,35 @@
                 </button>
             </div>
         </header>
+
+        <!-- 8086 Targeted Bus Interception HUD -->
+        <section class="bus-inspector-hud" id="busInspectorHud">
+            <div class="hud-item hud-title">
+                <span class="hud-pulse"></span>
+                <span class="hud-label">8086 BUS BRIDGE:</span>
+                <span class="hud-val text-accent" id="hudBusState">ACTIVE</span>
+            </div>
+            <div class="hud-item">
+                <span class="hud-label">PORT 42h (PIT):</span>
+                <span class="hud-val" id="hudPort42">0x0A97 (2711)</span>
+            </div>
+            <div class="hud-item">
+                <span class="hud-label">PORT 61h (PPI):</span>
+                <span class="hud-val" id="hudPort61">0x03 [GATE=1, SPK=1]</span>
+            </div>
+            <div class="hud-item">
+                <span class="hud-label">CALCULATED PITCH:</span>
+                <span class="hud-val text-green" id="hudFreq">440 Hz (A4)</span>
+            </div>
+            <div class="hud-item">
+                <span class="hud-label">PACKET SIZE:</span>
+                <span class="hud-val text-cyan">4 BYTES</span>
+            </div>
+            <div class="hud-item">
+                <span class="hud-label">BUS LATENCY:</span>
+                <span class="hud-val text-gold" id="hudLatency">&lt; 1.20 ms</span>
+            </div>
+        </section>
 
         <!-- Navigation Tabs -->
         <nav class="instrument-nav" role="tablist">
@@ -393,6 +427,8 @@
                             <button id="btnPresetComposer" class="preset-btn">&#127926; LOAD STARTER MELODY</button>
                         </div>
                         <div class="preset-group">
+                            <button id="btnImportFloppyTape" class="preset-btn" title="Load Song_CustomUser from 8086 RAM Tape">&#128229; IMPORT 8086 TAPE</button>
+                            <button id="btnExportFloppyTape" class="preset-btn" title="Export this track into 16-bit binary tape format">&#128190; EXPORT 16-BIT BINARY</button>
                             <button id="btnSaveComposer" class="save-btn">&#128190; SAVE SONG</button>
                             <span id="saveNotice" class="save-notice">Song Saved in RAM!</span>
                         </div>
@@ -445,6 +481,7 @@
     </div>
 
     <!-- Script -->
+    <script src="bridge.js"></script>
     <script src="app.js"></script>
 </body>
 </html>

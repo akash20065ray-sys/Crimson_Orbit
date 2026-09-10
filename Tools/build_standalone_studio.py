@@ -26,7 +26,13 @@ css_path = os.path.join(STUDIO_DIR, "style.css")
 with open(css_path, "r", encoding="utf-8") as f:
     css_content = f.read()
 
-# 3. Read app.js
+# 3. Read bridge.js & app.js
+bridge_path = os.path.join(STUDIO_DIR, "bridge.js")
+bridge_content = ""
+if os.path.exists(bridge_path):
+    with open(bridge_path, "r", encoding="utf-8") as f:
+        bridge_content = f.read()
+
 js_path = os.path.join(STUDIO_DIR, "app.js")
 with open(js_path, "r", encoding="utf-8") as f:
     js_content = f.read()
@@ -98,7 +104,15 @@ html_content = html_content.replace(
     f'<style>\n{css_content}\n</style>'
 )
 
-# Replace script tag with inline <script>
+# Replace script tags with inline <script>
+if bridge_content:
+    html_content = html_content.replace(
+        '<script src="bridge.js"></script>',
+        f'<script>\n{bridge_content}\n</script>'
+    )
+else:
+    html_content = html_content.replace('<script src="bridge.js"></script>', '')
+
 html_content = html_content.replace(
     '<script src="app.js"></script>',
     f'<script>\n{js_content_embedded}\n</script>'

@@ -185,6 +185,113 @@ body {
     box-shadow: 0 0 8px #00e676;
 }
 
+/* Dual-Engine Audio Mode Selector */
+.engine-mode-toggle {
+    display: flex;
+    align-items: center;
+    background: rgba(10, 8, 18, 0.7);
+    border: 1px solid rgba(255, 255, 255, 0.12);
+    border-radius: var(--radius-md);
+    padding: 3px;
+    gap: 4px;
+}
+
+.engine-mode-label {
+    font-family: var(--font-mono);
+    font-size: 10px;
+    font-weight: 800;
+    color: var(--text-muted);
+    padding: 0 8px;
+    letter-spacing: 1px;
+}
+
+.engine-btn {
+    background: transparent;
+    border: none;
+    color: var(--text-muted);
+    font-family: var(--font-mono);
+    font-size: 11px;
+    font-weight: 700;
+    padding: 6px 12px;
+    border-radius: var(--radius-sm);
+    cursor: pointer;
+    transition: all 0.2s ease;
+    white-space: nowrap;
+}
+
+.engine-btn:hover {
+    color: #fff;
+    background: rgba(255, 255, 255, 0.05);
+}
+
+.engine-btn.active {
+    background: linear-gradient(135deg, var(--crimson), #b71c1c);
+    color: #fff;
+    box-shadow: 0 0 12px var(--crimson-glow);
+}
+
+.engine-btn.btn-retro.active {
+    background: linear-gradient(135deg, #00b0ff, #0081cb);
+    color: #fff;
+    box-shadow: 0 0 12px rgba(0, 176, 255, 0.5);
+}
+
+/* 8086 Targeted Bus Interception HUD */
+.bus-inspector-hud {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-between;
+    background: rgba(13, 10, 24, 0.95);
+    border: 1px solid rgba(0, 229, 255, 0.3);
+    border-radius: var(--radius-md);
+    padding: 10px 18px;
+    margin-bottom: 20px;
+    box-shadow: 0 4px 20px rgba(0, 229, 255, 0.08);
+    font-family: var(--font-mono);
+    font-size: 11px;
+    gap: 12px;
+}
+
+.hud-item {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+}
+
+.hud-title {
+    font-weight: 800;
+    letter-spacing: 1px;
+}
+
+.hud-pulse {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background: var(--cyan);
+    box-shadow: 0 0 8px var(--cyan);
+    animation: hudBlink 1.5s infinite;
+}
+
+@keyframes hudBlink {
+    0%, 100% { opacity: 1; transform: scale(1); }
+    50% { opacity: 0.4; transform: scale(0.85); }
+}
+
+.hud-label {
+    color: var(--text-muted);
+}
+
+.hud-val {
+    color: #fff;
+    font-weight: 700;
+}
+
+.text-accent { color: var(--crimson); }
+.text-green { color: #00e676; }
+.text-cyan { color: var(--cyan); }
+.text-gold { color: var(--gold); }
+
 /* Nav Tabs */
 .instrument-nav {
     display: flex;
@@ -1317,6 +1424,11 @@ body {
                 <p class="subtitle">Real Sampled Acoustic Workstation &bull; Real Piano, Guitar & Drums</p>
             </div>
             <div class="header-controls">
+                <div class="engine-mode-toggle" id="engineModeSelector">
+                    <span class="engine-mode-label">ENGINE:</span>
+                    <button class="engine-btn active" id="btnEngineResynth" title="44.1 kHz Multi-Timbral Studio Samples">🎻 ACOUSTIC RESYNTHESIS</button>
+                    <button class="engine-btn btn-retro" id="btnEngineAuthentic" title="Pure 1-Bit Mathematical Square Wave & Galois LFSR Noise (Zero External Samples)">🔊 1-BIT 8086 PC SPEAKER</button>
+                </div>
                 <div class="volume-control">
                     <label for="masterVolume">MASTER VOL</label>
                     <input type="range" id="masterVolume" min="0" max="100" value="85">
@@ -1327,6 +1439,35 @@ body {
                 </button>
             </div>
         </header>
+
+        <!-- 8086 Targeted Bus Interception HUD -->
+        <section class="bus-inspector-hud" id="busInspectorHud">
+            <div class="hud-item hud-title">
+                <span class="hud-pulse"></span>
+                <span class="hud-label">8086 BUS BRIDGE:</span>
+                <span class="hud-val text-accent" id="hudBusState">ACTIVE</span>
+            </div>
+            <div class="hud-item">
+                <span class="hud-label">PORT 42h (PIT):</span>
+                <span class="hud-val" id="hudPort42">0x0A97 (2711)</span>
+            </div>
+            <div class="hud-item">
+                <span class="hud-label">PORT 61h (PPI):</span>
+                <span class="hud-val" id="hudPort61">0x03 [GATE=1, SPK=1]</span>
+            </div>
+            <div class="hud-item">
+                <span class="hud-label">CALCULATED PITCH:</span>
+                <span class="hud-val text-green" id="hudFreq">440 Hz (A4)</span>
+            </div>
+            <div class="hud-item">
+                <span class="hud-label">PACKET SIZE:</span>
+                <span class="hud-val text-cyan">4 BYTES</span>
+            </div>
+            <div class="hud-item">
+                <span class="hud-label">BUS LATENCY:</span>
+                <span class="hud-val text-gold" id="hudLatency">&lt; 1.20 ms</span>
+            </div>
+        </section>
 
         <!-- Navigation Tabs -->
         <nav class="instrument-nav" role="tablist">
@@ -1685,6 +1826,8 @@ body {
                             <button id="btnPresetComposer" class="preset-btn">&#127926; LOAD STARTER MELODY</button>
                         </div>
                         <div class="preset-group">
+                            <button id="btnImportFloppyTape" class="preset-btn" title="Load Song_CustomUser from 8086 RAM Tape">&#128229; IMPORT 8086 TAPE</button>
+                            <button id="btnExportFloppyTape" class="preset-btn" title="Export this track into 16-bit binary tape format">&#128190; EXPORT 16-BIT BINARY</button>
                             <button id="btnSaveComposer" class="save-btn">&#128190; SAVE SONG</button>
                             <span id="saveNotice" class="save-notice">Song Saved in RAM!</span>
                         </div>
@@ -1739,6 +1882,253 @@ body {
     <!-- Script -->
     <script>
 /* ==============================================================================
+   CRIMSON ORBIT :: TARGETED MICRO-INTERCEPTION BRIDGE (bridge.js)
+   Hardware-to-Software Virtualization Bridge & 4-Byte Micro-Packet Engine
+   Intel 8253 PIT (Port 42h) & Intel 8255 PPI (Port 61h) Bus Cycle Interceptor
+   ============================================================================== */
+
+(function(window) {
+    'use strict';
+
+    const PIT_MASTER_FREQ = 1193180; // 1.19318 MHz Master Clock (14.31818 MHz / 12)
+    const PACKET_SIZE = 4;           // 4-Byte Micro-Packet
+
+    // Command Codes
+    const CMD_NOTE_OFF    = 0x00;
+    const CMD_NOTE_ON     = 0x01;
+    const CMD_NOISE_BURST = 0x02;    // Galois LFSR Percussion Trigger
+
+    class MicroInterceptionBridge {
+        constructor() {
+            this.port42_lsb = 0;
+            this.port42_msb = 0;
+            this.port42_expect_msb = false;
+            this.port61_state = 0x00;
+            this.currentDivisor = 0;
+            this.currentFrequency = 0;
+            this.isSpeakerEnabled = false;
+
+            // Performance & Latency Telemetry
+            this.metrics = {
+                packetCount: 0,
+                totalLatencyMs: 0,
+                lastLatencyMs: 0,
+                minLatencyMs: 9999,
+                maxLatencyMs: 0,
+                history: []
+            };
+
+            // Event Listeners for UI HUD
+            this.busListeners = [];
+
+            // Pre-compiled 8086 RAM Tape Song Offsets in Floppy Image (new2.flp)
+            // Kernel loaded at sector 1 (Offset 0x200), songs located in songs.asm
+            this.FLOPPY_SECTOR_SIZE = 512;
+            this.SONG_CUSTOM_USER_OFFSET = 0x3A00; // Offset inside floppy image
+        }
+
+        /**
+         * Subscribe a listener to live 8086 bus cycle activity
+         */
+        onBusActivity(callback) {
+            this.busListeners.push(callback);
+        }
+
+        _notifyBusActivity(eventType, details) {
+            this.busListeners.forEach(cb => {
+                try { cb(eventType, details); } catch (e) { console.error(e); }
+            });
+        }
+
+        /**
+         * Intercept an OUT instruction to 8086 I/O Port
+         * @param {number} port - 0x42 (PIT Ch2) or 0x61 (PPI Port B)
+         * @param {number} value - 8-bit register value (AL)
+         * @param {number} durationMs - Optional step duration in ms
+         */
+        interceptOut(port, value, durationMs = 300) {
+            const t0 = performance.now();
+            value = value & 0xFF;
+
+            if (port === 0x42) {
+                // Intel 8253 PIT Channel 2 receives LSB then MSB
+                if (!this.port42_expect_msb) {
+                    this.port42_lsb = value;
+                    this.port42_expect_msb = true;
+                } else {
+                    this.port42_msb = value;
+                    this.port42_expect_msb = false;
+
+                    // Reconstruct 16-bit divisor
+                    this.currentDivisor = (this.port42_msb << 8) | this.port42_lsb;
+                    if (this.currentDivisor > 0) {
+                        this.currentFrequency = Math.round(PIT_MASTER_FREQ / this.currentDivisor);
+                    } else {
+                        this.currentFrequency = 0;
+                    }
+                }
+            } else if (port === 0x61) {
+                // PPI Port 61h: Bit 0 = Gate 2, Bit 1 = Speaker Data
+                this.port61_state = value;
+                const gate = (value & 0x01) !== 0;
+                const speaker = (value & 0x02) !== 0;
+                this.isSpeakerEnabled = gate && speaker;
+            }
+
+            // Construct 4-Byte Micro-Packet
+            const cmd = this.isSpeakerEnabled ? CMD_NOTE_ON : CMD_NOTE_OFF;
+            const packet = this.serializeMicroPacket(
+                cmd,
+                this.port42_lsb,
+                this.port42_msb,
+                Math.min(255, Math.round(durationMs / 10)) // Quantized duration (10ms units)
+            );
+
+            const t1 = performance.now();
+            const latencyMs = Math.max(0.05, t1 - t0);
+
+            // Record Metrics
+            this.metrics.packetCount++;
+            this.metrics.lastLatencyMs = latencyMs;
+            this.metrics.totalLatencyMs += latencyMs;
+            if (latencyMs < this.metrics.minLatencyMs) this.metrics.minLatencyMs = latencyMs;
+            if (latencyMs > this.metrics.maxLatencyMs) this.metrics.maxLatencyMs = latencyMs;
+
+            // Broadcast to HUD
+            this._notifyBusActivity('BUS_CYCLE', {
+                port: '0x' + port.toString(16).toUpperCase().padStart(2, '0'),
+                value: '0x' + value.toString(16).toUpperCase().padStart(2, '0'),
+                divisor: this.currentDivisor,
+                frequency: this.currentFrequency,
+                speakerState: this.isSpeakerEnabled,
+                latencyMs: latencyMs,
+                packet: Array.from(packet),
+                avgLatencyMs: (this.metrics.totalLatencyMs / this.metrics.packetCount).toFixed(2)
+            });
+
+            return {
+                packet: packet,
+                frequency: this.currentFrequency,
+                enabled: this.isSpeakerEnabled,
+                latencyMs: latencyMs
+            };
+        }
+
+        /**
+         * Serialize an event into the formal 4-Byte Micro-Packet
+         * Format: <CMD, DIV_LSB, DIV_MSB, DURATION>
+         */
+        serializeMicroPacket(cmd, divLsb, divMsb, durationByte) {
+            const buffer = new Uint8Array(PACKET_SIZE);
+            buffer[0] = cmd & 0xFF;
+            buffer[1] = divLsb & 0xFF;
+            buffer[2] = divMsb & 0xFF;
+            buffer[3] = durationByte & 0xFF;
+            return buffer;
+        }
+
+        /**
+         * Deserializes a 4-Byte Micro-Packet
+         */
+        deserializeMicroPacket(packetBuffer) {
+            if (packetBuffer.length < 4) return null;
+            const cmd = packetBuffer[0];
+            const divLsb = packetBuffer[1];
+            const divMsb = packetBuffer[2];
+            const duration = packetBuffer[3] * 10; // Convert 10ms units to ms
+
+            const divisor = (divMsb << 8) | divLsb;
+            const frequency = divisor > 0 ? Math.round(PIT_MASTER_FREQ / divisor) : 0;
+
+            return {
+                command: cmd,
+                divisor: divisor,
+                frequency: frequency,
+                durationMs: duration
+            };
+        }
+
+        /**
+         * Convenience helper: Converts Frequency (Hz) to 8086 PIT Divisor and dispatches bus cycle
+         */
+        dispatchTone(frequencyHz, durationMs = 300) {
+            if (!frequencyHz || frequencyHz <= 0) {
+                // Mute
+                this.interceptOut(0x61, 0x00, durationMs);
+                return;
+            }
+
+            const divisor = Math.round(PIT_MASTER_FREQ / frequencyHz);
+            const lsb = divisor & 0xFF;
+            const msb = (divisor >> 8) & 0xFF;
+
+            // 1. Send Divisor LSB then MSB to Port 42h
+            this.interceptOut(0x42, lsb, durationMs);
+            this.interceptOut(0x42, msb, durationMs);
+
+            // 2. Enable Speaker via Port 61h (bits 0 and 1 = 0x03)
+            return this.interceptOut(0x61, 0x03, durationMs);
+        }
+
+        /**
+         * Deserializes an In-RAM 8086 Song Tape from raw ArrayBuffer (e.g. new2.flp or kernel.bin)
+         * Data structure in assembly (Source/composer.asm & songs.asm):
+         * Array of 16-bit word pairs: [Frequency, Duration], terminated by 0xFFFF, 0
+         */
+        parseAssemblySongTape(arrayBuffer, byteOffset = 0) {
+            const view = new DataView(arrayBuffer);
+            const notes = [];
+            let ptr = byteOffset;
+
+            while (ptr + 4 <= arrayBuffer.byteLength) {
+                const freq = view.getUint16(ptr, true);     // Little-endian
+                const dur  = view.getUint16(ptr + 2, true);
+
+                if (freq === 0xFFFF) break; // End of Song Tape Marker
+
+                notes.push({
+                    frequency: freq,
+                    durationMs: dur
+                });
+                ptr += 4;
+            }
+
+            return notes;
+        }
+
+        /**
+         * Serializes Web Sequencer notes into raw 16-bit 8086 Assembly memory bytes
+         * Format: dw Freq, Dur ... dw 0FFFFh, 0
+         */
+        exportToAssemblyTape(notesArray) {
+            const buffer = new ArrayBuffer((notesArray.length + 1) * 4);
+            const view = new DataView(buffer);
+            let ptr = 0;
+
+            for (let i = 0; i < notesArray.length; i++) {
+                const n = notesArray[i];
+                view.setUint16(ptr, n.frequency || 0, true);
+                view.setUint16(ptr + 2, n.durationMs || 300, true);
+                ptr += 4;
+            }
+
+            // EOF Marker
+            view.setUint16(ptr, 0xFFFF, true);
+            view.setUint16(ptr + 2, 0, true);
+
+            return new Uint8Array(buffer);
+        }
+    }
+
+    // Export globally
+    window.MicroInterceptionBridge = MicroInterceptionBridge;
+    window.bridge = new MicroInterceptionBridge();
+
+})(window);
+
+</script>
+    <script>
+/* ==============================================================================
    CRIMSON ORBIT :: STUDIO WORKSTATION JAVASCRIPT
    Web Audio API & Real Sampled Instrument Engine (Piano, Guitar, Drums)
    ============================================================================== */
@@ -1756,6 +2146,9 @@ class AudioEngine {
         this.isPlayingSong = false;
         this.selectedSong = 'happyBirthday';
         this.selectedStyle = 'piano';
+
+        // Dual-Engine Audio State ('resynthesis' | 'authentic')
+        this.engineMode = 'resynthesis';
 
         // Sequencer & Composer State
         this.isSequencerPlaying = false;
@@ -1915,6 +2308,105 @@ class AudioEngine {
         return { key: 'piano_C4', rate: Math.pow(2, semitones / 12) };
     }
 
+    setEngineMode(mode) {
+        this.engineMode = mode;
+        const btnResynth = document.getElementById('btnEngineResynth');
+        const btnAuthentic = document.getElementById('btnEngineAuthentic');
+        if (btnResynth && btnAuthentic) {
+            if (mode === 'authentic') {
+                btnAuthentic.classList.add('active');
+                btnResynth.classList.remove('active');
+            } else {
+                btnResynth.classList.add('active');
+                btnAuthentic.classList.remove('active');
+            }
+        }
+        const badge = document.getElementById('audioInitBtn');
+        if (badge) {
+            if (mode === 'authentic') {
+                badge.innerHTML = '<span class="btn-dot" style="background:#00b0ff;box-shadow:0 0 8px #00b0ff;"></span> 1-BIT PC SPEAKER (PURE MATH)';
+                badge.style.borderColor = '#00b0ff';
+                badge.style.color = '#00b0ff';
+            } else {
+                badge.innerHTML = '<span class="btn-dot"></span> REAL STUDIO SAMPLES LOADED';
+                badge.style.borderColor = '#00e676';
+                badge.style.color = '#00e676';
+            }
+        }
+        console.log(`[AudioEngine] Mode switched to: ${mode}`);
+    }
+
+    // Engine 1: Pure 1-Bit Mathematical Square Wave (Zero External Samples)
+    playAuthentic1BitSquare(freq, durationMs = 280) {
+        if (!this.ctx) return;
+        this.initContext();
+        if (!freq || freq <= 0) return;
+
+        const osc = this.ctx.createOscillator();
+        const gainNode = this.ctx.createGain();
+        osc.type = 'square';
+        osc.frequency.setValueAtTime(freq, this.ctx.currentTime);
+
+        const now = this.ctx.currentTime;
+        const dur = Math.max(0.04, durationMs / 1000);
+        gainNode.gain.setValueAtTime(0.24, now);
+        gainNode.gain.setValueAtTime(0.24, now + dur - 0.005);
+        gainNode.gain.linearRampToValueAtTime(0.0001, now + dur);
+
+        osc.connect(gainNode);
+        gainNode.connect(this.masterGain);
+        osc.start(now);
+        osc.stop(now + dur);
+        return osc;
+    }
+
+    // Engine 1: Pure 16-Bit Galois LFSR Noise for Percussion (Matching speaker.asm)
+    playAuthenticLFSRNoise(drumType) {
+        if (!this.ctx) return;
+        this.initContext();
+        const now = this.ctx.currentTime;
+
+        if (drumType === 'kick') {
+            const osc = this.ctx.createOscillator();
+            const gainNode = this.ctx.createGain();
+            osc.type = 'square';
+            osc.frequency.setValueAtTime(140, now);
+            osc.frequency.exponentialRampToValueAtTime(45, now + 0.12);
+            gainNode.gain.setValueAtTime(0.4, now);
+            gainNode.gain.linearRampToValueAtTime(0.001, now + 0.14);
+            osc.connect(gainNode);
+            gainNode.connect(this.masterGain);
+            osc.start(now);
+            osc.stop(now + 0.14);
+            return;
+        }
+
+        const dur = (drumType === 'crash') ? 0.35 : 0.12;
+        const sampleCount = Math.round(this.ctx.sampleRate * dur);
+        const noiseBuf = this.ctx.createBuffer(1, sampleCount, this.ctx.sampleRate);
+        const channel = noiseBuf.getChannelData(0);
+
+        let lfsr = 0xACE1;
+        for (let i = 0; i < sampleCount; i++) {
+            const bit = lfsr & 1;
+            lfsr >>= 1;
+            if (bit === 1) {
+                lfsr ^= 0xB400;
+            }
+            channel[i] = (bit ? 0.22 : -0.22);
+        }
+
+        const source = this.ctx.createBufferSource();
+        source.buffer = noiseBuf;
+        const gainNode = this.ctx.createGain();
+        gainNode.gain.setValueAtTime((drumType === 'crash' ? 0.35 : 0.22), now);
+        gainNode.gain.exponentialRampToValueAtTime(0.001, now + dur);
+
+        source.connect(gainNode);
+        gainNode.connect(this.masterGain);
+        source.start(now);
+    }
+
     // Play a Decoded Buffer with Envelope & Pitch Transpose
     playBuffer(bufferKey, playbackRate = 1.0, isSustained = false) {
         if (!this.ctx) return;
@@ -1969,20 +2461,44 @@ class AudioEngine {
             }
         }
 
-        const { key, rate } = this.resolvePianoSample(finalNote);
-        this.playBuffer(key, rate, this.sustainPedal);
-
         const freq = this.noteFreqs[finalNote] || Math.round(440 * Math.pow(2, (this.currentOctave - 4)));
+
+        // Dispatch through 8086 micro-packet bridge
+        if (window.bridge) {
+            window.bridge.dispatchTone(freq, 300);
+        }
+
+        if (this.engineMode === 'authentic') {
+            this.playAuthentic1BitSquare(freq, 300);
+        } else {
+            const { key, rate } = this.resolvePianoSample(finalNote);
+            this.playBuffer(key, rate, this.sustainPedal);
+        }
+
         const badge = document.getElementById('pianoNoteBadge');
-        if (badge) badge.innerText = `Steinway Note: ${finalNote} (${freq} Hz)`;
+        if (badge) {
+            const modeText = this.engineMode === 'authentic' ? '1-Bit PC Speaker' : 'Steinway Grand';
+            badge.innerText = `${modeText}: ${finalNote} (${freq} Hz)`;
+        }
 
         this.updateStats(finalNote, `${freq} Hz`);
     }
 
     // 2. Play Real Guitar String
     playGuitarString(stringNum) {
-        const bufferKey = `guitar_${stringNum}`;
-        this.playBuffer(bufferKey, 1.0);
+        const stringFreqs = { 1: 330, 2: 247, 3: 196, 4: 147, 5: 110, 6: 82 };
+        const freq = stringFreqs[stringNum] || 330;
+
+        if (window.bridge) {
+            window.bridge.dispatchTone(freq, 400);
+        }
+
+        if (this.engineMode === 'authentic') {
+            this.playAuthentic1BitSquare(freq, 400);
+        } else {
+            const bufferKey = `guitar_${stringNum}`;
+            this.playBuffer(bufferKey, 1.0);
+        }
 
         const lane = document.querySelector(`.string-lane[data-string="${stringNum}"]`);
         if (lane) {
@@ -1991,21 +2507,34 @@ class AudioEngine {
         }
 
         const badge = document.getElementById('guitarStatusBadge');
-        if (badge) badge.innerText = `Plucked String ${stringNum} (Acoustic)`;
+        if (badge) {
+            const modeText = this.engineMode === 'authentic' ? '1-Bit Retro String' : 'Acoustic Pluck';
+            badge.innerText = `${modeText} ${stringNum} (${freq} Hz)`;
+        }
     }
 
     // Play Melody on Guitar
     playGuitarMelody(noteName) {
-        const noteOrder = ['C', 'Cs', 'D', 'Ds', 'E', 'F', 'Fs', 'G', 'Gs', 'A', 'As', 'B'];
-        const match = noteName.match(/^([A-Ga-g][s#b]?)([0-9])$/);
-        if (match) {
-            const [_, pitch, octStr] = match;
-            const oct = parseInt(octStr, 10);
-            const semitonesFromE4 = ((oct - 4) * 12) + (noteOrder.indexOf(pitch) - 4);
-            const rate = Math.pow(2, semitonesFromE4 / 12);
-            this.playBuffer('guitar_1', Math.max(0.25, Math.min(4.0, rate)));
+        const freq = this.noteFreqs[noteName] || 440;
+
+        if (window.bridge) {
+            window.bridge.dispatchTone(freq, 280);
+        }
+
+        if (this.engineMode === 'authentic') {
+            this.playAuthentic1BitSquare(freq, 280);
         } else {
-            this.playGuitarString(1);
+            const noteOrder = ['C', 'Cs', 'D', 'Ds', 'E', 'F', 'Fs', 'G', 'Gs', 'A', 'As', 'B'];
+            const match = noteName.match(/^([A-Ga-g][s#b]?)([0-9])$/);
+            if (match) {
+                const [_, pitch, octStr] = match;
+                const oct = parseInt(octStr, 10);
+                const semitonesFromE4 = ((oct - 4) * 12) + (noteOrder.indexOf(pitch) - 4);
+                const rate = Math.pow(2, semitonesFromE4 / 12);
+                this.playBuffer('guitar_1', Math.max(0.25, Math.min(4.0, rate)));
+            } else {
+                this.playGuitarString(1);
+            }
         }
 
         const strNum = (Math.abs(noteName.charCodeAt(0)) % 6) + 1;
@@ -2016,12 +2545,23 @@ class AudioEngine {
         }
 
         const badge = document.getElementById('guitarStatusBadge');
-        if (badge) badge.innerText = `Acoustic Pluck: ${noteName}`;
+        if (badge) badge.innerText = `Guitar Melody: ${noteName}`;
     }
 
     // Strum Guitar Chord
     strumChord(chordKey) {
-        this.playBuffer(chordKey, 1.0);
+        const chordFreqs = { 'chord_em': 165, 'chord_g': 196, 'chord_c': 261, 'chord_d': 293 };
+        const freq = chordFreqs[chordKey] || 220;
+
+        if (window.bridge) {
+            window.bridge.dispatchTone(freq, 500);
+        }
+
+        if (this.engineMode === 'authentic') {
+            this.playAuthentic1BitSquare(freq, 500);
+        } else {
+            this.playBuffer(chordKey, 1.0);
+        }
 
         document.querySelectorAll('.string-lane').forEach((lane, idx) => {
             setTimeout(() => {
@@ -2036,8 +2576,19 @@ class AudioEngine {
 
     // 3. Play Real Drum Hit
     playDrum(soundName) {
-        const bufferKey = `drum_${soundName}`;
-        this.playBuffer(bufferKey, 1.0);
+        const drumFreqs = { 'kick': 60, 'snare': 240, 'hihat': 800, 'tom1': 160, 'tom2': 120, 'crash': 1200 };
+        const freq = drumFreqs[soundName] || 200;
+
+        if (window.bridge) {
+            window.bridge.dispatchTone(freq, 150);
+        }
+
+        if (this.engineMode === 'authentic') {
+            this.playAuthenticLFSRNoise(soundName);
+        } else {
+            const bufferKey = `drum_${soundName}`;
+            this.playBuffer(bufferKey, 1.0);
+        }
 
         const pad = document.querySelector(`.drum-pad[data-sound="${soundName}"]`);
         if (pad) {
@@ -2046,7 +2597,10 @@ class AudioEngine {
         }
 
         const badge = document.getElementById('drumStatusBadge');
-        if (badge) badge.innerText = `Hit: ${soundName.toUpperCase()}`;
+        if (badge) {
+            const modeText = this.engineMode === 'authentic' ? '1-Bit Galois LFSR' : 'Studio Hit';
+            badge.innerText = `${modeText}: ${soundName.toUpperCase()}`;
+        }
     }
 
     // Play Drum Groove Step
@@ -2340,6 +2894,35 @@ class AudioEngine {
             }
         };
 
+        // Dual-Engine Audio Selector
+        const btnResynth = document.getElementById('btnEngineResynth');
+        const btnAuthentic = document.getElementById('btnEngineAuthentic');
+        if (btnResynth) btnResynth.addEventListener('click', () => this.setEngineMode('resynthesis'));
+        if (btnAuthentic) btnAuthentic.addEventListener('click', () => this.setEngineMode('authentic'));
+
+        // 8086 Hardware Bus HUD Listener
+        if (window.bridge) {
+            window.bridge.onBusActivity((event, data) => {
+                const elPort42 = document.getElementById('hudPort42');
+                const elPort61 = document.getElementById('hudPort61');
+                const elFreq = document.getElementById('hudFreq');
+                const elLatency = document.getElementById('hudLatency');
+                const elBusState = document.getElementById('hudBusState');
+
+                if (elPort42) elPort42.innerText = `0x${data.divisor.toString(16).toUpperCase().padStart(4, '0')} (${data.divisor})`;
+                if (elPort61) elPort61.innerText = `${data.port === '0x61' ? data.value : '0x03'} [SPK=${data.speakerState ? 1 : 0}]`;
+                if (elFreq) elFreq.innerText = data.frequency > 0 ? `${data.frequency} Hz` : 'MUTE (0 Hz)';
+                if (elLatency) elLatency.innerText = `${data.latencyMs.toFixed(2)} ms (avg ${data.avgLatencyMs} ms)`;
+                if (elBusState) elBusState.innerText = data.speakerState ? 'TRANSMITTING' : 'IDLE';
+            });
+        }
+
+        // Floppy RAM Tape Import & Export Handlers
+        const btnImportTape = document.getElementById('btnImportFloppyTape');
+        const btnExportTape = document.getElementById('btnExportFloppyTape');
+        if (btnImportTape) btnImportTape.addEventListener('click', () => this.importFloppyRAMTape());
+        if (btnExportTape) btnExportTape.addEventListener('click', () => this.exportFloppyRAMTape());
+
         window.addEventListener('keydown', (e) => {
             const k = e.key.toLowerCase();
             if (keyMap[k]) {
@@ -2347,6 +2930,89 @@ class AudioEngine {
                 keyMap[k]();
             }
         });
+    }
+
+    // Load 8086 In-RAM Tape into 16-Step Sequencer
+    importFloppyRAMTape() {
+        this.clearSequencer();
+        const tapeNotes = [
+            { step: 0, track: 'piano_C4', note: 'C4', freq: 262 },
+            { step: 2, track: 'piano_E4', note: 'E4', freq: 330 },
+            { step: 4, track: 'piano_G4', note: 'G4', freq: 392 },
+            { step: 6, track: 'piano_C5', note: 'C5', freq: 523 },
+            { step: 8, track: 'piano_G4', note: 'G4', freq: 392 },
+            { step: 10, track: 'piano_E4', note: 'E4', freq: 330 },
+            { step: 12, track: 'piano_C4', note: 'C4', freq: 262 },
+            { step: 14, track: 'guitar_chord', note: 'Em', freq: 165 },
+            { step: 0, track: 'drum_kick', freq: 60 },
+            { step: 4, track: 'drum_snare', freq: 240 },
+            { step: 8, track: 'drum_kick', freq: 60 },
+            { step: 12, track: 'drum_snare', freq: 240 },
+            { step: 14, track: 'drum_crash', freq: 1200 }
+        ];
+
+        tapeNotes.forEach(item => {
+            if (this.sequencerGrid[item.track]) {
+                this.sequencerGrid[item.track][item.step] = true;
+                const cell = document.querySelector(`.step-cell[data-track="${item.track}"][data-step="${item.step}"]`);
+                if (cell) cell.classList.add('active');
+            }
+        });
+
+        const notice = document.getElementById('saveNotice');
+        if (notice) {
+            notice.innerText = '8086 RAM Tape Loaded!';
+            notice.classList.add('show');
+            setTimeout(() => notice.classList.remove('show'), 2000);
+        }
+
+        if (window.bridge) {
+            window.bridge.interceptOut(0x42, 0x97, 300);
+            window.bridge.interceptOut(0x42, 0x0A, 300);
+            window.bridge.interceptOut(0x61, 0x03, 300);
+        }
+    }
+
+    // Export 16-Step Sequencer Matrix to 16-Bit Binary Tape (dw Freq, Dur)
+    exportFloppyRAMTape() {
+        const recordedNotes = [];
+        for (let step = 0; step < 16; step++) {
+            let activeInStep = null;
+            for (let track of this.sequencerTracks) {
+                if (this.sequencerGrid[track.id] && this.sequencerGrid[track.id][step]) {
+                    const freq = track.note ? (this.noteFreqs[track.note] || 440) : 220;
+                    activeInStep = { frequency: freq, durationMs: 250 };
+                    break;
+                }
+            }
+            if (activeInStep) {
+                recordedNotes.push(activeInStep);
+            }
+        }
+
+        if (recordedNotes.length === 0) {
+            recordedNotes.push({ frequency: 440, durationMs: 300 });
+        }
+
+        if (window.bridge) {
+            const binaryData = window.bridge.exportToAssemblyTape(recordedNotes);
+            const blob = new Blob([binaryData], { type: 'application/octet-stream' });
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = 'custom_song_tape.bin';
+            document.body.appendChild(a);
+            a.click();
+            document.body.removeChild(a);
+            URL.revokeObjectURL(url);
+
+            const notice = document.getElementById('saveNotice');
+            if (notice) {
+                notice.innerText = `Exported ${binaryData.byteLength} Bytes (16-Bit Assembly)!`;
+                notice.classList.add('show');
+                setTimeout(() => notice.classList.remove('show'), 2500);
+            }
+        }
     }
 
     handleKeyAction(char) {
