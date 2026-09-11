@@ -7,6 +7,7 @@ __pycache__/
 *.pptx
 *.docx
 *.pdf
+!Assets/Documentation/CrimsonOrbit_IEEE_Research_Paper.pdf
 *slide*.png
 ~$*.pptx
 ~$*.docx

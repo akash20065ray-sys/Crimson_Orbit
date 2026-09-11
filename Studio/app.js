@@ -19,8 +19,6 @@ class AudioEngine {
 
         // Dual-Engine Audio State ('resynthesis' | 'authentic')
         this.engineMode = 'resynthesis';
-        this.currentFreq = 0;
-        this.is1BitNoise = false;
 
         // Sequencer & Composer State
         this.isSequencerPlaying = false;
@@ -319,20 +317,6 @@ class AudioEngine {
             styleBtnDrums.innerHTML = mode === 'authentic' ? '&#129345; 1-Bit LFSR Drums' : '&#129345; Studio Drums Groove';
         }
 
-        // 8. Dynamic Visualizer Panel Heading
-        const visHeading = document.getElementById('visPanelHeading');
-        if (visHeading) {
-            visHeading.textContent = mode === 'authentic'
-                ? 'INTEL 8253 DIGITAL OSCILLOSCOPE (1-BIT)'
-                : 'REAL-TIME SPECTRUM EQUALIZER';
-        }
-
-        // 9. Canvas Oscilloscope Glow Effect
-        const canvas = document.getElementById('spectrumCanvas');
-        if (canvas) {
-            canvas.classList.toggle('oscilloscope-mode', mode === 'authentic');
-        }
-
         console.log(`[AudioEngine] Mode switched to: ${mode}`);
     }
 
@@ -341,12 +325,6 @@ class AudioEngine {
         if (!this.ctx) return;
         this.initContext();
         if (!freq || freq <= 0) return;
-
-        this.currentFreq = freq;
-        this.is1BitNoise = false;
-        setTimeout(() => {
-            if (this.currentFreq === freq) this.currentFreq = 0;
-        }, durationMs);
 
         const osc = this.ctx.createOscillator();
         const gainNode = this.ctx.createGain();
@@ -371,13 +349,6 @@ class AudioEngine {
         if (!this.ctx) return;
         this.initContext();
         const now = this.ctx.currentTime;
-
-        this.is1BitNoise = true;
-        this.currentFreq = (drumType === 'kick') ? 60 : 800;
-        setTimeout(() => {
-            this.is1BitNoise = false;
-            this.currentFreq = 0;
-        }, 180);
 
         if (drumType === 'kick') {
             const osc = this.ctx.createOscillator();
@@ -732,186 +703,44 @@ class AudioEngine {
         if (elLive) elLive.innerText = `${hz} • Live Audio`;
     }
 
-    // Real-Time Canvas Spectrum Visualizer & 1-Bit Digital Oscilloscope (60 FPS)
+    // Real-Time Canvas Spectrum Visualizer (60 FPS)
     startVisualizer() {
         const canvas = document.getElementById('spectrumCanvas');
         if (!canvas) return;
         const ctx = canvas.getContext('2d');
         const bufferLength = this.analyser.frequencyBinCount;
-        const freqDataArray = new Uint8Array(bufferLength);
-        const timeDataArray = new Uint8Array(this.analyser.fftSize);
-
-        let sweepPhase = 0;
+        const dataArray = new Uint8Array(bufferLength);
 
         const draw = () => {
             requestAnimationFrame(draw);
+            this.analyser.getByteFrequencyData(dataArray);
 
-            if (this.engineMode === 'authentic') {
-                // =============================================================
-                // 1-BIT 8086 CATHODE-RAY PHOSPHOR DIGITAL OSCILLOSCOPE
-                // =============================================================
-                this.analyser.getByteTimeDomainData(timeDataArray);
-                this.analyser.getByteFrequencyData(freqDataArray);
+            ctx.fillStyle = '#09070e';
+            ctx.fillRect(0, 0, canvas.width, canvas.height);
 
-                // 1. Dark CRT chassis background
-                ctx.fillStyle = '#050c0f';
-                ctx.fillRect(0, 0, canvas.width, canvas.height);
+            const barWidth = (canvas.width / bufferLength) * 1.8;
+            let barHeight;
+            let x = 0;
 
-                // 2. Phosphor Grid Reticle
-                ctx.strokeStyle = 'rgba(0, 229, 255, 0.08)';
-                ctx.lineWidth = 1;
+            for (let i = 0; i < bufferLength; i++) {
+                barHeight = (dataArray[i] / 255) * canvas.height * 0.85;
 
-                // Horizontal reticle lines
-                const gridY = [0.22, 0.5, 0.78];
-                const gridLabels = ['+5.0V (TTL HIGH)', '0.0V (GND / REF)', '-5.0V (TTL LOW)'];
-                gridY.forEach((yRatio, idx) => {
-                    const y = canvas.height * yRatio;
-                    ctx.beginPath();
-                    ctx.setLineDash([4, 4]);
-                    ctx.moveTo(0, y);
-                    ctx.lineTo(canvas.width, y);
-                    ctx.stroke();
+                // Dynamic gradient
+                const grad = ctx.createLinearGradient(0, canvas.height, 0, canvas.height - barHeight);
+                grad.addColorStop(0, '#e53935');
+                grad.addColorStop(0.6, '#ffb300');
+                grad.addColorStop(1, '#ffffff');
 
-                    ctx.fillStyle = 'rgba(0, 229, 255, 0.35)';
-                    ctx.font = '9px "JetBrains Mono", Consolas, monospace';
-                    ctx.fillText(gridLabels[idx], 10, y - 4);
-                });
+                ctx.fillStyle = grad;
+                ctx.fillRect(x, canvas.height - barHeight, barWidth - 4, barHeight);
 
-                // Vertical time division lines
-                for (let x = 60; x < canvas.width; x += 60) {
-                    ctx.beginPath();
-                    ctx.setLineDash([2, 6]);
-                    ctx.moveTo(x, 0);
-                    ctx.lineTo(x, canvas.height);
-                    ctx.stroke();
+                // Peak cap
+                if (barHeight > 5) {
+                    ctx.fillStyle = '#fff';
+                    ctx.fillRect(x, canvas.height - barHeight - 3, barWidth - 4, 2);
                 }
-                ctx.setLineDash([]);
 
-                // Check signal activity
-                let rms = 0;
-                for (let i = 0; i < timeDataArray.length; i++) {
-                    const norm = (timeDataArray[i] - 128) / 128;
-                    rms += norm * norm;
-                }
-                rms = Math.sqrt(rms / timeDataArray.length);
-                const isSignalActive = rms > 0.02 || this.currentFreq > 0;
-
-                // 3. Render 1-Bit Phosphor Square Wave / Galois LFSR Noise Trace
-                ctx.lineWidth = 2.4;
-                ctx.strokeStyle = '#00e5ff';
-                ctx.shadowBlur = 10;
-                ctx.shadowColor = '#00e5ff';
-                ctx.beginPath();
-
-                const midY = canvas.height * 0.5;
-                const highY = canvas.height * 0.22;
-                const lowY = canvas.height * 0.78;
-
-                if (isSignalActive) {
-                    if (this.is1BitNoise) {
-                        // 16-Bit Galois LFSR Pseudo-Random Bitstream Spikes
-                        const sliceWidth = canvas.width / 80;
-                        let x = 0;
-                        let lastLevel = lowY;
-                        for (let i = 0; i < 80; i++) {
-                            const pseudoBit = Math.sin(i * 13.37 + sweepPhase) > 0;
-                            const y = pseudoBit ? highY : lowY;
-                            ctx.lineTo(x, lastLevel);
-                            ctx.lineTo(x, y);
-                            lastLevel = y;
-                            x += sliceWidth;
-                        }
-                    } else {
-                        // Deterministic 1-Bit PIT Square Wave Trace
-                        const f = this.currentFreq || 440;
-                        const periodPx = Math.max(16, (canvas.width / f) * 32);
-                        const halfPeriod = periodPx / 2;
-                        const offset = (sweepPhase * 12) % periodPx;
-
-                        let x = 0;
-                        let isHigh = (offset < halfPeriod);
-                        let nextEdge = isHigh ? (halfPeriod - offset) : (periodPx - offset);
-                        let currY = isHigh ? highY : lowY;
-
-                        ctx.moveTo(0, currY);
-
-                        while (x < canvas.width) {
-                            const edgeX = Math.min(canvas.width, x + nextEdge);
-                            ctx.lineTo(edgeX, currY);
-                            if (edgeX < canvas.width) {
-                                currY = (currY === highY) ? lowY : highY;
-                                ctx.lineTo(edgeX, currY);
-                            }
-                            x = edgeX;
-                            nextEdge = halfPeriod;
-                        }
-                    }
-                    sweepPhase += 0.8;
-                } else {
-                    // Idle CRT Sweep Line with moving phosphor head
-                    sweepPhase = (sweepPhase + 4) % canvas.width;
-                    ctx.strokeStyle = 'rgba(0, 229, 255, 0.4)';
-                    ctx.shadowBlur = 4;
-                    ctx.moveTo(0, midY);
-                    ctx.lineTo(canvas.width, midY);
-                    ctx.stroke();
-
-                    // Phosphor Beam Head
-                    ctx.fillStyle = '#ffffff';
-                    ctx.shadowBlur = 12;
-                    ctx.shadowColor = '#00e5ff';
-                    ctx.beginPath();
-                    ctx.arc(sweepPhase, midY, 3.5, 0, 2 * Math.PI);
-                    ctx.fill();
-                }
-                ctx.stroke();
-                ctx.shadowBlur = 0; // reset shadow
-
-                // 4. On-Canvas Mathematical Telemetry Readout
-                ctx.fillStyle = 'rgba(0, 229, 255, 0.9)';
-                ctx.font = '10px "JetBrains Mono", Consolas, monospace';
-                const divisor = this.currentFreq ? Math.round(1193180 / this.currentFreq) : 2711;
-                const freqStr = this.currentFreq ? `${this.currentFreq} Hz` : 'MUTE';
-
-                ctx.fillText(`INTEL 8253 PIT CH2 • DIGITAL 1-BIT OSCILLOSCOPE`, 12, 22);
-                ctx.fillText(`DIVISOR: 0x${divisor.toString(16).toUpperCase().padStart(4, '0')} (${divisor}) | FREQ: ${freqStr} | DUTY: 50.0%`, 12, 38);
-
-                ctx.fillStyle = 'rgba(255, 179, 0, 0.85)';
-                ctx.fillText(`FOURIER ODD HARMONICS (1/n): f, 3f, 5f, 7f... | THD: 48.3% (SQUARE)`, 12, canvas.height - 12);
-
-            } else {
-                // =============================================================
-                // ACOUSTIC RESYNTHESIS MULTI-BAND SPECTRUM EQUALIZER
-                // =============================================================
-                this.analyser.getByteFrequencyData(freqDataArray);
-
-                ctx.fillStyle = '#09070e';
-                ctx.fillRect(0, 0, canvas.width, canvas.height);
-
-                const barWidth = (canvas.width / bufferLength) * 1.8;
-                let barHeight;
-                let x = 0;
-
-                for (let i = 0; i < bufferLength; i++) {
-                    barHeight = (freqDataArray[i] / 255) * canvas.height * 0.85;
-
-                    // Dynamic warm acoustic gradient
-                    const grad = ctx.createLinearGradient(0, canvas.height, 0, canvas.height - barHeight);
-                    grad.addColorStop(0, '#e53935');
-                    grad.addColorStop(0.6, '#ffb300');
-                    grad.addColorStop(1, '#ffffff');
-
-                    ctx.fillStyle = grad;
-                    ctx.fillRect(x, canvas.height - barHeight, barWidth - 4, barHeight);
-
-                    // Peak cap
-                    if (barHeight > 5) {
-                        ctx.fillStyle = '#fff';
-                        ctx.fillRect(x, canvas.height - barHeight - 3, barWidth - 4, 2);
-                    }
-
-                    x += barWidth;
-                }
+                x += barWidth;
             }
         };
 
