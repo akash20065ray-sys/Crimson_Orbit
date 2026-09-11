@@ -8,6 +8,7 @@ __pycache__/
 *.docx
 *.pdf
 !Assets/Documentation/CrimsonOrbit_IEEE_Research_Paper.pdf
+!Assets/Documentation/CrimsonOrbit_Plagiarism_Report.pdf
 *slide*.png
 ~$*.pptx
 ~$*.docx

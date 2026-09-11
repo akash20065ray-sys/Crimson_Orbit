@@ -140,6 +140,7 @@ expected_docs = [
     os.path.join(BASE_DIR, "brain.d", "06_reviewer_defense_faq.md"),
     os.path.join(BASE_DIR, "Assets", "Documentation", "BENCHMARK_RESULTS.json"),
     os.path.join(BASE_DIR, "Assets", "Documentation", "EMPIRICAL_BENCHMARKS.md"),
+    os.path.join(BASE_DIR, "Assets", "Documentation", "PLAGIARISM_AND_ORIGINALITY_REPORT.md"),
 ]
 
 for doc_path in expected_docs:
