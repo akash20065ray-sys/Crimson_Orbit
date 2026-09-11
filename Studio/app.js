@@ -240,6 +240,83 @@ class AudioEngine {
                 badge.style.color = '#00e676';
             }
         }
+
+        // 1. Dynamic Header Subtitle
+        const headerSubtitle = document.getElementById('headerSubtitle');
+        if (headerSubtitle) {
+            headerSubtitle.innerHTML = mode === 'authentic'
+                ? 'Bare-Metal 8086 PC Speaker &bull; Pure Math &amp; Galois LFSR Noise'
+                : 'Real Sampled Acoustic Workstation &bull; Real Piano, Guitar &amp; Drums';
+        }
+
+        // 2. Dynamic Piano Toolbar Badge & Fallboard Crest
+        const pianoEngineBadge = document.getElementById('pianoEngineBadge');
+        if (pianoEngineBadge) {
+            pianoEngineBadge.textContent = mode === 'authentic'
+                ? 'Intel 8253 PIT • 1-Bit Square Wave'
+                : 'Steinway Acoustic Samples';
+        }
+
+        const pianoFallboardCrest = document.getElementById('pianoFallboardCrest');
+        if (pianoFallboardCrest) {
+            pianoFallboardCrest.innerHTML = mode === 'authentic'
+                ? '&bull; INTEL 8253 PIT CHANNEL 2 &bull; 1-BIT PC SPEAKER &bull;'
+                : '&bull; STEINWAY &amp; SONS &bull; CRIMSON ORBIT &bull;';
+        }
+
+        // 3. Dynamic Guitar Toolbar Badge
+        const guitarEngineBadge = document.getElementById('guitarEngineBadge');
+        if (guitarEngineBadge) {
+            guitarEngineBadge.textContent = mode === 'authentic'
+                ? 'Intel 8255 PPI • Square-Wave String Emulation'
+                : 'Martin Acoustic Recorded Samples';
+        }
+
+        // 4. Dynamic Drums Toolbar Badge & Subtitle Info
+        const drumsEngineBadge = document.getElementById('drumsEngineBadge');
+        if (drumsEngineBadge) {
+            drumsEngineBadge.textContent = mode === 'authentic'
+                ? '16-Bit Galois LFSR • Pseudo-Random White Noise'
+                : 'Studio Acoustic Drum Kit';
+        }
+
+        const drumsEngineInfo = document.getElementById('drumsEngineInfo');
+        if (drumsEngineInfo) {
+            drumsEngineInfo.innerHTML = mode === 'authentic'
+                ? 'Algorithmic LFSR Noise &bull; 8086 Port 0x61 Bus Clock Timed'
+                : 'Physical Velocity &bull; Multi-Layer Impact Audio';
+        }
+
+        // 5. Dynamic Music Composer / Step Sequencer Badge
+        const composerEngineBadge = document.getElementById('composerEngineBadge');
+        if (composerEngineBadge) {
+            composerEngineBadge.innerHTML = mode === 'authentic'
+                ? '&#127932; 8086 In-RAM Tape Sequencer (1-Bit)'
+                : '&#127932; Custom Music Studio (Acoustic)';
+        }
+
+        // 6. Dynamic Songs & Visualizer Engine Stat
+        const statEngine = document.getElementById('statEngine');
+        if (statEngine) {
+            statEngine.textContent = mode === 'authentic'
+                ? '8086 PIT Square Wave (1-Bit)'
+                : 'WebAudio PCM 44.1kHz';
+        }
+
+        // 7. Dynamic Songs Jukebox Style Buttons
+        const styleBtnPiano = document.getElementById('styleBtnPiano');
+        if (styleBtnPiano) {
+            styleBtnPiano.innerHTML = mode === 'authentic' ? '&#127929; 1-Bit PIT Piano' : '&#127929; Real Grand Piano';
+        }
+        const styleBtnGuitar = document.getElementById('styleBtnGuitar');
+        if (styleBtnGuitar) {
+            styleBtnGuitar.innerHTML = mode === 'authentic' ? '&#127928; 1-Bit PPI Guitar' : '&#127928; Real Acoustic Guitar';
+        }
+        const styleBtnDrums = document.getElementById('styleBtnDrums');
+        if (styleBtnDrums) {
+            styleBtnDrums.innerHTML = mode === 'authentic' ? '&#129345; 1-Bit LFSR Drums' : '&#129345; Studio Drums Groove';
+        }
+
         console.log(`[AudioEngine] Mode switched to: ${mode}`);
     }
 
@@ -452,7 +529,10 @@ class AudioEngine {
         }
 
         const badge = document.getElementById('guitarStatusBadge');
-        if (badge) badge.innerText = `Guitar Melody: ${noteName}`;
+        if (badge) {
+            const modeText = this.engineMode === 'authentic' ? '1-Bit Retro Melody' : 'Guitar Melody';
+            badge.innerText = `${modeText}: ${noteName}`;
+        }
     }
 
     // Strum Guitar Chord
@@ -478,7 +558,10 @@ class AudioEngine {
         });
 
         const badge = document.getElementById('guitarStatusBadge');
-        if (badge) badge.innerText = `Acoustic Chord Strummed!`;
+        if (badge) {
+            const modeText = this.engineMode === 'authentic' ? '1-Bit Emulated Chord' : 'Acoustic Chord Strummed!';
+            badge.innerText = modeText;
+        }
     }
 
     // 3. Play Real Drum Hit
@@ -806,6 +889,7 @@ class AudioEngine {
         const btnAuthentic = document.getElementById('btnEngineAuthentic');
         if (btnResynth) btnResynth.addEventListener('click', () => this.setEngineMode('resynthesis'));
         if (btnAuthentic) btnAuthentic.addEventListener('click', () => this.setEngineMode('authentic'));
+        this.setEngineMode(this.engineMode);
 
         // 8086 Hardware Bus HUD Listener
         if (window.bridge) {

@@ -1421,7 +1421,7 @@ body {
             <div class="logo-area">
                 <div class="brand-badge">8086 &bull; STUDIO EDITION</div>
                 <h1 class="main-title">CRIMSON <span class="accent-title">ORBIT</span></h1>
-                <p class="subtitle">Real Sampled Acoustic Workstation &bull; Real Piano, Guitar & Drums</p>
+                <p class="subtitle" id="headerSubtitle">Real Sampled Acoustic Workstation &bull; Real Piano, Guitar & Drums</p>
             </div>
             <div class="header-controls">
                 <div class="engine-mode-toggle" id="engineModeSelector">
@@ -1499,7 +1499,7 @@ body {
             <section id="view-piano" class="instrument-view active">
                 <div class="instrument-toolbar">
                     <div class="mode-badges">
-                        <span class="badge badge-accent">Steinway Acoustic Samples</span>
+                        <span class="badge badge-accent" id="pianoEngineBadge">Steinway Acoustic Samples</span>
                         <span class="badge" id="pianoNoteBadge">Ready</span>
                     </div>
                     <div class="piano-actions">
@@ -1519,7 +1519,7 @@ body {
                 <!-- 3D Concert Piano Interface -->
                 <div class="piano-chassis">
                     <div class="fallboard">
-                        <span class="gold-crest">&bull; STEINWAY &amp; SONS &bull; CRIMSON ORBIT &bull;</span>
+                        <span class="gold-crest" id="pianoFallboardCrest">&bull; STEINWAY &amp; SONS &bull; CRIMSON ORBIT &bull;</span>
                     </div>
                     <div class="keys-bed" id="pianoKeyboard">
                         <!-- White Keys -->
@@ -1590,7 +1590,7 @@ body {
             <section id="view-guitar" class="instrument-view">
                 <div class="instrument-toolbar">
                     <div class="mode-badges">
-                        <span class="badge badge-accent">Martin Acoustic Recorded Samples</span>
+                        <span class="badge badge-accent" id="guitarEngineBadge">Martin Acoustic Recorded Samples</span>
                         <span class="badge" id="guitarStatusBadge">Ready</span>
                     </div>
                     <div class="guitar-actions">
@@ -1657,11 +1657,11 @@ body {
             <section id="view-drums" class="instrument-view">
                 <div class="instrument-toolbar">
                     <div class="mode-badges">
-                        <span class="badge badge-accent">Studio Acoustic Drum Kit</span>
+                        <span class="badge badge-accent" id="drumsEngineBadge">Studio Acoustic Drum Kit</span>
                         <span class="badge" id="drumStatusBadge">Ready</span>
                     </div>
                     <div class="drum-info">
-                        <span>Physical Velocity &bull; Multi-Layer Impact Audio</span>
+                        <span id="drumsEngineInfo">Physical Velocity &bull; Multi-Layer Impact Audio</span>
                     </div>
                 </div>
 
@@ -1763,9 +1763,9 @@ body {
                         <!-- Style Choice -->
                         <h3 class="panel-subheading">SELECT INSTRUMENT STYLE:</h3>
                         <div class="style-choice-group">
-                            <button class="style-btn active" data-style="piano">&#127929; Real Grand Piano</button>
-                            <button class="style-btn" data-style="guitar">&#127928; Real Acoustic Guitar</button>
-                            <button class="style-btn" data-style="drums">&#129345; Studio Drums Groove</button>
+                            <button class="style-btn active" data-style="piano" id="styleBtnPiano">&#127929; Real Grand Piano</button>
+                            <button class="style-btn" data-style="guitar" id="styleBtnGuitar">&#127928; Real Acoustic Guitar</button>
+                            <button class="style-btn" data-style="drums" id="styleBtnDrums">&#129345; Studio Drums Groove</button>
                         </div>
 
                         <!-- Transport Controls -->
@@ -1804,7 +1804,7 @@ body {
             <section id="view-composer" class="instrument-view">
                 <div class="instrument-toolbar">
                     <div class="mode-badges">
-                        <span class="badge badge-accent">&#127932; Custom Music Studio</span>
+                        <span class="badge badge-accent" id="composerEngineBadge">&#127932; Custom Music Studio</span>
                         <span class="badge" id="composerStatusBadge">16-Step Live Sequencer &amp; Multi-Track Composer</span>
                     </div>
                     <div class="composer-actions">
@@ -2333,6 +2333,83 @@ class AudioEngine {
                 badge.style.color = '#00e676';
             }
         }
+
+        // 1. Dynamic Header Subtitle
+        const headerSubtitle = document.getElementById('headerSubtitle');
+        if (headerSubtitle) {
+            headerSubtitle.innerHTML = mode === 'authentic'
+                ? 'Bare-Metal 8086 PC Speaker &bull; Pure Math &amp; Galois LFSR Noise'
+                : 'Real Sampled Acoustic Workstation &bull; Real Piano, Guitar &amp; Drums';
+        }
+
+        // 2. Dynamic Piano Toolbar Badge & Fallboard Crest
+        const pianoEngineBadge = document.getElementById('pianoEngineBadge');
+        if (pianoEngineBadge) {
+            pianoEngineBadge.textContent = mode === 'authentic'
+                ? 'Intel 8253 PIT • 1-Bit Square Wave'
+                : 'Steinway Acoustic Samples';
+        }
+
+        const pianoFallboardCrest = document.getElementById('pianoFallboardCrest');
+        if (pianoFallboardCrest) {
+            pianoFallboardCrest.innerHTML = mode === 'authentic'
+                ? '&bull; INTEL 8253 PIT CHANNEL 2 &bull; 1-BIT PC SPEAKER &bull;'
+                : '&bull; STEINWAY &amp; SONS &bull; CRIMSON ORBIT &bull;';
+        }
+
+        // 3. Dynamic Guitar Toolbar Badge
+        const guitarEngineBadge = document.getElementById('guitarEngineBadge');
+        if (guitarEngineBadge) {
+            guitarEngineBadge.textContent = mode === 'authentic'
+                ? 'Intel 8255 PPI • Square-Wave String Emulation'
+                : 'Martin Acoustic Recorded Samples';
+        }
+
+        // 4. Dynamic Drums Toolbar Badge & Subtitle Info
+        const drumsEngineBadge = document.getElementById('drumsEngineBadge');
+        if (drumsEngineBadge) {
+            drumsEngineBadge.textContent = mode === 'authentic'
+                ? '16-Bit Galois LFSR • Pseudo-Random White Noise'
+                : 'Studio Acoustic Drum Kit';
+        }
+
+        const drumsEngineInfo = document.getElementById('drumsEngineInfo');
+        if (drumsEngineInfo) {
+            drumsEngineInfo.innerHTML = mode === 'authentic'
+                ? 'Algorithmic LFSR Noise &bull; 8086 Port 0x61 Bus Clock Timed'
+                : 'Physical Velocity &bull; Multi-Layer Impact Audio';
+        }
+
+        // 5. Dynamic Music Composer / Step Sequencer Badge
+        const composerEngineBadge = document.getElementById('composerEngineBadge');
+        if (composerEngineBadge) {
+            composerEngineBadge.innerHTML = mode === 'authentic'
+                ? '&#127932; 8086 In-RAM Tape Sequencer (1-Bit)'
+                : '&#127932; Custom Music Studio (Acoustic)';
+        }
+
+        // 6. Dynamic Songs & Visualizer Engine Stat
+        const statEngine = document.getElementById('statEngine');
+        if (statEngine) {
+            statEngine.textContent = mode === 'authentic'
+                ? '8086 PIT Square Wave (1-Bit)'
+                : 'WebAudio PCM 44.1kHz';
+        }
+
+        // 7. Dynamic Songs Jukebox Style Buttons
+        const styleBtnPiano = document.getElementById('styleBtnPiano');
+        if (styleBtnPiano) {
+            styleBtnPiano.innerHTML = mode === 'authentic' ? '&#127929; 1-Bit PIT Piano' : '&#127929; Real Grand Piano';
+        }
+        const styleBtnGuitar = document.getElementById('styleBtnGuitar');
+        if (styleBtnGuitar) {
+            styleBtnGuitar.innerHTML = mode === 'authentic' ? '&#127928; 1-Bit PPI Guitar' : '&#127928; Real Acoustic Guitar';
+        }
+        const styleBtnDrums = document.getElementById('styleBtnDrums');
+        if (styleBtnDrums) {
+            styleBtnDrums.innerHTML = mode === 'authentic' ? '&#129345; 1-Bit LFSR Drums' : '&#129345; Studio Drums Groove';
+        }
+
         console.log(`[AudioEngine] Mode switched to: ${mode}`);
     }
 
@@ -2545,7 +2622,10 @@ class AudioEngine {
         }
 
         const badge = document.getElementById('guitarStatusBadge');
-        if (badge) badge.innerText = `Guitar Melody: ${noteName}`;
+        if (badge) {
+            const modeText = this.engineMode === 'authentic' ? '1-Bit Retro Melody' : 'Guitar Melody';
+            badge.innerText = `${modeText}: ${noteName}`;
+        }
     }
 
     // Strum Guitar Chord
@@ -2571,7 +2651,10 @@ class AudioEngine {
         });
 
         const badge = document.getElementById('guitarStatusBadge');
-        if (badge) badge.innerText = `Acoustic Chord Strummed!`;
+        if (badge) {
+            const modeText = this.engineMode === 'authentic' ? '1-Bit Emulated Chord' : 'Acoustic Chord Strummed!';
+            badge.innerText = modeText;
+        }
     }
 
     // 3. Play Real Drum Hit
@@ -2899,6 +2982,7 @@ class AudioEngine {
         const btnAuthentic = document.getElementById('btnEngineAuthentic');
         if (btnResynth) btnResynth.addEventListener('click', () => this.setEngineMode('resynthesis'));
         if (btnAuthentic) btnAuthentic.addEventListener('click', () => this.setEngineMode('authentic'));
+        this.setEngineMode(this.engineMode);
 
         // 8086 Hardware Bus HUD Listener
         if (window.bridge) {
