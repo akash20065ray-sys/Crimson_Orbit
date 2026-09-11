@@ -176,7 +176,7 @@ class AudioEngine {
         this.isLoaded = true;
         console.log('[AudioEngine] All Real Sampled Instruments Loaded Successfully.');
         const badge = document.getElementById('audioInitBtn');
-        if (badge) {
+        if (badge && this.engineMode !== 'authentic') {
             badge.innerHTML = '<span class="btn-dot"></span> REAL STUDIO SAMPLES LOADED';
             badge.style.borderColor = '#00e676';
             badge.style.color = '#00e676';
@@ -315,12 +315,18 @@ class AudioEngine {
             styleBtnGuitar.innerHTML = mode === 'authentic' ? '&#127928; 1-Bit PPI Guitar' : '&#127928; Real Acoustic Guitar';
         }
         const styleBtnDrums = document.getElementById('styleBtnDrums');
+        if (styleBtnDrums) {
+            styleBtnDrums.innerHTML = mode === 'authentic' ? '&#129345; 1-Bit LFSR Drums' : '&#129345; Studio Drums Groove';
+        }
+
         // 8. Dynamic Visualizer Panel Heading
         const visHeading = document.getElementById('visPanelHeading');
         if (visHeading) {
             visHeading.textContent = mode === 'authentic'
                 ? 'INTEL 8253 DIGITAL OSCILLOSCOPE (1-BIT)'
                 : 'REAL-TIME SPECTRUM EQUALIZER';
+        }
+
         // 9. Canvas Oscilloscope Glow Effect
         const canvas = document.getElementById('spectrumCanvas');
         if (canvas) {
