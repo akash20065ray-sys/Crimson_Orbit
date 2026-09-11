@@ -23,6 +23,9 @@ html_file = os.path.join(DOCS_DIR, "IEEE_Research_Paper.html")
 pdf_file = os.path.join(DOCS_DIR, "CrimsonOrbit_IEEE_Research_Paper.pdf")
 arch_img = os.path.join(IMAGES_DIR, "CrimsonOrbit_System_Architecture.jpg")
 arch_img_uri = arch_img.replace("\\", "/")
+fig1_uri = os.path.join(IMAGES_DIR, "fig1_latency_jitter.png").replace("\\", "/")
+fig2_uri = os.path.join(IMAGES_DIR, "fig2_memory_payload.png").replace("\\", "/")
+fig3_uri = os.path.join(IMAGES_DIR, "fig3_fft_harmonic_spectrum.png").replace("\\", "/")
 
 html_content = f"""<!DOCTYPE html>
 <html lang="en">
@@ -199,10 +202,9 @@ table.ieee-table td.left {{
 
 .figure-box img {{
     width: 100%;
-    max-height: 180px;
-    object-fit: cover;
-    border: 0.5px solid #ccc;
-    border-radius: 4px;
+    height: auto;
+    border: 0.5px solid #bbb;
+    border-radius: 3px;
 }}
 
 .figure-caption {{
@@ -357,6 +359,11 @@ out 61h, al
     <i>2) Acoustic Resynthesis Mode:</i> Maps discrete countdown frequencies to a multi-timbral WebAudio graph featuring 44.1 kHz PCM acoustic models: a Steinway Grand Piano, Martin Acoustic Guitar, and Ludwig Studio Drum Kit with real-time FFT spectrum visualization.
     </p>
 
+    <div class="figure-box break-inside-avoid">
+        <img src="file:///{fig3_uri}" alt="Time and Frequency Domain FFT Spectrum">
+        <div class="figure-caption">Fig. 2. Time-domain waveform and frequency-domain FFT spectrum comparison: 1-bit PIT square wave (THD = 48.3%) versus resynthesized acoustic grand piano (THD &lt; 1.2%).</div>
+    </div>
+
     <div class="table-caption">TABLE I: Empirical Benchmark Telemetry (1,000 Iterations)</div>
     <table class="ieee-table break-inside-avoid">
         <thead>
@@ -423,6 +430,16 @@ out 61h, al
     <p>
     End-to-end audio dispatch latency dropped to <b>11.8 ms</b>, comprising 0.889 &mu;s micro-packet serialization and a 10.9 ms AudioWorklet quantum. Because this latency falls well below the 15&ndash;20 ms human psychoacoustic threshold, Crimson Orbit enables authentic real-time musical performance without the sluggishness of traditional virtual machines.
     </p>
+
+    <div class="figure-box break-inside-avoid">
+        <img src="file:///{fig1_uri}" alt="End-to-End Latency and Jitter">
+        <div class="figure-caption">Fig. 3. End-to-end audio dispatch latency and timing jitter across architectural paradigms benchmarked against the 15 ms perceptual threshold.</div>
+    </div>
+
+    <div class="figure-box break-inside-avoid">
+        <img src="file:///{fig2_uri}" alt="Memory Footprint and Payload Size">
+        <div class="figure-caption">Fig. 4. Runtime memory allocation (RAM) and executable payload size comparison showing 82% to 91% overhead reduction over monolithic VMs.</div>
+    </div>
 
     <h2 class="section-title">VI. Conclusion &amp; Future Work</h2>
     <p>

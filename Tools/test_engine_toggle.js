@@ -19,7 +19,9 @@ const requiredIds = [
     'styleBtnDrums',
     'btnEngineResynth',
     'btnEngineAuthentic',
-    'audioInitBtn'
+    'audioInitBtn',
+    'visPanelHeading',
+    'spectrumCanvas'
 ];
 
 let allPassed = true;
