@@ -602,9 +602,11 @@ body {
     transition: all 0.2s;
 }
 
-.strum-btn:hover {
+.strum-btn:hover,
+.strum-btn.active {
     background: var(--crimson);
-    box-shadow: 0 0 12px var(--crimson-glow);
+    box-shadow: 0 0 16px var(--crimson-glow);
+    transform: translateY(-1px);
 }
 
 .guitar-fretboard-stage {

@@ -550,6 +550,22 @@ class AudioEngine {
             this.playBuffer(chordKey, 1.0);
         }
 
+        // Tactile button animation feedback
+        const btnMap = {
+            'chord_em': 'btnStrumEm',
+            'chord_g': 'btnStrumG',
+            'chord_c': 'btnStrumC',
+            'chord_d': 'btnStrumD'
+        };
+        const btnId = btnMap[chordKey];
+        if (btnId) {
+            const btnEl = document.getElementById(btnId);
+            if (btnEl) {
+                btnEl.classList.add('active');
+                setTimeout(() => btnEl.classList.remove('active'), 250);
+            }
+        }
+
         document.querySelectorAll('.string-lane').forEach((lane, idx) => {
             setTimeout(() => {
                 lane.classList.add('vibrating');
@@ -557,10 +573,18 @@ class AudioEngine {
             }, idx * 25);
         });
 
+        const chordLabels = {
+            'chord_em': 'E Minor [S]',
+            'chord_g': 'G Major [D]',
+            'chord_c': 'C Major [F]',
+            'chord_d': 'D Major [G]'
+        };
+        const chordLabel = chordLabels[chordKey] || chordKey;
+
         const badge = document.getElementById('guitarStatusBadge');
         if (badge) {
-            const modeText = this.engineMode === 'authentic' ? '1-Bit Emulated Chord' : 'Acoustic Chord Strummed!';
-            badge.innerText = modeText;
+            const modeText = this.engineMode === 'authentic' ? '1-Bit Emulated Chord' : 'Acoustic Chord Strummed';
+            badge.innerText = `${modeText}: ${chordLabel}`;
         }
     }
 
@@ -865,12 +889,29 @@ class AudioEngine {
             'y': () => this.handleKeyAction('Y'),
             'u': () => this.handleKeyAction('U'),
             'i': () => this.handleKeyAction('I'),
+            '1': () => this.handleKeyAction('1'),
             '2': () => this.handleKeyAction('2'),
             '3': () => this.handleKeyAction('3'),
+            '4': () => this.handleKeyAction('4'),
             '5': () => this.handleKeyAction('5'),
             '6': () => this.handleKeyAction('6'),
             '7': () => this.handleKeyAction('7'),
+            // Guitar Strum Chords (Home Row: S, D, F, G and aliases)
             's': () => this.strumChord('chord_em'),
+            'd': () => this.strumChord('chord_g'),
+            'f': () => this.strumChord('chord_c'),
+            'g': () => this.strumChord('chord_d'),
+            'a': () => this.strumChord('chord_em'),
+            'z': () => this.strumChord('chord_em'),
+            'x': () => this.strumChord('chord_g'),
+            'c': () => {
+                const activeTab = document.querySelector('.nav-tab.active')?.dataset.tab;
+                if (activeTab === 'guitar') this.strumChord('chord_c');
+            },
+            'v': () => {
+                const activeTab = document.querySelector('.nav-tab.active')?.dataset.tab;
+                if (activeTab === 'guitar') this.strumChord('chord_d');
+            },
             ' ': () => {
                 const sus = document.getElementById('sustainToggle');
                 if (sus) {
@@ -1023,10 +1064,20 @@ class AudioEngine {
                 }
             }
         } else if (activeTab === 'guitar') {
-            const lane = document.querySelector(`.string-lane[data-key="${char}"]`);
-            if (lane) {
-                const strNum = lane.dataset.string;
-                this.playGuitarString(strNum);
+            if (char === '1') {
+                this.strumChord('chord_em');
+            } else if (char === '2') {
+                this.strumChord('chord_g');
+            } else if (char === '3') {
+                this.strumChord('chord_c');
+            } else if (char === '4') {
+                this.strumChord('chord_d');
+            } else {
+                const lane = document.querySelector(`.string-lane[data-key="${char}"]`);
+                if (lane) {
+                    const strNum = lane.dataset.string;
+                    this.playGuitarString(strNum);
+                }
             }
         } else if (activeTab === 'drums') {
             const pad = document.querySelector(`.drum-pad[data-key="${char}"]`);

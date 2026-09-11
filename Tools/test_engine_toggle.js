@@ -176,4 +176,43 @@ if (elements.pianoEngineBadge.textContent !== 'Steinway Acoustic Samples' ||
     process.exit(1);
 }
 
-console.log("\n[SUCCESS] All DOM updates and toggles verified 100% correctly!");
+// Test Guitar Strum Buttons and Shortcut Mappings in HTML & JS
+console.log("\nTesting Guitar Strum Buttons in index.html:");
+const strumButtonTests = [
+    { id: 'btnStrumEm', text: 'STRUM E MINOR [S]' },
+    { id: 'btnStrumG', text: 'STRUM G MAJOR [D]' },
+    { id: 'btnStrumC', text: 'STRUM C MAJOR [F]' },
+    { id: 'btnStrumD', text: 'STRUM D MAJOR [G]' }
+];
+
+for (const s of strumButtonTests) {
+    if (html.includes(s.text)) {
+        console.log(`  [PASS] Strum Button Text '${s.text}' verified in index.html`);
+    } else {
+        console.log(`  [FAIL] Missing text '${s.text}' in index.html`);
+        process.exit(1);
+    }
+}
+
+console.log("\nTesting Key Mappings in app.js:");
+const keyMappings = [
+    "'s': () => this.strumChord('chord_em')",
+    "'d': () => this.strumChord('chord_g')",
+    "'f': () => this.strumChord('chord_c')",
+    "'g': () => this.strumChord('chord_d')",
+    "'1': () => this.handleKeyAction('1')",
+    "'2': () => this.handleKeyAction('2')",
+    "'3': () => this.handleKeyAction('3')",
+    "'4': () => this.handleKeyAction('4')"
+];
+
+for (const km of keyMappings) {
+    if (js.includes(km)) {
+        console.log(`  [PASS] Key mapping found: ${km}`);
+    } else {
+        console.log(`  [FAIL] Key mapping missing: ${km}`);
+        process.exit(1);
+    }
+}
+
+console.log("\n[SUCCESS] All DOM updates, toggles, and guitar strum key shortcuts verified 100% correctly!");
