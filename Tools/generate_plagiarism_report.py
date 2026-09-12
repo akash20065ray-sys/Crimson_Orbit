@@ -48,7 +48,7 @@ print(f"Paper Lexical Analysis: {total_words} words, {total_sentences} sentences
 # 2. Similarity Metrics (Turnitin / iThenticate Standard Calibration)
 SIMILARITY_DATA = {
     "title": "Targeted Bus-Cycle Interception: A Low-Latency WebAssembly Bridge for 16-Bit Bare-Metal Audio Synthesis and Multi-Timbral Acoustic Resynthesis",
-    "authors": "Akash Kumar, Aryan Jagtap, Atharva Gaikwad, Shravani Phadtare, Shweta Patil",
+    "authors": "Krishna Aher, Sanskar Bhargude, Ghansham Agaldare, Hari Birare, Akash Kumar",
     "faculty_guide": "Prof. Gopal Upadhye",
     "institution": "Vishwakarma Institute of Technology (VIT), Pune",
     "submission_id": "CO-2026-IEEE-883921",
@@ -249,7 +249,7 @@ This is to certify that the research manuscript entitled:
    Bare-Metal Audio Synthesis and Multi-Timbral Acoustic Resynthesis"
 
 Authored by:
-  Akash Kumar, Aryan Jagtap, Atharva Gaikwad, Shravani Phadtare, Shweta Patil
+  Krishna Aher, Sanskar Bhargude, Ghansham Agaldare, Hari Birare, Akash Kumar
   Under the Guidance of: Prof. Gopal Upadhye
   Department of Multidisciplinary Engineering / AI & DS
   Vishwakarma Institute of Technology (VIT), Pune, India
@@ -673,7 +673,7 @@ html_report_content += f"""    </tbody>
     <div class="signatures-row">
         <div class="sign-block">
             <div class="sign-line"></div>
-            <div class="sign-name">Akash Kumar &amp; Co-Authors</div>
+            <div class="sign-name">Krishna Aher &amp; Co-Authors</div>
             <div class="sign-role">Lead Student Researchers, VIT Pune</div>
         </div>
         <div class="sign-block">

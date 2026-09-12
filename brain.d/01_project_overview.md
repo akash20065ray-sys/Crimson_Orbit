@@ -6,7 +6,7 @@
 * **Department:** Department of Multidisciplinary Engineering / AI & DS
 * **Academic Year:** 2025–2026 | Course Project Group 9
 * **Faculty Guide:** Prof. Gopal Upadhye
-* **Students:** Akash Kumar, Aryan Jagtap, Atharva Gaikwad, Shravani Phadtare, Shweta Patil
+* **Students:** Krishna Aher, Sanskar Bhargude, Ghansham Agaldare, Hari Birare, Akash Kumar
 
 ## The Big Idea
 To bridge the 40-year gap between **bare-metal 16-bit 8086 Assembly computing** and **modern WebAudio/WebAssembly digital signal processing**.

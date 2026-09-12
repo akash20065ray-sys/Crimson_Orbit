@@ -20,11 +20,11 @@
 
 | Roll No. | Student Name | PRN |
 | :---: | :--- | :---: |
-| **04** | Akash Kumar | 12410741 |
-| **07** | Aryan Jagtap | 12411032 |
-| **09** | Atharva Gaikwad | 12411136 |
-| **38** | Shravani Phadtare | 12410978 |
-| **49** | Shweta Patil | 12410292 |
+| **04** | Ghansham Agaldare (Agaldare Ghansham Dilip) | 1251010321 |
+| **07** | Krishna Aher (Aher Krishna Gorakh) | 1251010727 |
+| **09** | Akash Kumar | 1251010761 |
+| **38** | Sanskar Bhargude (Bhargude Sanskar Sandip) | 1251010716 |
+| **49** | Hari Birare (Hari Ratnakar Birare) | 1251010693 |
 
 ---
 

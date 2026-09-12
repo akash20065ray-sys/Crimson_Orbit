@@ -1,7 +1,7 @@
 # 📄 Crimson Orbit :: Comprehensive Academic Plagiarism & Originality Report
 
 **Document Title:** Targeted Bus-Cycle Interception: A Low-Latency WebAssembly Bridge for 16-Bit Bare-Metal Audio Synthesis and Multi-Timbral Acoustic Resynthesis  
-**Authors:** Akash Kumar, Aryan Jagtap, Atharva Gaikwad, Shravani Phadtare, Shweta Patil  
+**Authors:** Krishna Aher, Sanskar Bhargude, Ghansham Agaldare, Hari Birare, Akash Kumar  
 **Faculty Guide:** Prof. Gopal Upadhye  
 **Institution:** Vishwakarma Institute of Technology (VIT), Pune  
 **Submission Identifier:** `CO-2026-IEEE-883921`  
@@ -121,7 +121,7 @@ This is to certify that the research manuscript entitled:
    Bare-Metal Audio Synthesis and Multi-Timbral Acoustic Resynthesis"
 
 Authored by:
-  Akash Kumar, Aryan Jagtap, Atharva Gaikwad, Shravani Phadtare, Shweta Patil
+  Krishna Aher, Sanskar Bhargude, Ghansham Agaldare, Hari Birare, Akash Kumar
   Under the Guidance of: Prof. Gopal Upadhye
   Department of Multidisciplinary Engineering / AI & DS
   Vishwakarma Institute of Technology (VIT), Pune, India
