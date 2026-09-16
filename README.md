@@ -1,5 +1,7 @@
 # 🎵 Crimson Orbit: Low-Latency Bare-Metal 8086 Audio Synthesis & Acoustic Resynthesis Platform
 
+[![Release](https://img.shields.io/github/v/release/akash20065ray-sys/Crimson_Orbit?color=purple)](https://github.com/akash20065ray-sys/Crimson_Orbit/releases/latest)
+[![Live Demo](https://img.shields.io/badge/Demo-Live%20Studio-crimson?logo=googlechrome&logoColor=white)](https://akash20065ray-sys.github.io/Crimson_Orbit/)
 [![Architecture](https://img.shields.io/badge/Architecture-x86%2016--Bit%20Real--Mode-red.svg)](https://github.com/akash20065ray-sys/Crimson_Orbit)
 [![Bus Interceptor](https://img.shields.io/badge/Bus%20Trap-0.889%20%CE%BCs-orange.svg)](https://github.com/akash20065ray-sys/Crimson_Orbit)
 [![Latency](https://img.shields.io/badge/Audio%20Latency-11.8%20ms%20(Sub--15ms)-green.svg)](https://github.com/akash20065ray-sys/Crimson_Orbit)
@@ -17,6 +19,7 @@
 | Resource | Description | Direct Link |
 | :--- | :--- | :--- |
 | **🌐 Live Web Demo** | Play instruments online directly in your browser (Zero-Setup) | [**Launch Live Studio**](https://akash20065ray-sys.github.io/Crimson_Orbit/) |
+| **📦 GitHub Release** | Verified bootable MBR images, standalone studio, IEEE PDF | [**Download v1.0.0**](https://github.com/akash20065ray-sys/Crimson_Orbit/releases/tag/v1.0.0) |
 | **📄 IEEE Research Paper** | Camera-ready 6-page conference publication | [View PDF](Assets/Documentation/CrimsonOrbit_IEEE_Research_Paper.pdf) |
 | **🔍 Plagiarism Report** | Official Turnitin / iThenticate verification (3.8% similarity, 0% AI) | [View Report](Assets/Documentation/CrimsonOrbit_Plagiarism_Report.pdf) |
 | **🎹 Offline Web Studio** | Standalone workstation bundle (Zero-CORS, Base64 audio) | [Studio/standalone.html](Studio/standalone.html) |
@@ -190,5 +193,9 @@ If you utilize Crimson Orbit, its targeted bus-cycle interception architecture, 
 
 ---
 
-## 📄 License
-This project is open-source under the [MIT License](LICENSE).
+## 📄 License & Community Policies
+
+- ⚖️ **License**: Open-source under the [MIT License](LICENSE).
+- 🤝 **Contributing**: Read our [Contribution Guide](CONTRIBUTING.md) for coding and audit conventions.
+- 🛡️ **Code of Conduct**: Governed by the [Contributor Covenant v2.1](CODE_OF_CONDUCT.md).
+- 🔒 **Security**: Please review our [Security & Vulnerability Disclosure Policy](SECURITY.md).
