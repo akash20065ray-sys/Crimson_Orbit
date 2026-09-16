@@ -16,9 +16,10 @@
 
 | Resource | Description | Direct Link |
 | :--- | :--- | :--- |
+| **🌐 Live Web Demo** | Play instruments online directly in your browser (Zero-Setup) | [**Launch Live Studio**](https://akash20065ray-sys.github.io/Crimson_Orbit/) |
 | **📄 IEEE Research Paper** | Camera-ready 6-page conference publication | [View PDF](Assets/Documentation/CrimsonOrbit_IEEE_Research_Paper.pdf) |
 | **🔍 Plagiarism Report** | Official Turnitin / iThenticate verification (3.8% similarity, 0% AI) | [View Report](Assets/Documentation/CrimsonOrbit_Plagiarism_Report.pdf) |
-| **🎹 Web Sound Studio** | Interactive multi-timbral workstation (Zero-CORS standalone) | [Launch Studio](Studio/standalone.html) |
+| **🎹 Offline Web Studio** | Standalone workstation bundle (Zero-CORS, Base64 audio) | [Studio/standalone.html](Studio/standalone.html) |
 | **💾 Bootable Floppy Image** | 1.44 MB bare-metal image ready for BIOS / VMware / QEMU | [Download `.flp`](Builds/new2.flp) |
 | **📊 Empirical Telemetry** | Nanosecond benchmark logs and profiling data | [View Telemetry](Assets/Documentation/EMPIRICAL_BENCHMARKS.md) |
 
