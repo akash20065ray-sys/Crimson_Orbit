@@ -24,7 +24,8 @@
 | **🔍 Plagiarism Report** | Official Turnitin / iThenticate verification (3.8% similarity, 0% AI) | [View Report](Assets/Documentation/CrimsonOrbit_Plagiarism_Report.pdf) |
 | **🎹 Offline Web Studio** | Standalone workstation bundle (Zero-CORS, Base64 audio) | [Studio/standalone.html](Studio/standalone.html) |
 | **💾 Bootable Floppy Image** | 1.44 MB bare-metal image ready for BIOS / VMware / QEMU | [Download `.flp`](Builds/new2.flp) |
-| **🎬 Architecture Video** | 1080p animated backend pipeline & bus-cycle interception demo | [**Watch / Download MP4**](https://github.com/akash20065ray-sys/Crimson_Orbit/releases/download/v1.0.0/CrimsonOrbit_Backend_Architecture_Demo.mp4) |
+| **🎬 Architecture Demo Video** | 1080p animated 3-tier execution dashboard demo | [**Watch Video 1 (Dashboard MP4)**](https://github.com/akash20065ray-sys/Crimson_Orbit/releases/download/v1.0.0/CrimsonOrbit_Backend_Architecture_Demo.mp4) |
+| **🎞️ Sequential Walkthrough Video** | 1080p full-screen cinematic 5-scene architectural walkthrough | [**Watch Video 2 (Sequential Walkthrough MP4)**](https://github.com/akash20065ray-sys/Crimson_Orbit/releases/download/v1.0.0/CrimsonOrbit_Sequential_Pipeline_Walkthrough.mp4) |
 | **📊 Empirical Telemetry** | Nanosecond benchmark logs and profiling data | [View Telemetry](Assets/Documentation/EMPIRICAL_BENCHMARKS.md) |
 
 ---

@@ -27,15 +27,18 @@ downloads_mp4 = r"C:\Users\akash\Downloads\CrimsonOrbit_Backend_Architecture_Dem
 
 # Load standard Windows fonts
 try:
-    font_title = ImageFont.truetype(r"C:\Windows\Fonts\arialbd.ttf", 46)
-    font_subtitle = ImageFont.truetype(r"C:\Windows\Fonts\arial.ttf", 26)
-    font_section = ImageFont.truetype(r"C:\Windows\Fonts\arialbd.ttf", 32)
-    font_mono_lg = ImageFont.truetype(r"C:\Windows\Fonts\consola.ttf", 28)
-    font_mono = ImageFont.truetype(r"C:\Windows\Fonts\consola.ttf", 22)
-    font_small = ImageFont.truetype(r"C:\Windows\Fonts\arial.ttf", 20)
-    font_bold = ImageFont.truetype(r"C:\Windows\Fonts\arialbd.ttf", 22)
+    font_title = ImageFont.truetype(r"C:\Windows\Fonts\arialbd.ttf", 44)
+    font_subtitle = ImageFont.truetype(r"C:\Windows\Fonts\arial.ttf", 24)
+    font_section = ImageFont.truetype(r"C:\Windows\Fonts\arialbd.ttf", 30)
+    font_mono_lg = ImageFont.truetype(r"C:\Windows\Fonts\consola.ttf", 26)
+    font_mono = ImageFont.truetype(r"C:\Windows\Fonts\consola.ttf", 20)
+    font_mono_sm = ImageFont.truetype(r"C:\Windows\Fonts\consola.ttf", 17)
+    font_small = ImageFont.truetype(r"C:\Windows\Fonts\arial.ttf", 19)
+    font_bold = ImageFont.truetype(r"C:\Windows\Fonts\arialbd.ttf", 20)
+    font_byte_title = ImageFont.truetype(r"C:\Windows\Fonts\arialbd.ttf", 16)
+    font_byte_val = ImageFont.truetype(r"C:\Windows\Fonts\consola.ttf", 15)
 except Exception:
-    font_title = font_subtitle = font_section = font_mono_lg = font_mono = font_small = font_bold = ImageFont.load_default()
+    font_title = font_subtitle = font_section = font_mono_lg = font_mono = font_mono_sm = font_small = font_bold = font_byte_title = font_byte_val = ImageFont.load_default()
 
 def draw_rounded_rect(draw, bbox, radius, fill, outline=None, width=1):
     draw.rounded_rectangle(bbox, radius=radius, fill=fill, outline=outline, width=width)
@@ -50,15 +53,14 @@ def render_frame(frame_idx):
     # -------------------------------------------------------------
     # 1. Persistent Top Header Bar
     # -------------------------------------------------------------
-    draw_rounded_rect(draw, [40, 25, WIDTH - 40, 110], 12, fill=(18, 24, 38), outline=(37, 48, 72), width=2)
-    draw.text((70, 38), "CRIMSON ORBIT :: BACKEND EXECUTION PIPELINE", font=font_title, fill=(248, 113, 113))
-    draw.text((70, 88), "Low-Latency Bare-Metal 8086 Assembly -> 0.889 µs Bus Trap -> 4-Byte Packet -> 11.8 ms AudioWorklet", font=font_subtitle, fill=(148, 163, 184))
+    draw_rounded_rect(draw, [40, 25, WIDTH - 40, 115], 12, fill=(18, 24, 38), outline=(37, 48, 72), width=2)
+    draw.text((70, 36), "CRIMSON ORBIT :: BACKEND EXECUTION PIPELINE", font=font_title, fill=(248, 113, 113))
+    draw.text((70, 84), "Low-Latency Bare-Metal 8086 Assembly -> 0.889 µs Bus Trap -> 4-Byte Packet -> 11.8 ms AudioWorklet", font=font_subtitle, fill=(148, 163, 184))
 
-    # Real-time Telemetry Tag on top-right
-    elapsed_ms = (t * 1000) % 1000
-    draw_rounded_rect(draw, [WIDTH - 380, 42, WIDTH - 60, 95], 8, fill=(30, 41, 59), outline=(56, 189, 248), width=1)
-    draw.text((WIDTH - 365, 48), f"CPU CLK: 1.193 MHz | LATENCY: 11.8 ms", font=font_mono, fill=(56, 189, 248))
-    draw.text((WIDTH - 365, 70), f"FRAME: {frame_idx:03d} / {TOTAL_FRAMES} | JITTER: ±0.35 ms", font=font_small, fill=(52, 211, 153))
+    # Real-time Telemetry Tag on top-right (Widened and padded)
+    draw_rounded_rect(draw, [WIDTH - 490, 34, WIDTH - 60, 104], 8, fill=(30, 41, 59), outline=(56, 189, 248), width=1)
+    draw.text((WIDTH - 475, 44), f"CPU CLK: 1.193 MHz  |  AUDIO: 11.8 ms", font=font_mono, fill=(56, 189, 248))
+    draw.text((WIDTH - 475, 72), f"FRAME: {frame_idx:03d} / {TOTAL_FRAMES}    |  JITTER: ±0.35 ms", font=font_mono_sm, fill=(52, 211, 153))
 
     # -------------------------------------------------------------
     # 2. Main 3-Tier Layout Columns
@@ -157,19 +159,34 @@ def render_frame(frame_idx):
     draw_rounded_rect(draw, [650, 430, 1235, 620], 8, fill=(10, 14, 22), outline=(56, 189, 248))
     draw.text((670, 445), "4-BYTE SERIALIZED HARDWARE PACKET:", font=font_bold, fill=(56, 189, 248))
 
-    # Visual 4 Bytes representation
+    # Visual 4 Bytes representation (Widened to 136px with 8px spacing, perfectly centered text)
     byte_boxes = [
-        (670, "BYTE 0: CMD", "0x01 (NOTE_ON)", (239, 68, 68)),
-        (810, "BYTE 1: LSB", f"0x{cur_hex[2:4]} (DIV_LO)", (245, 158, 11)),
-        (950, "BYTE 2: MSB", f"0x{cur_hex[:2]} (DIV_HI)", (59, 130, 246)),
-        (1090, "BYTE 3: DUR", "0x02 (300 ms)", (16, 185, 129))
+        ("BYTE 0: CMD", "0x01 (NOTE_ON)", (239, 68, 68)),
+        ("BYTE 1: LSB", f"0x{cur_hex[2:4]} (DIV_LO)", (245, 158, 11)),
+        ("BYTE 2: MSB", f"0x{cur_hex[:2]} (DIV_HI)", (59, 130, 246)),
+        ("BYTE 3: DUR", "0x02 (300ms)", (16, 185, 129))
     ]
-    for bx, btitle, bval, bcol in byte_boxes:
-        draw_rounded_rect(draw, [bx, 480, bx + 130, 560], 6, fill=(18, 24, 38), outline=bcol, width=2)
-        draw.text((bx + 10, 492), btitle, font=font_bold, fill=bcol)
-        draw.text((bx + 10, 525), bval, font=font_small, fill=(255, 255, 255))
+    box_w = 136
+    box_h = 78
+    start_x = 662
+    gap = 8
 
-    draw.text((670, 580), "Total Protocol Overhead: 32 Bits (Zero-Heap Allocation)", font=font_mono, fill=(148, 163, 184))
+    for idx, (btitle, bval, bcol) in enumerate(byte_boxes):
+        bx = start_x + idx * (box_w + gap)
+        by = 480
+        draw_rounded_rect(draw, [bx, by, bx + box_w, by + box_h], 6, fill=(18, 24, 38), outline=bcol, width=2)
+        
+        # Center Title
+        tb = draw.textbbox((0, 0), btitle, font=font_byte_title)
+        tw = tb[2] - tb[0]
+        draw.text((bx + (box_w - tw) // 2, by + 14), btitle, font=font_byte_title, fill=bcol)
+        
+        # Center Value
+        vb = draw.textbbox((0, 0), bval, font=font_byte_val)
+        vw = vb[2] - vb[0]
+        draw.text((bx + (box_w - vw) // 2, by + 44), bval, font=font_byte_val, fill=(248, 250, 252))
+
+    draw.text((670, 582), "Total Protocol Overhead: 32 Bits (Zero-Heap Allocation)", font=font_mono, fill=(148, 163, 184))
 
     # Ring Buffer
     draw_rounded_rect(draw, [650, 640, 1235, 805], 8, fill=(23, 31, 48), outline=(51, 65, 85))
