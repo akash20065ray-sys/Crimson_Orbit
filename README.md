@@ -38,7 +38,10 @@
 
 <p align="center">
   <a href="https://github.com/akash20065ray-sys/Crimson_Orbit/releases/download/v1.0.0/CrimsonOrbit_Backend_Architecture_Demo.mp4">
-    <img src="https://img.shields.io/badge/▶%20Watch%20Video-1080p%20MP4%20(Direct%20Download)-red?style=for-the-badge&logo=youtube&logoColor=white" alt="Watch Video" />
+    <img src="https://img.shields.io/badge/▶%20Watch%20Video%201-Live%203--Tier%20Dashboard%20(1080p)-red?style=for-the-badge&logo=youtube&logoColor=white" alt="Watch Video 1" />
+  </a>
+  <a href="https://github.com/akash20065ray-sys/Crimson_Orbit/releases/download/v1.0.0/CrimsonOrbit_Sequential_Pipeline_Walkthrough.mp4">
+    <img src="https://img.shields.io/badge/🎞️%20Watch%20Video%202-Sequential%205--Scene%20Walkthrough-blue?style=for-the-badge&logo=youtube&logoColor=white" alt="Watch Video 2" />
   </a>
   <a href="https://github.com/akash20065ray-sys/Crimson_Orbit/releases/tag/v1.0.0">
     <img src="https://img.shields.io/badge/📦%20GitHub%20Release-v1.0.0%20Assets-purple?style=for-the-badge&logo=github&logoColor=white" alt="Release Assets" />
