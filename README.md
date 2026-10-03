@@ -68,6 +68,31 @@ Tested across 1,000 continuous bus-trapping iterations using nanosecond hardware
 | **Cold Boot Time to Audio** | 3.80 s | 2.40 s | **0.18 s** | **Instant Web Execution** |
 | **Executable Binary Size** | >15 MB | >8 MB | **14.7 KB** | **98% Smaller Footprint** |
 
+### 📈 Hardware Telemetry & Benchmarking Figures
+
+<div align="center">
+
+#### End-to-End Audio Latency & Timing Jitter Comparison
+![Latency vs Jitter Benchmark](Assets/Images/fig1_latency_jitter.png)
+
+*Figure 2: Audio dispatch latency across 1,000 continuous iterations. Crimson Orbit achieves **11.8 ms** (comfortably under the 15 ms human real-time threshold) with sub-perceptual **±0.35 ms** timing jitter.*
+
+<br>
+
+#### Active Memory Footprint & Executable Payload Overhead
+![Memory and Payload Comparison](Assets/Images/fig2_memory_payload.png)
+
+*Figure 3: (a) Active browser RAM footprint comparison (12.4 MB vs 142.6 MB, a **91.3% reduction**). (b) Standalone binary payload footprint (14.7 KB bare-metal kernel vs >15 MB monolithic runtimes).*
+
+<br>
+
+#### Fast Fourier Transform (FFT) Harmonic Spectrum Analysis
+![FFT Harmonic Spectrum Characterization](Assets/Images/fig3_fft_harmonic_spectrum.png)
+
+*Figure 4: Time and frequency domain characterization: 1-bit square wave (odd harmonics, THD = 48.3%) versus multi-timbral acoustic resynthesis (smooth formant decay, THD < 1.2%).*
+
+</div>
+
 ---
 
 ## 📂 Repository Structure
