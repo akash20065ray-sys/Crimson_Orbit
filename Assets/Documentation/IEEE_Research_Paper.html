@@ -488,11 +488,6 @@ out 61h, al   ; Enable Sound Output
     To ensure deterministic sub-12ms delivery without JavaScript garbage collection interruptions, micro-packets are posted to a lock-free circular ring buffer backed by a <code>SharedArrayBuffer</code>. Synchronization between the Wasm execution thread and the dedicated WebAudio real-time audio thread is managed via lock-free atomic operations (<code>Atomics.wait</code> and <code>Atomics.notify</code>). The audio thread consumes packets in 128-sample quanta (2.90 ms frames), ensuring smooth, jitter-free playback.
     </p>
 
-    <div class="figure-box break-inside-avoid">
-        <img src="file:///c:/FOIDS_CP/Assets/Images/fig3_fft_harmonic_spectrum.png" alt="FFT Spectrum Characterization">
-        <div class="figure-caption">Fig. 2. Time and frequency domain characterization: 1-bit PIT square wave exhibiting odd harmonics and THD = 48.3% versus acoustic resynthesis exhibiting natural formant decay and THD &lt; 1.2%.</div>
-    </div>
-
     <h2 class="section-title">V. Multi-Timbral Acoustic Resynthesis Pipeline</h2>
 
     <h3 class="subsection-title">A. Control-Plane vs. Synthesis-Plane Decomposition</h3>
@@ -506,6 +501,11 @@ out 61h, al   ; Enable Sound Output
     <p>
     Historically, the 8086 processor never synthesized analog sound waves directly; it commanded peripheral timers and dedicated sound chips (e.g., Creative Labs Sound Blaster, AdLib). Crimson Orbit faithfully preserves the 8086 assembly control plane while modernizing the acoustic synthesis plane.
     </p>
+
+    <div class="figure-box break-inside-avoid">
+        <img src="file:///c:/FOIDS_CP/Assets/Images/fig3_fft_harmonic_spectrum.png" alt="FFT Spectrum Characterization">
+        <div class="figure-caption">Fig. 2. Time and frequency domain characterization: 1-bit PIT square wave exhibiting odd harmonics and THD = 48.3% versus acoustic resynthesis exhibiting natural formant decay and THD &lt; 1.2%.</div>
+    </div>
 
     <h3 class="subsection-title">B. Dual-Engine Synthesis Mode</h3>
     <p>
