@@ -30,6 +30,23 @@
 
 ---
 
+## 🎬 Backend Architecture & Execution Video (1080p Full-HD)
+
+> **Watch the full 1080p animated execution pipeline** showing how the 8086 CPU instructions (`OUT 42h`, `OUT 61h`), targeted bus traps, 4-byte micro-packets, and AudioWorklet synthesis operate in real time:
+
+[![Crimson Orbit Backend Architecture Execution Video](Assets/Images/video_preview.jpg)](https://github.com/akash20065ray-sys/Crimson_Orbit/releases/download/v1.0.0/CrimsonOrbit_Backend_Architecture_Demo.mp4)
+
+<p align="center">
+  <a href="https://github.com/akash20065ray-sys/Crimson_Orbit/releases/download/v1.0.0/CrimsonOrbit_Backend_Architecture_Demo.mp4">
+    <img src="https://img.shields.io/badge/▶%20Watch%20Video-1080p%20MP4%20(Direct%20Download)-red?style=for-the-badge&logo=youtube&logoColor=white" alt="Watch Video" />
+  </a>
+  <a href="https://github.com/akash20065ray-sys/Crimson_Orbit/releases/tag/v1.0.0">
+    <img src="https://img.shields.io/badge/📦%20GitHub%20Release-v1.0.0%20Assets-purple?style=for-the-badge&logo=github&logoColor=white" alt="Release Assets" />
+  </a>
+</p>
+
+---
+
 ## 🏛️ System Architecture
 
 Rather than simulating an entire PC motherboard (VGA framebuffers, floppy disk drive motors, IDE controllers, and DMA channels), Crimson Orbit operates a **3-tier micro-interception architecture**:
