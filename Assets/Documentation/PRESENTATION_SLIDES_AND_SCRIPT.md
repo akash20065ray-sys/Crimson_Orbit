@@ -1,32 +1,34 @@
 # Crimson Orbit :: Official Defense Presentation & Master Speaker Script
 ### Vishwakarma Institute of Technology, Pune • Department of Multidisciplinary Engineering
 **Course Project**: 2025–2026 | **Group**: Group - 9 | **Faculty Project Guide**: Prof. Gopal Upadhye  
-**PowerPoint File**: [`Assets/Documentation/CrimsonOrbit_Presentation.pptx`](file:///c:/FOIDS_CP/Assets/Documentation/CrimsonOrbit_Presentation.pptx) *(Also saved directly to your Desktop)*  
+**PowerPoint File**: [`Assets/Documentation/CrimsonOrbit_Presentation.pptx`](file:///c:/FOIDS_CP/Assets/Documentation/CrimsonOrbit_Presentation.pptx) *(Saved on Desktop)*  
+**Presentation PDF**: [`Assets/Documentation/CrimsonOrbit_Presentation.pdf`](file:///c:/FOIDS_CP/Assets/Documentation/CrimsonOrbit_Presentation.pdf) *(Saved on Desktop)*  
+**Script PDF**: [`Assets/Documentation/CrimsonOrbit_Presentation_Script.pdf`](file:///c:/FOIDS_CP/Assets/Documentation/CrimsonOrbit_Presentation_Script.pdf) *(Saved on Desktop)*  
 **Format**: 16:9 Widescreen | 12 Unified Dark Slate & Crimson Slides  
-**Total Target Duration**: ~8 to 10 Minutes + 2-Minute Live Demo  
+**Total Target Duration**: ~8 to 10 Minutes + 2-Minute Live Demonstration  
 
 ---
 
 ## 👥 Speaking Time & Architectural Distribution Roster
 
-| Presenter | Role & Architectural Ownership | Contribution & Speaking Share | Assigned Slides |
+| Presenter | Role & Architectural Ownership | Contribution & Speaking Share | Assigned Slides & Segments |
 | :--- | :--- | :---: | :--- |
-| **Akash Kumar (Roll 09)** | **Lead System Architect & Overall Project Lead**<br>System Architecture, Targeted Bus Interception, 4-Byte Micro-Packet Protocol, Latency Optimization, Empirical Benchmarks, Academic Deliverables & Live Demo Lead | **50% (Lead)** | **Slide 1, 2, 3, 4, 8, 10, 11, 12** |
-| **Sanskar Bhargude (Roll 38)** | **Bare-Metal Kernel & Hardware I/O Engineer**<br>512-Byte MBR Bootloader, 8086 Real-Mode Kernel Relocation, Intel 8253 PIT Timer & Intel 8255 PPI Speaker Gate Driver | **15%** | **Slide 5** |
-| **Ghansham Agaldare (Roll 04)** | **In-RAM Sequencer & Graphics UI Engineer**<br>Circular In-RAM 60-Note Sequencer, Word-Encoded Classical Song Tables, IBM CP437 Text-Mode Box Drawing & Menu Engine | **11.7%** | **Slide 6** |
-| **Krishna Aher (Roll 07)** | **Noise Algorithms & Percussion Physicist**<br>16-Bit Galois LFSR Mathematical Noise Algorithm, Polynomial Mask Optimization, Snare & Crash Cymbal Synthesis | **11.7%** | **Slide 7** |
-| **Hari Birare (Roll 49)** | **WebAudio DSP & Resynthesis Engineer**<br>AudioWorklet Real-Time Rendering Thread, Dual-Mode Acoustic Resynthesis (Steinway, Martin, Ludwig), 2048-Pt FFT Visualizer | **11.7%** | **Slide 9** |
+| **Akash Kumar (Roll 09)** | **Lead System Architect & Overall Project Lead**<br>System Architecture, Targeted Bus Interception, 4-Byte Micro-Packet Protocol, Latency Optimization, Empirical Benchmarks, Academic Publications & Live Defense Lead | **70% (Major Lead Share)** | **Slide 1, 2, 3, 4, 5 (Intro/Outro), 8, 10, 11, 12 + Live Demo & Viva Lead** |
+| **Sanskar Bhargude (Roll 38)** | **Bare-Metal Kernel & Hardware I/O Engineer**<br>512-Byte MBR Bootloader, 8086 Real-Mode Kernel Relocation, Intel 8253 PIT Timer & Intel 8255 PPI Speaker Gate Driver | **10% (Supporting Share)** | **Slide 5 (Core Technical Explanation)** |
+| **Ghansham Agaldare (Roll 04)** | **In-RAM Sequencer & Graphics UI Engineer**<br>Circular In-RAM 60-Note Sequencer, Word-Encoded Classical Song Tables, IBM CP437 Text-Mode Box Drawing & Menu Engine | **7% (Supporting Share)** | **Slide 6 (Sequencer & UI)** |
+| **Krishna Aher (Roll 07)** | **Noise Algorithms & Percussion Physicist**<br>16-Bit Galois LFSR Mathematical Noise Algorithm, Polynomial Mask Optimization, Snare & Crash Cymbal Synthesis | **7% (Supporting Share)** | **Slide 7 (LFSR Math & Drums)** |
+| **Hari Birare (Roll 49)** | **WebAudio DSP & Resynthesis Engineer**<br>AudioWorklet Real-Time Rendering Thread, Dual-Mode Acoustic Resynthesis (Steinway, Martin, Ludwig), 2048-Pt FFT Visualizer | **6% (Supporting Share)** | **Slide 9 (AudioWorklet DSP)** |
 
 ---
 
 ## Slide 1: Title Slide & Institutional Identity
-- **Presenter**: **Akash Kumar (Roll 09)** [Share: 50% section]
+- **Presenter**: **Akash Kumar (Roll 09)** [Lead Architect • 70% Major Share]
 - **Slide Elements**: VIT Pune Header, "CRIMSON ORBIT: Low-Latency Bare-Metal 8086 Audio Synthesis & Acoustic Resynthesis Platform", Group - 9, Prof. Gopal Upadhye, IEEE Publication Badge.
 
 ### 🎙️ Akash's Script:
-> *"Respected Faculty Guide Prof. Gopal Upadhye Sir and members of the evaluation panel, a very good morning/afternoon.*
+> *"Respected Faculty Guide Prof. Gopal Upadhye Sir and esteemed members of the evaluation panel, a very good morning/afternoon.*
 >
-> *I am **Akash Kumar**, Lead System Architect for Group 9. Today, alongside my teammates Sanskar, Ghansham, Krishna, and Hari, we are presenting our project: **Crimson Orbit: A Low-Latency Bare-Metal 8086 Audio Synthesis and Acoustic Resynthesis Platform**.*
+> *I am **Akash Kumar**, Lead System Architect and Project Lead for Group 9. Alongside my teammates Sanskar, Ghansham, Krishna, and Hari, I am proud to present our research project: **Crimson Orbit: A Low-Latency Bare-Metal 8086 Audio Synthesis and Acoustic Resynthesis Platform**.*
 >
 > *In this research project, we tackled a 40-year-old fundamental systems engineering challenge: How can we execute raw 16-bit x86 legacy hardware audio in modern web environments without paying the catastrophic latency and memory penalties of traditional virtualization?*
 >
@@ -35,23 +37,23 @@
 ---
 
 ## Slide 2: Team Roster & Architectural Division of Work
-- **Presenter**: **Akash Kumar (Roll 09)** [Share: 50% section]
-- **Slide Elements**: Complete Table detailing Roll Nos, Names, PRNs, exact technical responsibilities, and percentage contributions.
+- **Presenter**: **Akash Kumar (Roll 09)** [Lead Architect • 70% Major Share]
+- **Slide Elements**: Complete Table detailing Roll Nos, Names, PRNs, technical responsibilities, and percentage contributions.
 
 ### 🎙️ Akash's Script:
 > *"Before diving into the architecture, I would like to outline our team's division of engineering ownership:*
-> - *I led the **Overall System Architecture**, the **Targeted WebAssembly Bus Interceptor**, our **4-Byte Micro-Packet Binary Protocol**, the **Lock-Free Concurrency Engine**, the **Empirical Benchmarking Framework**, and our **IEEE Research Paper**.*
-> - ***Sanskar Bhargude** engineered our Tier 1 **Bare-Metal 8086 Kernel**, the **512-byte MBR bootloader**, and direct I/O programming for the **Intel 8253 PIT** and **8255 PPI** hardware chips.*
-> - ***Ghansham Agaldare** developed our **In-RAM Circular Sequencer**, the score encoding data tables in `songs.asm`, and our **IBM CP437 Text UI Engine**.*
-> - ***Krishna Aher** mathematically derived and implemented our **16-bit Galois Linear Feedback Shift Register (LFSR)** noise algorithm in `drums.asm` to synthesize physical percussion from 1-bit silicon.*
-> - ***Hari Birare** engineered our Tier 3 **AudioWorklet DSP Thread**, the multi-timbral acoustic sound models, and our real-time **2048-point FFT spectrum analyzer**.*
+> - *As **Lead System Architect**, I spearheaded the **Overall System Architecture**, the **Targeted WebAssembly Bus Interceptor**, our **4-Byte Micro-Packet Binary Protocol**, the **Lock-Free Concurrency Engine**, the **Empirical Benchmarking Framework**, and our **IEEE Research Paper**.*
+> - ***Sanskar Bhargude** assisted in Tier 1 with the **512-byte MBR bootloader** and direct I/O programming for the **Intel 8253 PIT** and **8255 PPI** hardware chips.*
+> - ***Ghansham Agaldare** implemented our **In-RAM Circular Sequencer** and our **IBM CP437 Text UI Engine**.*
+> - ***Krishna Aher** contributed the mathematical derivation for our **16-bit Galois Linear Feedback Shift Register (LFSR)** noise algorithm in `drums.asm` to synthesize physical percussion from 1-bit silicon.*
+> - ***Hari Birare** worked on our Tier 3 **AudioWorklet DSP Thread**, connecting the multi-timbral acoustic sound models and our real-time **2048-point FFT spectrum visualizer**.*
 >
 > *Let us now examine the core problem that motivated this research."*
 
 ---
 
 ## Slide 3: The Problem Statement: The Monolithic Virtualization Tax
-- **Presenter**: **Akash Kumar (Roll 09)** [Share: 50% section]
+- **Presenter**: **Akash Kumar (Roll 09)** [Lead Architect • 70% Major Share]
 - **Slide Elements**: Physical 1981 Hardware Reality, Monolithic Emulator Failure, Latency & Jitter Bottleneck.
 
 ### 🎙️ Akash's Script:
@@ -71,7 +73,7 @@
 ---
 
 ## Slide 4: The Core Architectural Breakthrough: 3-Tier Targeted Micro-Virtualization
-- **Presenter**: **Akash Kumar (Roll 09)** [Share: 50% section]
+- **Presenter**: **Akash Kumar (Roll 09)** [Lead Architect • 70% Major Share]
 - **Slide Elements**: Architectural Insight Breakdown and High-Resolution System Architecture Diagram.
 
 ### 🎙️ Akash's Script:
@@ -88,76 +90,65 @@
 > - ***Tier 2**: A targeted WebAssembly bus interceptor that traps Port 42h and 61h writes in just **0.889 microseconds**, serializing them into a zero-allocation **4-byte micro-packet**.*
 > - ***Tier 3**: An isolated browser **AudioWorklet DSP engine** operating on a dedicated real-time audio thread, rendering audio with a measured latency of just **11.8 milliseconds**.*
 >
-> *I now invite **Sanskar Bhargude** to explain how Tier 1 boots and communicates directly with the motherboard hardware."*
+> *Let us examine Tier 1. I will have **Sanskar Bhargude** briefly highlight our bootloader and hardware register calls."*
 
 ---
 
-## Slide 5: Tier 1 — Bare-Metal 8086 Real-Mode Kernel & Hardware I/O Driver
-- **Presenter**: **Sanskar Bhargude (Roll 38)** [Share: 15% section]
+## Slide 5: Tier 1 — Bare-Metal 8086 Kernel & Direct I/O Driver
+- **Lead Framing & Handoff**: **Akash Kumar (Roll 09)**
+- **Technical Presentation**: **Sanskar Bhargude (Roll 38)** [Supporting Share • 10%]
 - **Slide Elements**: MBR Bootloader (boot.asm), Intel 8253 PIT Driver (speaker.asm), Intel 8255 PPI Speaker Gate.
 
+### 🎙️ Akash frames:
+> *"In Tier 1, our assembly kernel boots directly on raw silicon without DOS or Windows. Sanskar, explain the boot sequence and the Port 42h/61h instructions."*
+
 ### 🎙️ Sanskar's Script:
-> *"Thank you, Akash. Respected Sir, I will walk you through **Tier 1: The Bare-Metal 8086 Execution Engine**.*
->
-> *Our system runs without any underlying operating system—no MS-DOS, no Windows. Everything begins at physical power-on:*
-> 1. ***The MBR Bootloader (`boot.asm`)**: When the machine initializes, BIOS `INT 19h` reads the first 512-byte sector of our bootable floppy disk image into memory address `0000:7C00h`. Our bootloader validates the classic `0x55AA` boot signature at offset +510, issues BIOS `INT 13h` (Function 02h) to read 30 consecutive kernel sectors from floppy cylinder 0, and jumps to segment `1000:0000h` where our real-mode kernel resides.*
->
-> 2. ***Direct Intel 8253 PIT Programming (`speaker.asm`)**: To generate musical pitch, we communicate directly with the Programmable Interval Timer on the I/O bus:*
->    - *First, we write control word `0xB6h` to Port `43h`. This instructs Timer 2 to operate in **Mode 3 (Square Wave Generator)** and expect a 16-bit divisor sent as Least Significant Byte first, then Most Significant Byte.*
->    - *The timer countdown divisor $N$ is calculated using the formula: $N = \frac{1,193,182\text{ Hz}}{\text{Target Frequency}}$. For example, Concert Note A4 (440 Hz) requires divisor $2,711$, which is `0x0A97` in hex.*
->    - *We transmit `0x97` to Port `42h`, followed immediately by `0x0A` to Port `42h` using the `OUT` assembly opcode.*
->
-> 3. ***Modulating the Intel 8255 PPI Port 61h**: Setting the frequency alone does not make sound. The electrical line to the speaker is gated by Port `61h`. We read Port `61h` into the `AL` register, execute `OR AL, 03h`, and output it back via `OUT 61h, AL`. Bit 0 turns on the Timer 2 clock gate, and Bit 1 physically engages the speaker driver.*
->
-> *I now hand over to **Ghansham Agaldare** to explain our sequencing logic and text-mode user interface."*
+> *"Thank you, Akash. Respected Sir, in Tier 1:*
+> 1. ***The MBR Bootloader (`boot.asm`)**: BIOS `INT 19h` loads our 512-byte boot sector at address `0000:7C00h`. We verify signature `0x55AA`, invoke BIOS `INT 13h` to load 30 kernel sectors into memory, and jump to segment `1000:0000h`.*
+> 2. ***Intel 8253 PIT Driver (`speaker.asm`)**: We write control word `0xB6h` to Port `43h` to configure Timer 2 as a square wave generator. We then compute the countdown divisor $N = 1,193,182\text{ Hz} / \text{Frequency}$ and transmit the 16-bit divisor via `OUT 42h, AL`.*
+> 3. ***Intel 8255 PPI Speaker Gate**: To unmute the speaker, we read Port `61h`, execute `OR AL, 03h`, and write it back via `OUT 61h, AL`. Bits 0 and 1 engage the physical speaker driver.*
+> *I hand back to Akash."*
+
+### 🎙️ Akash summarizes:
+> *"Thank you, Sanskar. Now let us look at our memory sequencer and UI engine. Ghansham, walk us through Slide 6."*
 
 ---
 
 ## Slide 6: In-RAM Circular Sequencer & Text-Mode UI Engine
-- **Presenter**: **Ghansham Agaldare (Roll 04)** [Share: 11.7% section]
+- **Presenter**: **Ghansham Agaldare (Roll 04)** [Supporting Share • 7%]
 - **Slide Elements**: In-RAM Sequencer (composer.asm), Repertoire Tables (songs.asm), Text UI & Controls (graphics.asm).
 
 ### 🎙️ Ghansham's Script:
-> *"Thank you, Sanskar. Respected Sir, I will cover our **Sequencing Subsystem and Text Interface**.*
->
-> 1. ***In-RAM Circular Sequencer (`composer.asm`)**: Because our kernel runs bare-metal without a filesystem driver, we designed an in-memory 60-note circular recording tape. Each musical event is stored in RAM segment `1000h` as a compact 3-byte tuple: `[Note_ID, Pitch_Index, Duration_Ticks]`. It supports overdub recording, playback, and looping with zero disk access.*
->
-> 2. ***Score Repertoire Encoding (`songs.asm`)**: To demonstrate polyphony and melody, we encoded 6 classical repertoire pieces—including Beethoven's Fur Elise and Pachelbel's Canon in D—as 16-bit word pairs: `DW Frequency_Divisor, Duration_Ticks`. Calibrated BIOS delay loops ensure consistent playback tempo regardless of CPU clock cycles.*
->
-> 3. ***IBM CP437 Text UI Engine (`graphics.asm` & `keyboard.asm`)**: The user interface runs in standard 80x25 IBM Code Page 437 character mode at video segment `0xB8000`. We implemented custom box-drawing routines using double-line characters and built an 8-column text equalizer. Keyboard input is handled via non-blocking BIOS `INT 16h` polling, allowing instant note triggering and emergency playback cancellation when the user presses `[ESC]`.*
->
-> *I now invite **Krishna Aher** to explain how we solved the challenge of synthesizing percussion on a 1-bit speaker."*
+> *"Thank you, Akash. Respected Sir, I will cover our **Sequencing Subsystem and Text Interface**.*
+> 1. ***In-RAM Circular Sequencer (`composer.asm`)**: Because our kernel runs bare-metal without a filesystem, we engineered a 60-note circular memory tape in RAM segment `1000h`. Events are stored as compact 3-byte tuples: `[Note_ID, Pitch_Index, Duration_Ticks]`, supporting zero-disk overdub recording and playback.*
+> 2. ***Score Repertoire Encoding (`songs.asm`)**: We encoded 6 classical pieces as 16-bit word pairs: `DW Frequency_Divisor, Duration_Ticks`. Calibrated BIOS delay loops ensure tempo stability.*
+> 3. ***IBM CP437 Text UI Engine (`graphics.asm`)**: The interface renders in 80x25 text mode at `0xB8000` using double-line box characters and ASCII equalizer bars, polled non-blockingly via BIOS `INT 16h`.*
+> *I hand back to Akash."*
+
+### 🎙️ Akash summarizes:
+> *"Thank you, Ghansham. Next is our 1-bit percussion engine. Krishna, explain the Galois LFSR algorithm."*
 
 ---
 
 ## Slide 7: 1-Bit Galois LFSR Noise Algorithm & Percussion Engine
-- **Presenter**: **Krishna Aher (Roll 07)** [Share: 11.7% section]
+- **Presenter**: **Krishna Aher (Roll 07)** [Supporting Share • 7%]
 - **Slide Elements**: 1-Bit Percussion Problem, Galois LFSR Mathematics, Multi-Piece Drum Kit Emulation.
 
 ### 🎙️ Krishna's Script:
-> *"Thank you, Ghansham. Respected Sir, generating pitched notes like piano or guitar on an 8086 is straightforward using square waves. However, **drums and cymbals require unpitched, high-entropy white noise**.*
->
-> *Because the IBM PC speaker is strictly 1-bit and has no digital-to-analog converter or sound samples, playing drums seemed physically impossible in 1981. Here is how we solved it using pure mathematics in `drums.asm`:*
->
-> 1. ***The Galois Linear Feedback Shift Register (LFSR)**: We implemented a 16-bit Galois LFSR using the maximal-length feedback polynomial:*
->    $$P(x) = x^{16} + x^{14} + x^{13} + x^{11} + 1$$
->    *This corresponds to the assembly mask `0xB400h`.*
-> 2. ***Algorithmic White Noise Generation**: On each iteration, the 16-bit `AX` register is shifted right. If the outgoing bit is 1, the register is XORed with `0xB400h`. We toggle Bit 1 of Port `61h` based on the register's least significant bit. This generates pseudo-random 1-bit noise bursts with uniform spectral energy at raw CPU instruction speeds.*
-> 3. ***Acoustic Drum Synthesis**: By shaping this noise mathematically, we created a full 5-piece drum kit:*
->    - *For the **Kick Drum**, we sweep the timer frequency downward exponentially from 180 Hz to 45 Hz over 60 ms to produce a deep physical thud.*
->    - *For the **Snare Drum**, we combine a 120 Hz tonal body with a 40 ms Galois noise crackle.*
->    - *For the **Crash Cymbal**, we fire sustained high-frequency noise bursts with exponential decay.*
->
-> *I now hand back to our lead architect, **Akash Kumar**, to explain our Tier 2 Bus Interceptor and Micro-Packet Protocol."*
+> *"Thank you, Akash. Respected Sir, the 1981 PC speaker is strictly 1-bit with no DAC. While square waves produce pitched notes, drums require high-entropy white noise.*
+> 1. ***Galois LFSR Mathematics**: In `drums.asm`, we implemented a 16-bit Galois LFSR using the polynomial $P(x) = x^{16} + x^{14} + x^{13} + x^{11} + 1$, corresponding to mask `0xB400h`.*
+> 2. ***Noise Generation**: Shifting the `AX` register and conditionally XORing with `0xB400h` toggles Port `61h` Bit 1 at CPU clock speed, creating uniform pseudo-random white noise.*
+> 3. ***Acoustic Drum Synthesis**: We created a full 5-piece kit: sweeping pitch from 180 Hz to 45 Hz for Kick drums, combining 120 Hz tone with 40 ms LFSR noise for Snares, and sustained high-frequency noise bursts for Crash cymbals.*
+> *I hand back to Akash."*
 
 ---
 
 ## Slide 8: Tier 2 — Targeted Bus Interceptor & 4-Byte Micro-Packet Protocol
-- **Presenter**: **Akash Kumar (Roll 09)** [Share: 50% section]
+- **Presenter**: **Akash Kumar (Roll 09)** [Lead Architect • 70% Major Share]
 - **Slide Elements**: WebAssembly Bus Trap Hook, 4-Byte Micro-Packet Protocol, Lock-Free Ring Buffer Concurrency.
 
 ### 🎙️ Akash's Script:
-> *"Thank you, Krishna. Now, Sir, let us examine the core bridge: **Tier 2: The Targeted Bus Interceptor**.*
+> *"Thank you, Krishna. Now, Sir, let us examine the core bridge that makes our system possible: **Tier 2: The Targeted Bus Interceptor**.*
 >
 > *This is where we bypass monolithic emulation entirely:*
 > 1. ***The Opcode Trap Hook**: Inside our WebAssembly execution pipeline, we insert an instruction interceptor that monitors the 8086 CPU's instruction decoder. When the CPU encounters opcodes `0xEE` (`OUT DX, AL`) or `0xE7` (`OUT imm8, AL`), our hook inspects the destination port.*
@@ -174,31 +165,25 @@
 >
 > 3. ***Lock-Free Atomic Ring Buffer**: To transmit packets across thread boundaries without mutex contention, we utilize a `SharedArrayBuffer` configured as a Single-Producer Single-Consumer (SPSC) circular ring buffer synchronized via `Atomics.load()` and `Atomics.store()`. Inter-thread transfer takes just **0.015 milliseconds**.*
 >
-> *I now invite **Hari Birare** to explain how Tier 3 synthesizes these micro-packets into modern studio sound."*
+> *Let us now look at Tier 3. Hari, briefly introduce the AudioWorklet DSP."*
 
 ---
 
 ## Slide 9: Tier 3 — Real-Time AudioWorklet DSP & Acoustic Resynthesis
-- **Presenter**: **Hari Birare (Roll 49)** [Share: 11.7% section]
+- **Presenter**: **Hari Birare (Roll 49)** [Supporting Share • 6%]
 - **Slide Elements**: Dedicated AudioWorklet Thread, Dual-Mode Synthesis Engine, Real-Time 60 FPS FFT Spectrum.
 
 ### 🎙️ Hari's Script:
-> *"Thank you, Akash. Respected Sir, I will walk you through **Tier 3: The AudioWorklet DSP Engine**.*
->
-> 1. ***The AudioWorklet Architecture**: In standard web audio, sound synthesis runs on the browser's main UI thread, meaning any button click, animation, or page scroll can glitch the audio. In Crimson Orbit, our DSP engine executes inside an `AudioWorkletGlobalScope`. This runs on a dedicated high-priority OS audio thread synchronized directly with WASAPI on Windows and CoreAudio on macOS in 128-sample processing chunks.*
->
-> 2. ***Dual-Mode Resynthesis Engine**: Tier 3 features two selectable sound engines:*
->    - ***Mode A (Authentic 1-Bit)**: Recreates authentic 1981 square waves using Fourier series odd harmonics ($1/n$) and Krishna's Galois LFSR noise algorithm. Total Harmonic Distortion (THD) is 48.3%, exactly matching historical silicon.*
->    - ***Mode B (Acoustic Resynthesis)**: For modern production, the engine transfigures the raw divisor frequency into studio acoustic instruments: a Steinway Model D Concert Grand Piano, a Martin D-28 Acoustic Guitar with string pluck resonance, and a Ludwig Studio Drum Kit.*
->
-> 3. ***60 FPS 2048-Point FFT Spectral Analyzer**: We built a real-time spectral visualizer that computes a 2048-point Fast Fourier Transform at 60 frames per second on HTML5 Canvas, providing visual confirmation of frequency formants and harmonic decay.*
->
-> *I now return to **Akash Kumar** to present our empirical benchmarking results and research deliverables."*
+> *"Thank you, Akash. Respected Sir, in Tier 3:*
+> 1. ***AudioWorklet Architecture**: Our DSP executes inside `AudioWorkletGlobalScope` on a dedicated high-priority OS audio thread, immune to UI DOM lags and rendering in 128-sample chunks (2.9 ms buffer at 44.1 kHz).*
+> 2. ***Dual-Mode Engine**: Mode A synthesizes cycle-accurate 1-bit square waves and LFSR noise (THD = 48.3%). Mode B transfigures divisor frequencies into studio acoustic models: Steinway Model D Piano, Martin D-28 Guitar, and Ludwig Drums.*
+> 3. ***60 FPS 2048-Point FFT Spectrum**: Renders real-time frequency formants and harmonic decay on HTML5 Canvas.*
+> *I hand back to our lead architect, Akash Kumar."*
 
 ---
 
 ## Slide 10: Empirical Benchmarks & IEEE Performance Validation
-- **Presenter**: **Akash Kumar (Roll 09)** [Share: 50% section]
+- **Presenter**: **Akash Kumar (Roll 09)** [Lead Architect • 70% Major Share]
 - **Slide Elements**: Benchmark Comparison Table, Figure 1 (Latency vs Jitter Chart), Figure 2 (RAM & Payload Chart).
 
 ### 🎙️ Akash's Script:
@@ -213,7 +198,7 @@
 ---
 
 ## Slide 11: Academic Publications, Turnitin Clearance & Production Releases
-- **Presenter**: **Akash Kumar (Roll 09)** [Share: 50% section]
+- **Presenter**: **Akash Kumar (Roll 09)** [Lead Architect • 70% Major Share]
 - **Slide Elements**: IEEE Research Publication, Turnitin Originality Clearance, Verified Distribution Releases.
 
 ### 🎙️ Akash's Script:
@@ -230,7 +215,7 @@
 ---
 
 ## Slide 12: Summary, Video Demonstration & Live Defense
-- **Presenter**: **Akash Kumar (Roll 09)** [Share: 50% section]
+- **Presenter**: **Akash Kumar (Roll 09)** [Lead Architect • 70% Major Share]
 - **Slide Elements**: Key Research Takeaways, Video Demonstration Card, Live Interactive Studio Link.
 
 ### 🎙️ Akash's Script:
@@ -245,18 +230,17 @@
 
 ---
 
-## 🎬 Live Demonstration Protocol (Immediately Following Slide 12)
+## 🎬 How Akash Leads the Live Demo Immediately After Slide 12
 
-1. **Step 1: Play Video 1 (18 Seconds)**
-   - Open `C:\Users\akash\Desktop\CrimsonOrbit_Backend_Architecture_Demo.mp4` on full screen.
-   - Akash points to:
-     - Left: 8086 Assembly execution (`OUT 42h`, `OUT 61h`).
-     - Center: $0.889\,\mu\text{s}$ bus trap & 4-byte micro-packet `[0x01, 0x97, 0x0A, 0x18]`.
-     - Right: AudioWorklet DSP & 60 FPS FFT spectrum.
-     - Bottom: 11.8 ms latency and 12.4 MB RAM telemetry counters.
-2. **Step 2: Launch Live Studio**
-   - Open Chrome tab: `https://akash20065ray-sys.github.io/Crimson_Orbit/`
-   - Play a few notes on the Steinway Piano using keys `Q`, `W`, `E`, `R`.
-   - Switch synthesis mode from **Mode B (Acoustic)** to **Mode A (Authentic 1-Bit)** to demonstrate the raw historical 1981 square wave sound!
-3. **Step 3: Open PDF for Q&A Reference**
-   - Have `Assets/Documentation/CrimsonOrbit_IEEE_Research_Paper.pdf` ready on screen for deep questions.
+1. **Step 1: Double-Click Video 1 on Desktop**:
+   - Play [`C:\Users\akash\Desktop\CrimsonOrbit_Backend_Architecture_Demo.mp4`](file:///C:/Users/akash/Desktop/CrimsonOrbit_Backend_Architecture_Demo.mp4).
+   - **Akash points to**:
+     - **Left Box (Tier 1)**: Bare-metal 8086 Assembly instructions executing (`OUT 42h`, `OUT 61h`).
+     - **Middle Box (Tier 2)**: The $0.889\,\mu\text{s}$ bus trap serializing into 4-byte micro-packets `[0x01, 0x97, 0x0A, 0x18]`.
+     - **Right Box (Tier 3)**: AudioWorklet DSP & 60 FPS FFT spectrum.
+     - **Bottom Bar**: Proves 11.8 ms latency and 12.4 MB RAM.
+2. **Step 2: Switch to Chrome Browser**:
+   - Open `https://akash20065ray-sys.github.io/Crimson_Orbit/`.
+   - Play Piano (`Q`, `W`, `E`, `R`), then switch between **Mode A (1-Bit Square Wave)** and **Mode B (Acoustic Resynthesis)**.
+3. **Step 3: Open the 6-Page IEEE PDF**:
+   - Have [`Assets/Documentation/CrimsonOrbit_IEEE_Research_Paper.pdf`](file:///c:/FOIDS_CP/Assets/Documentation/CrimsonOrbit_IEEE_Research_Paper.pdf) ready if the examiners ask to see circuit equations or formal citations.

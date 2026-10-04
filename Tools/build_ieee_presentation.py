@@ -45,7 +45,7 @@ def build_presentation():
         bg.fill.fore_color.rgb = COLOR_BG
         bg.line.fill.background()
 
-    def add_slide_header(slide, title, speaker_info="AKASH KUMAR (Lead Architect • 50%)", category="IEEE RESEARCH PROJECT • GROUP - 9"):
+    def add_slide_header(slide, title, speaker_info="AKASH KUMAR (Lead Architect • 70% Major Share)", category="IEEE RESEARCH PROJECT • GROUP - 9"):
         # Category Super-title
         cat_box = slide.shapes.add_textbox(Inches(0.8), Inches(0.35), Inches(7.5), Inches(0.3))
         p_cat = cat_box.text_frame.paragraphs[0]
@@ -206,7 +206,7 @@ def build_presentation():
     s2 = prs.slides.add_slide(blank_layout)
     set_slide_background(s2)
     add_slide_header(s2, "Team Work Distribution & Architectural Ownership",
-                     "AKASH KUMAR (Lead Architect • 50%)")
+                     "AKASH KUMAR (Lead Architect • 70% Major Share)")
 
     t_shape = s2.shapes.add_table(6, 5, Inches(0.8), Inches(1.7), Inches(11.733), Inches(5.1))
     tbl = t_shape.table
@@ -232,15 +232,15 @@ def build_presentation():
 
     roster_data = [
         ("09", "Akash Kumar (Lead Architect)", "1251010761",
-         "System Architecture Lead, Targeted Wasm Bus Interceptor, 4-Byte Packet Protocol, Lock-Free Ring Buffer, Empirical Telemetry & IEEE Paper", "50%"),
+         "Lead System Architect, Targeted Wasm Bus Interceptor, 4-Byte Packet Protocol, Lock-Free Ring Buffer, Empirical Telemetry, IEEE Paper & Defense Lead", "70%"),
         ("38", "Sanskar Bhargude", "1251010716",
-         "Bare-Metal 8086 Kernel (boot.asm, kernel.asm), Intel 8253 PIT / 8255 PPI Speaker Driver, Real-Mode Divisor Math", "15%"),
+         "Bare-Metal 8086 Kernel (boot.asm, kernel.asm), Intel 8253 PIT / 8255 PPI Speaker Driver, Real-Mode Divisor Math", "10%"),
         ("04", "Ghansham Agaldare", "1251010321",
-         "In-RAM Circular Sequencer (composer.asm), CP437 Text UI Engine (graphics.asm), BIOS INT 16h Non-Blocking Keyboard Loop", "11.7%"),
+         "In-RAM Circular Sequencer (composer.asm), CP437 Text UI Engine (graphics.asm), BIOS INT 16h Non-Blocking Keyboard Loop", "7%"),
         ("07", "Krishna Aher", "1251010727",
-         "16-Bit Galois LFSR Pseudo-Random Noise Engine (drums.asm), Percussion Envelope Physics, Kick/Snare Sound Synthesis", "11.7%"),
+         "16-Bit Galois LFSR Pseudo-Random Noise Engine (drums.asm), Percussion Envelope Physics, Kick/Snare Sound Synthesis", "7%"),
         ("49", "Hari Birare", "1251010693",
-         "AudioWorklet DSP Thread Engine (app.js), Multi-Timbral Acoustic Resynthesis (Piano, Guitar, Drums), 2048-Pt FFT Visualizer", "11.7%"),
+         "AudioWorklet DSP Thread Engine (app.js), Multi-Timbral Acoustic Resynthesis (Piano, Guitar, Drums), 2048-Pt FFT Visualizer", "6%"),
     ]
 
     for row_idx, (roll, name, prn, domain, share) in enumerate(roster_data, start=1):
@@ -283,7 +283,7 @@ def build_presentation():
     s3 = prs.slides.add_slide(blank_layout)
     set_slide_background(s3)
     add_slide_header(s3, "The Problem: The Monolithic Virtualization Tax",
-                     "AKASH KUMAR (Lead Architect • 50%)")
+                     "AKASH KUMAR (Lead Architect • 70% Major Share)")
 
     w3 = Inches(3.65)
     gap3 = Inches(0.38)
@@ -320,7 +320,7 @@ def build_presentation():
     s4 = prs.slides.add_slide(blank_layout)
     set_slide_background(s4)
     add_slide_header(s4, "The Architectural Breakthrough: 3-Tier Targeted Micro-Virtualization",
-                     "AKASH KUMAR (Lead Architect • 50%)")
+                     "AKASH KUMAR (Lead Architect • 70% Major Share)")
 
     # Left: Architecture Text Breakdown (5.4 Inches)
     add_card(s4, Inches(0.8), Inches(1.7), Inches(5.6), Inches(5.1),
@@ -350,7 +350,7 @@ def build_presentation():
     s5 = prs.slides.add_slide(blank_layout)
     set_slide_background(s5)
     add_slide_header(s5, "Tier 1: Bare-Metal 8086 Kernel & Direct I/O Driver",
-                     "SANSKAR BHARGUDE (Kernel & Driver • 15%)")
+                     "SANSKAR BHARGUDE (Kernel & Driver • 10% Supporting Share)")
 
     w5 = Inches(3.65)
     gap5 = Inches(0.38)
@@ -390,7 +390,7 @@ def build_presentation():
     s6 = prs.slides.add_slide(blank_layout)
     set_slide_background(s6)
     add_slide_header(s6, "In-RAM Circular Sequencer & Text-Mode UI Engine",
-                     "GHANSHAM AGALDARE (Sequencer & UI • 11.7%)")
+                     "GHANSHAM AGALDARE (Sequencer & UI • 7% Supporting Share)")
 
     add_card(s6, Inches(0.8), top5, w5, h5,
              "1. In-RAM Sequencer (composer.asm)", [
@@ -425,7 +425,7 @@ def build_presentation():
     s7 = prs.slides.add_slide(blank_layout)
     set_slide_background(s7)
     add_slide_header(s7, "1-Bit Galois LFSR Noise Algorithm & Percussion Engine",
-                     "KRISHNA AHER (LFSR Math & Drums • 11.7%)")
+                     "KRISHNA AHER (LFSR Math & Drums • 7% Supporting Share)")
 
     add_card(s7, Inches(0.8), top5, w5, h5,
              "1. The 1-Bit Percussion Problem", [
@@ -458,7 +458,7 @@ def build_presentation():
     s8 = prs.slides.add_slide(blank_layout)
     set_slide_background(s8)
     add_slide_header(s8, "Tier 2: Targeted Bus Interceptor & 4-Byte Micro-Packet Protocol",
-                     "AKASH KUMAR (Lead Architect • 50%)")
+                     "AKASH KUMAR (Lead Architect • 70% Major Share)")
 
     add_card(s8, Inches(0.8), top5, w5, h5,
              "1. WebAssembly Bus Trap Hook", [
@@ -492,7 +492,7 @@ def build_presentation():
     s9 = prs.slides.add_slide(blank_layout)
     set_slide_background(s9)
     add_slide_header(s9, "Tier 3: Real-Time AudioWorklet DSP & Acoustic Resynthesis",
-                     "HARI BIRARE (WebAudio & DSP • 11.7%)")
+                     "HARI BIRARE (WebAudio & DSP • 6% Supporting Share)")
 
     add_card(s9, Inches(0.8), top5, w5, h5,
              "1. Dedicated AudioWorklet Thread", [
@@ -526,7 +526,7 @@ def build_presentation():
     s10 = prs.slides.add_slide(blank_layout)
     set_slide_background(s10)
     add_slide_header(s10, "Empirical Benchmarks & IEEE Performance Validation",
-                     "AKASH KUMAR (Lead Architect • 50%)")
+                     "AKASH KUMAR (Lead Architect • 70% Major Share)")
 
     # Table on Left (6.2 Inches)
     t_bench = s10.shapes.add_table(7, 4, Inches(0.8), Inches(1.7), Inches(6.2), Inches(5.1))
@@ -596,7 +596,7 @@ def build_presentation():
     s11 = prs.slides.add_slide(blank_layout)
     set_slide_background(s11)
     add_slide_header(s11, "Academic Publications & Verified Release Deliverables",
-                     "AKASH KUMAR (Lead Architect • 50%)")
+                     "AKASH KUMAR (Lead Architect • 70% Major Share)")
 
     add_card(s11, Inches(0.8), top5, w5, h5,
              "1. IEEE Research Publication", [
@@ -628,7 +628,7 @@ def build_presentation():
     s12 = prs.slides.add_slide(blank_layout)
     set_slide_background(s12)
     add_slide_header(s12, "Summary & Live Demonstration",
-                     "AKASH KUMAR (Lead Architect • 50%)")
+                     "AKASH KUMAR (Lead Architect • 70% Major Share)")
 
     # Left: Takeaways
     add_card(s12, Inches(0.8), Inches(1.7), Inches(5.6), Inches(5.1),
